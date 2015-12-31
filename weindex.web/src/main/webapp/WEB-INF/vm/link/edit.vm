@@ -1,0 +1,272 @@
+#set($layout = "/layout/shopLayout.vm")
+
+<!--店铺博文 begin-->
+<div class="blog fl w800"> 	
+    <div class="p5"></div>
+    <div class="f14 fb">修改博文</div>
+    <div class="p10 clear"></div>
+<form name="blogFrm" id="blogform" action="/blog/edit.html" method="POST">
+<input type="hidden" name="shopId" value="${shop.id}" />
+<input type="hidden" name="shopName" value="${shop.Name}" />
+<input type="hidden" name="blogId" value="${blog.id}" />
+<input type="hidden" name="label" id="labelIds" value="#foreach($l in $mylabels)#if($velocityCount>1),#end$l.id#end" />
+<input type="hidden" name="shopLabel" id="shopLabelIds" value="#foreach($l in $shopLabels)#if($velocityCount>1),#end$l.id#end" />
+            
+    <div class="dli"><span class="f14 fl" style="width:70px">题目：</span> <input type="text" class="inp" style="width:250px" name="title" id="blogtitle" maxlength="100" value="$!{blog.title}"/></div>
+    ##<div class="p5 clear"></div>
+    ##<div class="dli"><span class="f14 fl">摘要：</span> <textarea class="inp" style="width:400px;height:70px" name="summary">$!{blog.summary}</textarea></div>
+    <div class="p5 clear"></div>
+    <div class="dli">
+    	<span class="f14 fl" style="width:70px">标签：</span> 
+    	<div class="inp" style="display:inline-block;min-width:30px;" id="labelNames">#foreach($l in $mylabels)<div style="display:inline-block" id="label-${l.id}">#if($velocityCount>1),#end${l.cnName}(<a href="#" onclick="delLabel('$l.id')">x</a>)</div>#end</div>
+    	<!--<input type="text" class="inp">-->
+    	<select class="inp" style="height:33px;vertical-align:top;" id="labelsel">
+			#foreach($l in $labelList)
+				<option value="$l.id">$l.cnName</option>
+			#end
+		</select><input type="button" style="vertical-align:top;" value="添加标签" class="gsub" onclick="addLabel()"></div>
+    <div class="p5 clear"></div>
+    <div class="dli">
+    	<span class="f14 fl" style="width:70px">自有标签：</span> 
+    	<div class="inp" style="display:inline-block;min-width:30px;" id="shopLabelNames">#foreach($l in $shopLabels)<div style="display:inline-block" id="shopLabel-${l.id}">#if($velocityCount>1),#end${l.cnName}(<a href="#" onclick="delShopLabel('$l.id')">x</a>)</div>#end</div>
+    	<!--<input type="text" class="inp">-->
+    	<select class="inp" style="height:33px;vertical-align:top;" id="shopLabelsel">
+			#foreach($l in $shop.shopLabelList)
+				#if ($l.type==1)
+					<option value="$l.id">$l.cnName</option>
+				#end
+			#end
+		</select><input type="button" style="vertical-align:top;" value="添加标签" class="gsub" onclick="addShopLabel()"></div>
+    <div class="p5 clear"></div>
+    <div style="padding-left:70px"><input type="button" value="插入图片" class="gsub" id="opener">
+##<span style="padding-left:70px">Tips: [b]黑体[/b] [red]红色[/red][big]大号字[/big]</span></div>
+    <div class="p5 clear"></div>
+## <script type="text/javascript" src="/js/Editor/nicEdit.js"></script> <script type="text/javascript">
+##//<![CDATA[
+##bkLib.onDomLoaded(function() {
+##new nicEditor().panelInstance('content');
+##});
+##//]]>
+##</script>
+<!--ubb editor-->
+<script type="text/javascript" src="/js/ubbeditor/ubbEditor.js"></script>
+<textarea id="content" name="content" style="WIDTH: 650px; min-height: 500px">$!{blog.content}</textarea>
+<script type="text/javascript">
+var nEditor = new ubbEditor('content');
+nEditor.tLang = 'zh-cn';
+nEditor.tInit('nEditor', '/js/ubbeditor/');
+</script>
+
+    ##<div style="padding-left:70px"><textarea class="inp" style="width:600px;height:500px" id="content" name="content">$!{blog.content}</textarea></div>
+    <div class="p5 clear"></div>
+    <div style="padding-left:70px"><input type="button" onclick="submitForm()" value="发 布" class="gsub"></div>
+</form>
+</div>
+<div class="p10 clear"></div>
+
+<script>
+$(document).ready(function() {  
+	var options = {
+		success:showResponse,
+	};
+	$('#imgFrm').ajaxForm(options); 
+}); 
+
+function showResponse(responseText, statusText) {
+var result = eval('(' + responseText + ')');
+if (result.success=='true'&&result.url.length > 0) {
+	##var originContent = $("#content").val();
+	##var tag = "\n[img:" + result.url + "]";
+	##$("#content").val(originContent + tag);
+	var originContent = nEditor.tGetUBB();
+	var tag = "[p][/p][img]" + result.url + "[/img]";
+	nEditor.tinsertUBB(tag + originContent);
+	$("#imgDialog").dialog("close");
+} else if (result.toolarge == "true") {
+        alert("图片大小不能超过 500Kb, 请压缩图片重新上传");
+	## zhangeth 2013/04/16 alert("图片大小不能超过 500K, 请重新上传");
+}
+}
+
+var addedLabel = new Array();
+#foreach($l in $mylabels)
+addedLabel[addedLabel.length]='$l.id';
+#end
+function addLabel() {
+	var labelName = $("#labelsel").find("option:selected").text();
+	var labelId = $("#labelsel").find("option:selected").val();
+	var added = false;
+	for (var i = 0; i < addedLabel.length; i++) {
+		if (addedLabel[i] == labelId) {
+			added = true;
+		}
+	}
+	if (added) {
+		return;
+	}
+	addedLabel[addedLabel.length] = labelId;
+	if ($("#labelIds").val().length==0) {
+		$("#labelIds").val(labelId);
+		var html = "<div style=\"display:inline-block\" id=\"label-" + labelId + "\">" + labelName + "(<a href=\"#\" onclick=\"delLabel('"+ labelId + "')\">x</a>)</div>";
+		$("#labelNames").html(html)
+	} else {
+		$("#labelIds").val($("#labelIds").val() + "," + labelId);
+		var html = "<div style=\"display:inline-block\" id=\"label-" + labelId + "\">, " + labelName + "(<a href=\"#\" onclick=\"delLabel('"+ labelId + "')\">x</a>)</div>";
+		$("#labelNames").html($("#labelNames").html() + html);
+	}
+}
+
+function delLabel(id) {
+	var temp = new Array();
+	for (var i = 0; i < addedLabel.length; i++) {
+		if (addedLabel[i] != id) {
+			temp[temp.length] = addedLabel[i];
+		}
+	}
+	addedLabel = temp;
+	var ts = $("#labelIds").val().split(",");
+	var tn = "";
+	for (var i = 0; i < ts.length; i++) {
+		if (ts[i] == id) {
+			continue;
+		}
+		if (tn.length > 0) {
+			tn += ",";
+		}
+		tn += ts[i];
+	}
+	$("#labelIds").val(tn);
+	
+	$("#label-" + id).remove();
+}
+
+var addedShopLabel = new Array();
+#foreach($l in $shopLabels)
+addedShopLabel[addedShopLabel.length]='$l.id';
+#end
+function addShopLabel() {
+	var labelName = $("#shopLabelsel").find("option:selected").text();
+	var labelId = $("#shopLabelsel").find("option:selected").val();
+	var added = false;
+	for (var i = 0; i < addedShopLabel.length; i++) {
+		if (addedShopLabel[i] == labelId) {
+			added = true;
+		}
+	}
+	if (added) {
+		return;
+	}
+	addedShopLabel[addedShopLabel.length] = labelId;
+	if ($("#shopLabelIds").val().length==0) {
+		$("#shopLabelIds").val(labelId);
+		var html = "<div style=\"display:inline-block\" id=\"shopLabel-" + labelId + "\">" + labelName + "(<a href=\"#\" onclick=\"delShopLabel('"+ labelId + "')\">x</a>)</div>";
+		$("#shopLabelNames").html(html)
+	} else {
+		$("#shopLabelIds").val($("#shopLabelIds").val() + "," + labelId);
+		var html = "<div style=\"display:inline-block\" id=\"shopLabel-" + labelId + "\">, " + labelName + "(<a href=\"#\" onclick=\"delShopLabel('"+ labelId + "')\">x</a>)</div>";
+		$("#shopLabelNames").html($("#shopLabelNames").html() + html);
+	}
+}
+
+function delShopLabel(id) {
+	var temp = new Array();
+	for (var i = 0; i < addedShopLabel.length; i++) {
+		if (addedShopLabel[i] != id) {
+			temp[temp.length] = addedShopLabel[i];
+		}
+	}
+	addedShopLabel = temp;
+	var ts = $("#shopLabelIds").val().split(",");
+	var tn = "";
+	for (var i = 0; i < ts.length; i++) {
+		if (ts[i] == id) {
+			continue;
+		}
+		if (tn.length > 0) {
+			tn += ",";
+		}
+		tn += ts[i];
+	}
+	$("#shopLabelIds").val(tn);
+	
+	$("#shopLabel-" + id).remove();
+}
+
+function submitForm() {
+	var title = $("#blogtitle").val();
+	if (title == null || title.length == 0) {
+		alert("题目不能为空");
+		return;
+	}
+	if (title.length > 70) {
+		return;
+	}
+	var tmp = title.split(" ");
+	if (tmp.length >= title.length) {
+		alert("题目不能全为空格");
+		return;
+	}
+	##var content = $("#content").val();
+	var content = nEditor.tGetUBB();
+	if (content == null || content.length == 0) {
+		if (!confirm("博文内容为空, 确认要发布?")) {
+			return;
+		}
+	}
+	if (content.length > 5000000) {
+		alert("博文内容不能超过 5,000,000 个字符");
+		return;
+	}
+	$("#blogform").submit();
+}
+</script>
+#**
+<style>
+.blog{marging:5px;}
+.blog .inputline{margin-bottom:10px;}
+.blog .inputlabel{display:inline-block;width:60px;}
+.blog .input{width:510px;}
+.blog .addpic{margin:15px;margin-left:0px;border:1px solid #888888;width:90px;padding:15px;text-align:center;}
+</style>
+<div class="blog">
+<form name="blogFrm" action="/blog/edit.html" method="POST">
+<input type="hidden" name="shopId" value="${shop.id}" />
+<input type="hidden" name="shopName" value="${shop.Name}" />
+<input type="hidden" name="blogId" value="${blog.id}" />
+<input type="hidden" name="label" id="labelIds" value="#foreach($l in $mylabels)#if($velocityCount>1),#end$l.id#end" />
+<div class="inputline"><div class="inputlabel">题目: </div><input type="text" name="title" maxlength="100" class="input" value="$!{blog.title}"/></div>
+<div class="inputline"><div class="inputlabel">摘要: </div><input type="text" name="summary" maxlength="200" class="input" value="$!{blog.summary}"/></div>
+<div class="inputline"><div class="inputlabel">标签: </div><div style="display:inline-block" id="labelNames">#foreach($l in $mylabels)<div style="display:inline-block" id="label-${l.id}">#if($velocityCount>1),#end${l.cnName}(<a href="#" onclick="delLabel('$l.id')">x</a>)</div>#end</div></div>
+<div class="inputline">
+	<div class="inputlabel"></div>
+	<div style="display:inline-block">
+		<select id="labelsel">
+			#foreach($l in $labelList)
+				<option value="$l.id">$l.cnName</option>
+			#end
+		</select>
+		<input type="button" value="添加标签" onclick="addLabel()" />
+	</div>
+</div>
+<!--<div class="inputline"><div class="inputlabel">标签: </div><input type="text" name="label" maxlength="100" class="input" value="$!{blog.label}"/></div>-->
+<div class="addpic"><a id="opener" href="#">插入图片</a></div>
+<div>
+<textarea id="content" rows="40" cols="80" name="content">$!{blog.content}</textarea>
+</div>
+<div><input type="submit" name="Submit" value="发布" /></div>
+</form>
+</div>
+**#
+<div id="imgDialog" title="Upload a pic">
+<form id="imgFrm" action="/blog/uploadImage.html" method="POST" enctype="multipart/form-data">
+<input type="file" name="file" />
+<input type="submit" name="Submit" value="Submit" />
+</form>
+</div>
+ 
+<script>
+$( "#imgDialog" ).dialog({ autoOpen: false, modal:true });
+$( "#opener" ).click(function() {
+    $( "#imgDialog" ).dialog( "open" );
+});
+</script>

@@ -1,0 +1,113 @@
+<!-- minHeader begin -->
+<script>  
+//url：要收藏的链接；title：收藏项的名称  
+function addFavorite(url,title) {
+	//如果url或者title为空，默认为当前页面url和title。  
+	if(!(url&&title)) {
+		url=document.URL;  
+		title=document.title;  
+	}  
+  
+	if (document.all) { //IE  
+		window.external.addFavorite(url,title);  
+	} else if (window.sidebar) {
+		//firefox  
+		window.sidebar.addPanel(title, url, "");  
+	} else {
+		alert("抱歉，您所使用的浏览器无法完成此操作。\n\n加入收藏失败，您需要手动将【"+url+"】加入收藏。");
+	}
+}  
+
+//url：要设置为首页的链接  
+function setHomepage(url) {  
+	//如果url为空，默认为当前页面url。  
+	if(!url) {  
+		url=document.URL;  
+	}  
+  
+	if (document.all) {
+		// IE  
+		document.body.style.behavior = 'url(#default#homepage)';  
+		document.body.setHomePage(url);  
+	} else if (window.sidebar) {
+		// firefox  
+		if (window.netscape) {  
+			try {  
+				window.netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");  
+			} catch (e) {  
+				alert("此操作被浏览器拒绝！请在浏览器地址栏输入“about:config”并回车然后将[signed.applets.codebase_principal_support]的值设置为'true',双击即可。");  
+			}  
+		}  
+		var prefs = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);  
+		prefs.setCharPref('browser.startup.homepage', url);  
+	} else {
+		alert("抱歉，您所使用的浏览器无法完成此操作。\n\n您需要手动将【"+url+"】设置为首页。");
+	}
+} 
+
+$(document).ready(function(){
+  $("#NavHome").mouseover(function(){
+    $("#subNavHome").show();
+  });
+  
+  $("#NavHome").mouseleave(function(){
+    $("#subNavHome").hide();
+  });
+  
+  $("#NavShop").mouseover(function(){
+    $("#subNavShop").show();
+  });
+  
+  $("#NavShop").mouseleave(function(){
+    $("#subNavShop").hide();
+  });
+  
+});
+
+</script>
+
+
+
+
+<!--header begin-->
+<div id="header">
+    <div id="headerTop">
+        <div id="logo"><a href="http://www.weindex.ca/"><img src="/img/logo.jpg" height="40" width="140" /></a></div>
+        <div class="Nav">
+            <div class="hover" id="NavHome"><a href="http://weindex.ca">首页</a>
+                <div class="subNav" id="subNavHome">
+                    <ul>
+                        <li><a href="#">最新分享</a></li>
+                        <li><a href="#">热门分享</a></li>
+                        <li><a href="#">热门推荐</a></li>
+                    </ul>
+                    <p class="subNavFoot"></p>
+                </div>
+            </div>
+            <div class="hover NavActive" id="NavShop"><a href="http://www.weindex.ca/index/shop.html?type=hot">店铺</a>
+                <div class="subNav" id="subNavShop">
+                    <ul>
+                        <li><a href="#">最新店铺</a></li>
+                        <li><a href="#">热门店铺</a></li>
+                        <li><a href="#">热门推荐</a></li>
+                    </ul>
+                    <p class="subNavFoot"></p>
+                </div>
+            </div>
+            <div class="hover"><a href="http://www.weindex.ca/index/offer.html?type=hot">商品</a></div>
+            <div class="hover"><a href="http://www.weindex.ca/search/map.html">地图</a></div>
+        </div>
+        <div id="headerMenu" class="text_link1">
+        	#if($session_attr_user)
+        		 <a href="/user/profile/${session_attr_user.id}.html">${session_attr_user.userName}</a><span class="plr_10">|</span><a href="/user/logout.html">注销</a>
+        	#else
+        		<a href="/user/login.html">登录</a><span class="plr_10">|</span><a href="/user/signup.html">注册</a>
+        	#end
+        </div>
+        <div id="searchBox">
+            <div class="searchMain"><input type="text" name="search" class="searchInp"><input type="button" value="" class="searchBtn"></div>
+        </div>
+    </div>
+</div>
+<!--header end-->
+

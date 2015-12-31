@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>weindex</name>
+	<groupId>com.amesit</groupId>
+	<artifactId>weindex</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>weindex.web</module>
+		<module>weindex.management</module>
+		<module>weindex.dao</module>
+		<module>weindex.services</module>
+		<module>weindex.search</module>
+		<module>weindex.common</module>
+		<module>weindex.weibo4j</module>
+
+	</modules>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.10</version>
+				<scope>test</scope>
+			</dependency>
+
+		      
+		</dependencies>
+		
+
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.4</version>
+			<scope>provided</scope>
+		</dependency>
+
+	        <dependency>
+	           <groupId>org.twitter4j</groupId>
+	           <artifactId>twitter4j-core</artifactId>
+	           <version>3.0.3</version>
+	        </dependency>
+
+	</dependencies>
+</project>

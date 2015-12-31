@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+  <title>经商知道</title>
+  <meta http-equiv="pragma" content="no-cache" />
+<link rel="stylesheet" href="/css/home-global.css">
+<link rel="stylesheet" href="/css/weindex-index.css">
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<script src="/js/jquery-1.8.3.min.js"></script>  
+<script src="/js/jquery.wookmark.min.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/weindex.js" ></script>
+<style>
+a{text-decoration:none;}
+a:link,a:visited,a:active,a:hover{text-decoration:none;color:#0667AC;}
+</style>
+</head>
+<body>
+#parse('common/header.vm')
+<script language="JavaScript">
+function showHideDiv(showDivId, hideDivId, showTabId, hideTabId) {
+	document.getElementById(showDivId).setAttribute("style", "display:block");
+	document.getElementById(hideDivId).setAttribute("style", "display:none");
+	document.getElementById(showTabId).setAttribute("class", "tab selected");
+	document.getElementById(hideTabId).setAttribute("class", "tab unselected");
+}
+</script>
+<!-- main begin -->
+<div class="main">
+        <div class="Nav">
+            <ul>
+                <li id="nav_3" class="NavUnactive"><a href="/index/blog.html?type=hot">博文</a></li>
+                <li id="nav_1" class="NavUnactive"><a href="/index/shop.html?type=hot">店铺</a></li>
+                <li id="nav_2" class="NavActive"><a href="/index/offer.html?type=hot">商品</a></li>
+                <li class="NavUnactive"><a href="http:/search/map.html">地图版</a></li>
+##                <li id="nav_3" class="NavUnactive" onclick="showNav(3)">博文</li>
+##                <li id="nav_1" class="NavUnactive" onclick="showNav(1)">店铺</li>
+##                <li id="nav_2" class="NavActive" onclick="showNav(2)">商品</li>
+##                <li style="float:right;border:none;background:none;font-size:14px;text-decoration:underline;vertical-align:bottom;padding-top:10px;"><a href="http:/search/map.html">地图版</a></li>
+            </ul>
+        </div>
+    <!-- left begin -->
+    <div class="left">
+        <div class="warp">
+            <div class="warpLeft">
+                <!--menu begin -->
+                <div class="Menu" id="menu_3" style="display:none;width: 690px;">
+                    <ul>
+                    #set($count=0)
+					#foreach($l in $labels)
+						#if(($l.type==0 || $l.type==3) && $count < 8) ##zhangeth
+							<li><a href="/label/${l.id}/blog.html">${l.cnName}</a></li>
+							#set($count=$count+1)
+						#end
+					#end
+                        <li><a href="/label/index.html">更多&gt;&gt;</a></li>
+                        <li style="float:right;"><a href="/index/blog.html?type=hot" style="color:#0098c9;">推荐博文</a></li>
+                        <li style="float:right;"><a href="/index/blog.html">最新博文</a></li>
+                    </ul>
+                </div>
+                <div class="Menu" id="menu_1" style="display:none;width: 690px;">
+                    <ul>
+                    #set($count=0)
+					#foreach($l in $labels)
+						#if(($l.type==0 || $l.type==1) && $count < 8) ##zhangeth
+							<li><a href="/label/${l.id}/shop.html">${l.cnName}</a></li>
+							#set($count=$count+1)
+						#end
+					#end
+                        <li><a href="/label/index.html">更多&gt;&gt;</a></li>
+                        <li style="float:right;"><a href="/index/shop.html?type=hot" style="color:#0098c9;">推荐店铺</a></li>
+                        <li style="float:right;"><a href="/index/shop.html">最新店铺</a></li>
+                    </ul>
+                </div>
+                <div class="Menu" id="menu_2"  style="width: 690px;">
+                    <ul>
+                    #set($count=0)
+					#foreach($l in $labels)
+						#if(($l.type==0 || $l.type==2) && $count < 8) ##zhangeth
+							<li><a href="/label/${l.id}/offer.html">${l.cnName}</a></li>
+							#set($count=$count+1)
+						#end
+					#end
+                        <li><a href="/label/index.html">更多&gt;&gt;</a></li>
+                        <li style="float:right;"><a href="/index/offer.html?type=hot" style="color:#0098c9;">推荐商品</a></li>
+                        <li style="float:right;"><a href="/index/offer.html">最新商品</a></li>
+                    </ul>
+                </div>
+                <!--menu end -->
+				$screen_content
+            </div>
+##            <div class="warpRight">
+####                <div class="MenuGuanzhu"><a href="#"><img src="/img/btn_Guanzhu.gif" width="62" height="22" /></a><span>32.6万</span></div>
+##                <div class="banner"><img src="/img/banner_01.jpg" width="222"/></div>
+##            </div>
+        </div>
+    </div>
+    <!-- left end -->
+    <!-- right begin -->
+    <div class="right">
+            <!-- login begin -->
+			#parse('common/userInfo.vm')
+            <!-- login end -->  
+            <!-- 人气店铺 begin --> 
+			#parse('common/hotShop.vm')
+            <!-- 人气店铺 end --> 
+            <!-- 本周热门文章 begin --> 
+			#parse('common/hotBlog.vm')
+            <!-- 本周热门文章 end --> 
+            ##<div class="map"><a href="/search/map.html"><img src="/img/pic_Map.jpg" width="292" height="147" /></a></div>
+    </div>
+    <!-- right end -->
+</div>
+<!-- main end -->
+#parse('common/footer.vm')
+<script type="text/javascript">
+var koffset = 14;
+var kitemwidth = 218;
+var kskitemwidth = kitemwidth + koffset;
+var minpad = 32;
+
+function resetpad() {
+	var kswidth = $(window).width();
+	var ksval = kswidth - 575;
+	var kspad = 0;
+
+	for (var i=0; i<100; i++)
+	{
+		if (ksval - kskitemwidth*i >= 2*minpad && ksval - kskitemwidth*i < kskitemwidth+2*minpad)
+		{
+			kspad = (ksval - kskitemwidth*i)/2;
+			break;
+		}
+	}
+	kspad = 0;
+	$(".warpLeft").css("margin-right",(575+2*kspad)+"px");
+	$(".warpLeft").css("width", (kswidth - 575) + "px");
+	$(".warpRight").css("margin-right",(337+kspad)+"px");
+	$(".Nav").css("margin-right",(350+2*kspad)+"px");
+	$(".right").css("right",kspad+"px");
+	$(".left").css("padding-left",(336+kspad)+"px");
+
+}
+window.onload = function(){
+	//resetpad();
+      // Prepare layout options.
+      var options = {
+		align: 'left',
+        autoResize: true, // This will auto-update the layout when the browser window is resized.
+        container: $('#Content'), // Optional, used for some extra CSS styling
+        offset: koffset, // Optional, the distance between grid items
+        itemWidth: kitemwidth // Optional, the width of a grid item
+      };
+      // Get a reference to your grid items.
+      var handler = $('#tiles li');
+
+      // Call the layout function.
+      handler.wookmark(options);
+
+      // Capture clicks on grid items.
+      
+      
+      // search
+      $(".searchClassBtn").click(function(){
+    	  $(".searchCon").toggle();
+      });
+      
+      $("body").click(function(e){
+    	  if(!$(e.target).is('.searchClassBtn')){
+    		  $(".searchCon").hide();
+          }
+      });
+      
+      $(".searchCon li").click(function(){
+    	  $("#stype").val($(this).html());
+      });
+}
+</script>
+</body>
+</html>

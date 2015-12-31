@@ -1,0 +1,68 @@
+    <!-- search begin -->
+    <div id="search">
+        <input type="image" src="/img/btn_Go.gif" width="220" height="37" class="searchBtn" onclick="submitSearch()" />
+        <div class="searchClass">
+            <div class="searchClassBox">
+                <input type="text" name="textfield" id="stype" value="搜商品" class="searchClassInp" readonly="true" />
+                <ul class="searchCon" style="display:none;">
+                    <li>搜博文</li>
+                    <li>搜店铺</li>
+                    <li>搜商品</li>
+                </ul>
+            </div>
+            <div class="searchClassBox">
+                <input type="image" src="/img/btn_searchList.gif" width="32" height="36" class="searchClassBtn" />
+            </div>
+        </div>	
+        <input type="text" name="textfield" id="skeyword" value="请输入您要搜索的关键字" class="searchBox" onfocus="initKeyword(this)" onblur="resetKeyword(this)"/>
+    </div>
+    <form name="searchFrm" action="/search.html" method="GET" id="searchfrm">
+    	<input type="hidden" name="type" id="typeFld" value="1"/>
+    	<input type="hidden" name="keyword" id="keywordFld"/>
+    </form>
+    <!-- search end -->
+<script language="JavaScript">
+function initKeyword(tag) {
+	if ($("#skeyword").val() == "请输入您要搜索的关键字") {
+		$("#skeyword").val("");
+	}
+}
+function resetKeyword(tag) {
+	if ($("#skeyword").val() == "") {
+		$("#skeyword").val("请输入您要搜索的关键字");
+	}
+}
+function submitSearch() {
+	if($("#stype").val()=="搜博文") {
+		$("#typeFld").val("3");
+	} else if ($("#stype").val()=="搜店铺") {
+		$("#typeFld").val("2");
+	} else {
+		$("#typeFld").val("1");
+	}
+	$("#keywordFld").val($("#skeyword").val());
+	//alert($("#keywordFld").val());
+	document.getElementById('searchfrm').submit();
+}
+</script>
+<div class="clear p10"></div>
+
+#**
+<div class="searchbanner">
+	<div class="searchbanner_tabdiv"><a href="/index/shop.html">店铺</a></div>
+	<div class="searchbanner_tabdiv"><a href="/index/offer.html">商品</a></div>
+	<div class="searchbanner_tabdiv"><a href="/index/blog.html">博文</a></div>
+	<div class="searchbanner_searchdiv">
+		<form name="searchFrm" action="/search.html" method="GET">
+			<input type="text" name="keyword" value="$!{keyword}"/>
+			<select name="type">
+				<option value="1" #if($type==1)selected="true"#end>搜商品</option>
+				<option value="2" #if($type==2)selected="true"#end>搜店铺</option>
+				<option value="3" #if($type==3)selected="true"#end>搜博文</option>
+			</select>
+			<div class="searchBtn">Go!</div>
+			<input type="submit" value="Search" />
+		</form>
+	</div>
+</div>
+**#

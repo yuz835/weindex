@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Message">
+	<resultMap id="result" class="ca.weindex.common.model.Message">
+		<result property="id" column="ID" />
+		<result property="type" column="TYPE" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="source" column="SOURCE" />
+		<result property="sourceId" column="SOURCE_ID" />
+		<result property="dest" column="DEST" />
+		<result property="destId" column="DEST_ID" />
+		<result property="readed" column="READED" />
+		<result property="createTime" column="CREATE_TIME" />
+	</resultMap>
+	
+	<resultMap id="contactor" class="ca.weindex.common.model.UserContactor">
+		<result property="contactorId" column="CONTACTOR_ID" />
+		<result property="contactor" column="CONTACTOR" />
+		<result property="readedNum" column="READED_NUM" />
+		<result property="totalNum" column="TOTAL_NUM" />
+	</resultMap>
+	
+	<select id="getMessageByDestId" resultMap="result">
+		select *
+		from MESSAGE
+		where DEST_ID = #value#
+		order by CREATE_TIME desc
+	</select>
+	
+	<select id="getMessageBySourceIdOrDestId" resultMap="result">
+		select *
+		from MESSAGE
+		where (SOURCE_ID = #sourceId# and DEST_ID = #destId#) or (SOURCE_ID = #destId# and DEST_ID = #sourceId#)
+		order by CREATE_TIME desc
+	</select>
+
+	<select id="getUserUnreadMessageNumber" resultClass="java.lang.Integer">
+		select count(*) 
+		from MESSAGE
+		where DEST_ID = #value# and READED = 0
+	</select>
+	
+	<update id="readMessageBySourceDest">
+		update MESSAGE set READED = 1 where SOURCE_ID = #sourceId# and DEST_ID = #destId#
+	</update>
+	
+	<update id="readMessageByDest">
+		update MESSAGE set READED = 1 where DEST_ID = #value#
+	</update>
+	
+	<insert id="insertMessage">
+		insert into MESSAGE (TYPE, CONTENT, SOURCE, SOURCE_ID, DEST, DEST_ID, CREATE_TIME) values (#type#, #content#, #source#, #sourceId#, #dest#, #destId#, NOW())
+	</insert>
+	
+	<select id="getContactorByUser" resultMap="contactor">
+		select contactor_id, contactor, sum(readed_num) as readed_num, sum(total_num) as total_num 
+		from ( 
+		(select dest_id as contactor_id, dest as contactor, count(*) as readed_num, count(*) as total_num from message where source_id = #value# group by dest) 
+		union 
+		(select source_id as contactor_id, source as contactor, sum(readed) as readed_num, count(*) as total_num from message where dest_id = #value# group by source)
+		) T 
+		group by contactor_id 
+	</select>
+	
+</sqlMap>

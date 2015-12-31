@@ -1,0 +1,46 @@
+#set($layout = "/layout/shopLayout.vm")
+
+<!--店铺博文 begin-->
+<div class="blog fl w800"> 	
+#if($toolarge)
+	<div style="color:red;">图片大小不能超过 500K, 请重新上传</div>
+    <div class="p5"></div>
+#end
+<form method="POST" id="imgform" action="/offer/uploadImage.html" enctype="multipart/form-data">
+<input type="hidden" name="offerId" value="${offerId}" />
+    <div class="p5"></div>
+    <div class="f14 fb">上传商品图片</div>
+    <div class="p10 clear"></div>
+            
+    <div class="dli"><span class="f14 fl">上传商品图片：</span> <input type="file" name="file" id="imgfile" ><input type="button" onclick="submitForm()" value="上 传" class="gsub"> &nbsp; &nbsp; <input type="button" value="返 回" class="gsub" onclick="window.open('/offer/manageImage/${offerId}.html', '_self')"></div>
+</form>            
+</div>
+<div class="p10 clear"></div>
+<script>
+function submitForm() {
+    var file = $("#imgfile").val();
+    if(file == null || file == "") {
+    	alert("请选择图片");
+    	return;
+    }
+    file = file.toLowerCase();
+    if (file.indexOf(".") == -1) {
+    	alert("请选择格式为 JPG/PNG/GIF/BMP 的图片文件上传");
+    	return;
+    }
+    var extname = file.substring(file.lastIndexOf(".") + 1);
+    if (extname != "jpg" && extname != "jpeg" && extname != "png" && extname != "gif" && extname != "bmp") {
+    	alert("请选择格式为 JPG/PNG/GIF/BMP 的图片文件上传");
+    	return;
+    }
+    $("#imgform").submit();
+}
+</script>
+#**
+<div>Please Choose an image file:</div>
+<form method="POST" action="/offer/uploadImage.html" enctype="multipart/form-data">
+<input type="hidden" name="offerId" value="${offerId}" />
+<input type="file" name="file" />
+<input type="submit" name="Submit" value="Submit" />
+</form>
+**#

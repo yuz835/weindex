@@ -1,0 +1,10 @@
+<form name="labelFrm" action="/admin/label/add.html" method="POST">
+<div>Name(cn): <input type="text" name="cnName" maxlength="20" /></div>
+<div>Name(en): <input type="text" name="enName" maxlength="20" /></div>
+<div>Type: <select name="type"><option value="0">全局标签(0)</option><option value="1">店铺标签(1)</option><option value="2">商品标签(2)</option><option value="3">博文标签(3)</option></select></div>
+<div>Desc: <input type="text" name="desc" maxlength="200" /></div>
+<div>Pos: <input type="number" name="pos" maxlength="5" /></div>
+<div>parentCategoryId: <input type="number" name="parentCategoryId" maxlength="5" /></div>
+<div>currentCategoryId: <input type="number" name="currentCategoryId" maxlength="5" /></div>
+<div><input type="submit" value="Submit" /></div>
+</form>

@@ -1,0 +1,112 @@
+#set($layout = "/layout/homeLayout.vm")
+##<div id="Content" role="Content">
+##    <ul id="tiles">
+##		#foreach($offer in $result.list) 
+##        <li style="height:256px">
+##            <p><a href="/offer/view/${offer.id}.html" target="_blank">#if($offer.imgUrl)<img src="$offer.imgUrl" width="192" />#else<img src="/img/pic_con_06.jpg" width="192" />#end</a></p>
+##            <p class="ConName text_link2" style="text-align:center"><a href="/offer/view/${offer.id}.html" target="_blank">${offer.name}</a></p>
+##            <p class="ConOper" style="text-align:center"><span class="ConOperLeft" style="float:none;"><span>$</span>${offer.price}</span>#**<span class="ConMore"><a href="/offer/view/${offer.id}.html" target="_blank">MORE>></a></span>**#</p>
+##        </li>
+##        #end
+##    </ul>
+##</div>
+
+##zhangeth
+
+        <div id="Con" class="latestOffer">
+            <table id="offerList">
+                <tr><td>商品图片</td><td>名字</td><td>新旧程度</td><td>价格</td></tr>
+                #foreach($offer in $result.list)
+                        <tr>    <td><a href="/offer/view/${offer.id}.html">#if($offer.imgUrl)<img src="$offer.imgUrl"/>#else<img src="/img/pic_shop_01.jpg"/>#end</a></td>
+                                <td><a href="/offer/view/${offer.id}.html" class="fl">${offer.name}</a></td>
+                                <td>${offer.quality}%</td>
+                                <td><font color=RED>$${offer.price}</font></td>
+                        </tr>
+                #end
+            </table>
+        </div>
+
+
+<!-- page begin -->
+#if($result.totalPage>1)
+<div id="page">
+    <ul>
+		#if($result.pageNum > 1)
+        	<li><a href="/label/${labelId}/offer.html?pageNum=${result.previousPage}">上一页</a></li>
+        #end
+        #if($result.totalPage<=5)
+        	#foreach($i in [1..$result.totalPage])
+        		#if($i==$result.pageNum)
+        			<li class="pageActive"><a href="/label/${labelId}/offer.html?pageNum=$i">$i</a></li>
+        		#else
+        			<li><a href="/label/${labelId}/offer.html?pageNum=$i">$i</a></li>
+        		#end
+        	#end
+        #else
+        	#if($result.pageNum<=3)
+        		#set($max=$result.pageNum+1)
+        		#foreach($i in [1..$max])
+	        		#if($i==$result.pageNum)
+    	    			<li class="pageActive"><a href="/label/${labelId}/offer.html?pageNum=$i">$i</a></li>
+        			#else
+        				<li><a href="/label/${labelId}/offer.html?pageNum=$i">$i</a></li>
+        			#end
+        		#end
+        		<li>...</li>
+        		<li><a href="/label/${labelId}/offer.html?pageNum=$result.totalPage">$result.totalPage</a></li>
+        	#elseif($result.pageNum>=$result.totalPage - 2)
+        		<li><a href="/label/${labelId}/offer.html?pageNum=1">1</a></li>
+        		<li>...</li>
+        		#set($min=$result.pageNum - 1)
+        		#foreach($i in [$min..$result.totalPage])
+	        		#if($i==$result.pageNum)
+    	    			<li class="pageActive"><a href="/label/${labelId}/offer.html?pageNum=$i">$i</a></li>
+        			#else
+        				<li><a href="/label/${labelId}/offer.html?pageNum=$i">$i</a></li>
+        			#end
+        		#end
+        	#else
+        		<li><a href="/label/${labelId}/offer.html?pageNum=1">1</a></li>
+        		<li>...</li>
+        		#set($min=$result.pageNum - 1)
+        		#set($max=$result.pageNum+1)
+        		<li><a href="/label/${labelId}/offer.html?pageNum=$min">$min</a></li>        	
+        		<li class="pageActive"><a href="/label/${labelId}/offer.html?pageNum=$result.pageNum">$result.pageNum</a></li>        	
+        		<li><a href="/label/${labelId}/offer.html?pageNum=$max">$max</a></li>        	
+        		<li>...</li>
+        		<li><a href="/label/${labelId}/offer.html?pageNum=$result.totalPage">$result.totalPage</a></li>        	
+        	#end
+        #end
+		#if($result.pageNum < $result.totalPage)
+			<li><a href="/label/${labelId}/offer.html?pageNum=${result.nextPage}">下一页</a></li>	
+        #end
+    </ul>
+</div>
+#end
+<!-- page end -->
+<script language="JavaScript">
+showNav(2);
+</script>
+#**
+	<div class="offer">
+		<div class="title">产品列表</div>
+		<div id="newOffer">
+		#foreach($offer in $result.list) 
+			<div class="item">
+				<div style="padding-left:10px;height:160px;"><img src="$offer.imgUrl" width="160px" /></div>
+				<div class="name"><a href="/offer/view/${offer.id}.html">${offer.name}</a></div>
+				<div class="price">${offer.price}</div>
+			</div>
+		#end
+			<div class="more">
+			#if($result.pageNum > 1)
+				<a href="/label/offer.html?labelId=${labelId}&pageNum=1">第一页</a> <a href="/label/offer.html?labelId=${labelId}&pageNum=${result.previousPage}">上一页</a>
+			#end
+			共 $result.totalPage 页, 当前显示第 $result.pageNum 页
+			#if($result.pageNum < $result.totalPage)
+				<a href="/label/offer.html?labelId=${labelId}&pageNum=${result.nextPage}">下一页</a> <a href="/label/offer.html?labelId=${labelId}&pageNum=${result.totalPage}">最后一页</a>
+			#end			
+			</div>
+		</div>
+	</div>
+**#

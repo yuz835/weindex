@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="RedditComment">
+	<resultMap id="result" class="ca.weindex.common.model.RedditComment">
+		<result property="id" column="ID" />
+		<result property="redditId" column="REDDIT_ID" />
+		<result property="content" column="CONTENT" />
+		<result property="creatorId" column="CREATOR_ID" />
+		<result property="creatorName" column="CREATOR_NAME" />
+		<result property="traceCommentId" column="TRACE_COMMENT_ID" />
+		<result property="level" column="LEVEL" />
+		<result property="likedNum" column="LIKED_NUM" />
+		<result property="createTime" column="CREATE_TIME" />
+	</resultMap>
+
+	<select id="getRedditComment" resultMap="result">
+		select *
+		from REDDIT_COMMENT
+		where ID = #value#
+	</select>
+	
+	<select id="getRedditCommentByRedditId" resultMap="result">
+		select *
+		from REDDIT_COMMENT
+		where REDDIT_ID = #value#
+		order by ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countRedditCommentByRedditId" resultClass="java.lang.Integer">
+		select count(*)
+		from REDDIT_COMMENT
+		where REDDIT_ID = #value#
+	</select>
+	
+	<insert id="insertRedditComment">
+		insert into REDDIT_COMMENT (REDDIT_ID, CONTENT, CREATOR_ID, CREATOR_NAME, TRACE_COMMENT_ID, LEVEL, CREATE_TIME) values (#redditId#,  #content#, #creatorId#, #creatorName#, #traceCommentId#, #level#, NOW())
+	</insert>
+	<update id="updateRedditComment">
+		update REDDIT_COMMENT SET CONTENT = #content# where ID = #id#
+	</update>
+
+	<delete id="deleteRedditComment">
+		delete from REDDIT_COMMENT where ID = #value#
+	</delete>
+
+	<update id="likeRedditComment">
+		update REDDIT_COMMENT SET LIKED_NUM = LIKED_NUM+1 where ID = #id#
+	</update>
+
+	<update id="dislikeRedditComment">
+		update REDDIT_COMMENT SET LIKED_NUM = LIKED_NUM-1 where ID = #id#
+	</update>
+
+
+</sqlMap>

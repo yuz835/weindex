@@ -1,0 +1,28 @@
+#set($layout = "/layout/shopBlogLayout.vm")
+#set($isOwner=(${shop.userId}==${session_attr_user.id}))
+<!--店铺博文 begin-->
+<div class="box blog"> 	
+    <div class="p5"></div>
+    <div class="blogTit">$blog.title</div>
+    <div class="blogInfo">
+		<div class="fl">最后更新时间：$blog.time &nbsp;&nbsp; 本文标签：#set($num=0)#foreach($l in $shopLabels)#if($num>0), #end$l.cnName#set($num=$num+1)#end#foreach($l in $mylabels)#if($num>0), #end$l.cnName#set($num=$num+1)#end&nbsp;&nbsp; 浏览：${blog.visitNum}人</div>
+         <div class="gray" style="text-align:right;padding-right:20px;padding-bottom:10px;">
+		#if($isOwner)
+                	<div style="display:inline-block;"><a href="javascript:void(0);" onclick="deleteBlog('${blog.id}')">删除博文</a></div>
+			<div style="display:inline-block;margin-right:20px;"><a href="/blog/edit.html?shopId=${shop.id}&blogId=${blog.id}">修改博文</a></div>
+			<div style="display:inline-block;margin-right:20px;"><a href="javascript:void(0);" onclick="topBlog('${blog.id}')">推荐博文</a></div>
+		#else
+                	<div style="display:inline-block;margin-right:20px;"><a href="/${shop.name}">返回店铺首页</a></div>
+                	<div style="display:inline-block;"><a href="/">返回首页</a></div>
+        	#end
+	</div>
+    </div>
+    <div class="clear p10"></div>
+    <div class="blogCont">
+		$content
+    </div>
+    <div class="p5"></div>
+</div>
+<!--店铺博文 end-->
+
+

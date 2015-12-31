@@ -1,0 +1,44 @@
+<!-- 本周热门文章 begin --> 
+<div class="hotRticle">
+    <p>本周热门文章</p>
+	#foreach($blog in $hotBlogs) 
+	    <div class="hotRticleMain">
+	    	<a href="/blog/view/${blog.id}.html">
+    	    <div class="hotRticleOper">
+        	    <div class="hotRticleName">${blog.title}</div>
+            	<div class="hotRticleTime">${blog.date}</div>
+        	</div> 
+##    	    <div class="hotRticleCon">
+        	    ##<div class="hotRticlePic"><a href="#"><img src="/img/pic_Blog.jpg" width="83" height="65" /></a></div>
+            	##<div class="hotRticleIntro">$!{bolg.summary}……</div>
+##	        </div>
+	        </a>
+    	</div>
+	#break
+	#end
+    <p class="text_more text_link2"><a href="/index/blog.html?type=hot">更多&gt;&gt;</a></p>
+</div>
+<!-- 本周热门文章 end --> 
+#**
+	<div class="blog">
+		<div class="title">博文<div class="tab selected" id="newBlogTab" onclick="showHideDiv('newBlog', 'recBlog', 'newBlogTab', 'recBlogTab')" >最新</div><div class="tab unselected" id="recBlogTab" onclick="showHideDiv('recBlog', 'newBlog', 'recBlogTab', 'newBlogTab')">推荐</div></div>
+		<div id="newBlog">
+		#foreach($blog in $recentBlogs) 
+			<div class="item">
+				<div><a href="/blog/view/${blog.id}.html">${blog.title}</a></div>
+				<div>$!{bolg.summary}</div>
+			</div>
+		#end
+			<div class="more"><a href="/index/blog.html">更多&gt;&gt;</a></div>
+		</div>
+		<div id="recBlog" style="display:none">	
+		#foreach($blog in $hotBlogs) 
+			<div class="item">
+				<div><a href="/blog/view/${blog.id}.html">${blog.title}</a></div>
+				<div>$!{bolg.summary}</div>
+			</div>
+		#end
+			<div class="more"><a href="/index/blog.html?type=hot">更多&gt;&gt;</a></div>
+		</div>
+	</div>
+**#

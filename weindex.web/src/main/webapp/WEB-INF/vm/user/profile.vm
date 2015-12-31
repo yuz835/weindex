@@ -1,0 +1,100 @@
+#set($layout = "/layout/searchLayout.vm")
+#set($isOwner=(${user.id}==${session_attr_user.id}))
+#if($isOwner)
+<script>
+function unbindWeibo() {
+	if (confirm("确实要解除与微博帐号的绑定关系?")) {
+		window.open("/user/unbindWeibo.html", "_self");
+	}
+}
+
+function unbindFacebook() {
+	if (confirm("确实要解除与 Facebook 帐号的绑定关系?")) {
+		window.open("/user/unbindFacebook.html", "_self");
+	}
+}
+
+function bindWeibo() {
+	window.open("https://api.weibo.com/oauth2/authorize?client_id=198216231&response_type=code&redirect_uri=http://weindex.ca/user/weibo/login/success.html", "_self");
+}
+
+function bindFacebook() {
+	window.open("https://www.facebook.com/dialog/oauth?client_id=144269832392534&state=${uuid}&redirect_uri=http://weindex.ca/user/fb/login/success.html", "_self");
+}
+</script>
+#end
+<div class="blog">
+	<div>
+    <div style="display:inline-block;vertical-align:top;">
+        <div class="f14 fb h25">用户名: ${user.userName} #if($session_attr_user.id!=$user.id)<a href="/user/message.html?to=${user.id}">给他发消息</a>#end</div>
+        <div class="p5"></div>
+        <div class="h25">所在地：<span class="gray">$!{user.city}, $!{user.country}</span></div>
+        <div class="p10"></div>
+        #if($isOwner)
+        	#if($user.weiboId)
+         		<div class="h25"><input type="button" onclick="unbindWeibo()" value="解除微博绑定" class="gsub" style="width:168px; text-align:center;"></div>
+		        <div class="p10"></div>
+        	#else
+         		<div class="h25"><input type="button" onclick="bindWeibo()" value="绑定微博" class="gsub" style="width:168px; text-align:center;"></div>
+		        <div class="p10"></div>
+        	#end
+        	#if($user.facebookId)
+        		<div class="h25"><input type="button" onclick="unbindFacebook()" value="解除 Facebook 绑定" class="gsub" style="width:168px;text-align:center;"></div>        	
+		        <div class="p10"></div>
+        	#else
+        		<div class="h25"><input type="button" onclick="bindFacebook()" value="绑定 Facebook" class="gsub" style="width:168px;text-align:center;"></div>        	
+		        <div class="p10"></div>
+        	#end
+        #end
+    </div>
+    </div>
+    <div class=" p10"></div>
+</div>
+#if($shop)
+<div class="f14 fb h25">${user.userName} 的店铺:</div>
+
+<div class="Shop">
+    <div class="ShopCon">
+        <div class="ShopConLeft">
+            <p class="ShopPic"><a href="/${shop.name}">#if($shop.logoUrl)<img src="$shop.logoUrl" width="210"/>#else<img src="/img/pic_shop_01.jpg" width="210"/>#end</a></p>
+            <p class="ShopName"><a href="/${shop.name}">${shop.displayName}</a></p>
+            ##<p class="ShopGzhu"><a href="/${shop.name}"><img src="/img/btn_Guanzhu.gif" width="62" height="22" /></a></p>
+            <p class="ShopIntro" style="width:280px;">$!{shop.desc}……</p>
+        </div>
+        <div class="ShopConRight">
+            <p>商品数量： <span class="fc_ff0"> ${shop.offerNum}</span>　　文章数量： <span class="fc_ff0">${shop.blogNum}</span></p>
+            ##<p>同城送货： <span class="fc_1e7">是</span></p>
+            <p>所属类别： <span class="fc_1e7">#foreach($l in $shop.labelList)#if($velocityCount>1), #end${l.cnName}#end</span></p>
+            <p>电　　话： <span class="fc_1e7">$!{shop.telephone} &nbsp;</span></p>
+            <p>地　　址： <span class="fc_1e7">$!{shop.address}#if($shop.city), ${shop.city}#end &nbsp;</span></p>
+            <p>个性网址： <a href="/${shop.name}">www.weindex.ca/${shop.name}</a></p>
+            <p class="ShopMore"><a href="/${shop.name}">点击详细>></a></p>
+        </div>
+    </div>
+</div>
+<div class="p10 clear"></div>
+#end
+<div class="f14 fb h25">${user.userName} 的收藏:</div>
+<div class="f14 profileFav">
+    <ul>
+		<li><a href="/user/favorite/${user.id}.html?type=1">收藏的店铺</a></li>
+		<li><a href="/user/favorite/${user.id}.html?type=0">收藏的商品</a></li>
+		<li><a href="/user/favorite/${user.id}.html?type=2">收藏的博文</a></li>
+	</ul>
+</div>
+
+<div class="p10"></div>
+
+#**
+<style>
+.profile_item{margin:10px;}
+</style>
+<div class="profile_item">用户名称: ${user.userName} #if($session_attr_user.id!=$user.id)<a href="/user/message.html?to=${user.id}">给他发消息</a>#end</div>
+<div class="profile_item">所在地: $!{user.city}, $!{user.country}</div>
+#if($shop)
+
+#end
+<div class="profile_item"><a href="/user/favorite/${user.id}.html?type=1">收藏的店铺</a></div>
+<div class="profile_item"><a href="/user/favorite/${user.id}.html?type=0">收藏的商品</a></div>
+<div class="profile_item"><a href="/user/favorite/${user.id}.html?type=2">收藏的博文</a></div>
+**#

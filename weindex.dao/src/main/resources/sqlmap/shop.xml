@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Shop">
+	<resultMap id="result" class="ca.weindex.common.model.Shop">
+		<result property="id" column="ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="name" column="NAME" />
+		<result property="displayName" column="DISPLAY_NAME" />
+		<result property="desc" column="DESCRIPTION" />
+		<result property="bulletin" column="BULLETIN" />
+		<result property="label" column="LABEL" />
+		<result property="offerLabels" column="OFFER_LABELS" />
+		<result property="blogLabels" column="BLOG_LABELS" />
+		<result property="verified" column="VERIFIED" />
+		<result property="country" column="COUNTRY" />
+		<result property="city" column="CITY" />
+		<result property="address" column="ADDRESS" />
+		<result property="longi" column="LONGITUDE" javaType="java.lang.Integer" />
+		<result property="lati" column="LATITUDE" javaType="java.lang.Integer" />
+		<result property="zip" column="ZIP" />
+		<result property="logoUrl" column="LOGO_URL" />
+		<result property="bannerUrl" column="BANNER_URL" />
+		<result property="telephone" column="TELEPHONE" />
+		<result property="offerNum" column="OFFER_NUM" />
+		<result property="blogNum" column="BLOG_NUM" />
+		<result property="visitNum" column="VISIT_NUM" />
+		<result property="commentNum" column="COMMENT_NUM" />
+	</resultMap>
+
+	<select id="getShop" resultMap="result">
+		select *
+		from SHOP
+		where ID = #value#
+	</select>
+	
+	<select id="getShopByUserId" resultMap="result">
+		select *
+		from SHOP
+		where USER_ID = #value#
+	</select>
+	
+	<select id="getShopByShopName" resultMap="result">
+		select *
+		from SHOP
+		where NAME = #value#
+	</select>
+	
+	<insert id="insertShop">
+		insert into SHOP (USER_ID, NAME, DISPLAY_NAME, DESCRIPTION, LABEL, COUNTRY, CITY, ADDRESS, ZIP, LONGITUDE, LATITUDE, LOGO_URL, BANNER_URL, TELEPHONE, BULLETIN, UPDATE_TIME) values (#userId#, #name#, #displayName#, #desc#, #label#, #country#, #city#, #address#, #zip#, #longi#, #lati#, #logoUrl#, #bannerUrl#, #telephone#, #bulletin#, NOW())
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY AS ID
+		</selectKey>
+	</insert>
+	
+	<update id="updateShop">
+		update SHOP SET DISPLAY_NAME = #displayName#, DESCRIPTION = #desc#, LABEL = #label#, OFFER_LABELS = #offerLabels#, BLOG_LABELS = #blogLabels#, VERIFIED = #verified#, COUNTRY = #country#, CITY = #city#, ADDRESS = #address#, ZIP = #zip#, LONGITUDE = #longi#, LATITUDE = #lati#, LOGO_URL=#logoUrl#, BANNER_URL = #bannerUrl#, TELEPHONE = #telephone#, BULLETIN = #bulletin#, OFFER_NUM=#offerNum#, BLOG_NUM=#blogNum#, UPDATE_TIME = NOW() where ID = #id#
+	</update>
+	
+	<select id="countShop" resultClass="java.lang.Integer">
+		select count(*)
+		from SHOP
+	</select>
+	
+	<select id="getRecentShop" resultMap="result">
+		select *
+		from SHOP
+		order by UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>	
+
+	<select id="getShopByLabelId" resultMap="result">
+		select *
+		from SHOP
+		where LABEL = #value# or LABEL like '$value$,%' or LABEL like '%,$value$,%' or LABEL like '%,$value$'
+		order by UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>	
+
+	<select id="countShopByLabelId" resultClass="java.lang.Integer">
+		select count(*)
+		from SHOP
+		where LABEL = #value# or LABEL like '$value$,%' or LABEL like '%,$value$,%' or LABEL like '%,$value$'
+	</select>	
+	
+	<update id="addShopVisitNum">
+		update SHOP SET VISIT_NUM = VISIT_NUM+1 where ID = #id#
+	</update>
+	
+	<update id="updateShopCommentNum">
+		update SHOP SET COMMENT_NUM = #commentNum# where ID = #id#
+	</update>
+
+</sqlMap>

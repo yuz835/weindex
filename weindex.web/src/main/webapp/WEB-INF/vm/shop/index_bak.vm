@@ -1,0 +1,132 @@
+<style>
+.shop_banner{width:100%; height:80px;border:1px solid #333333;margin-top:10px;text-align:center; padding-top:30px;}
+.shop_main{width:100%;}
+.shop_left{width:270px;float:left;padding-left:15px;margin-right:15px;}
+.shop_right{width:100%;}
+.shop_right_inner{margin-left:320px;}
+
+.shop_info{width:100%;border:1px solid #333333;padding-bottom:20px;}
+.shop_info div{margin-left:20px;margin-right:20px;}
+.shop_logo{widht:100%;height:80px;border:1px solid #333333;margin:20px;}
+.shop_search{width:100%;margin-top:20px;border:1px solid #333333;}
+.shop_search div{margin-left:20px;margin-right:20px;margin-top:10px;margin-bottom:10px;}
+.shop_global_label{width:100%;margin-top:20px;border:1px solid #333333;}
+.shop_global_label_title{margin:5px;font-size:20px;padding-bottom:15px;}
+.shop_global_label_item{margin:5px;padding-bottom:5px;border-bottom:1px solid #222222;}
+
+.shop_announce{margin-top:20px;width:100%;height:80px;border:1px solid #222222;text-align:center;}
+.shop_type_tab{margin-top:15px;width:100%;padding-bottom:10px;border-bottom:1px solid #111111;}
+</style>
+<div class="shop_banner">店铺标题 & 背景图</div>
+<div class="shop_main">
+	<div class="shop_left">
+		<div class="shop_info">
+			<div class="shop_logo">logo</div>
+			<div>卖家: <a href="/user/profile/$!{shop.userId}.html">$!{shop.owner.userName}</a></div>
+			<div>商品数量: </div>
+			<div>电话: </div>
+			<div>地址: $!{shop.address}, $!{shop.city}</div>
+			<div>网址: </div>
+		</div>
+		<div class="shop_search">
+			<div>
+				店内搜索: <input type="text" name="keyword" size="25" />
+			</div>
+		</div>
+		<div class="shop_global_label">
+			<div class="shop_global_label_title">商品分类</div>
+			#foreach($l in $labelList)
+			<div class="shop_global_label_item">$l.cnName</div>
+			#end
+		</div>
+	</div>
+	<div class="shop_right">
+		<div class="shop_right_inner">
+			<div class="shop_announce">店铺公告</div>
+			<div class="shop_type_tab">商品|博文</div>
+			
+		</div>
+	</div>
+</div>
+#set($isOwner=(${shop.userId}==${session_attr_user.id}))
+<div>Shop Name: $!{shop.name}</div>
+<div>Display Name: $!{shop.displayName} #if($isOwner)<a href="/shop/dname.html">Edit</a>#end</div>
+<div>Shop Owner: <a href="/user/profile/$!{shop.userId}.html">$!{shop.userId}</a></div>
+<div>Description: $!{shop.desc} #if($isOwner)<a href="/shop/desc.html">Edit</a>#end</div>
+<div>Labels: 
+#foreach($l in $shop.labelList)
+###if($velocityCount > 0) , ###endif
+$l.cnName
+#end
+#if($isOwner)<a href="/shop/label.html">Edit</a>#end</div>
+<div>Verified: $!{shop.isVerified()}</div>
+#if($isOwner)<div><a href="/shop/useraddress.html?shopName=${shop.name}">User user's address</a></div>#end
+#if($isOwner)<div><a href="/shop/${shop.id}/offer/add.html">Add an offer</a></div>#end
+<div>
+<table>
+<tr>
+<td>ID</td>
+<td>Name</td>
+<td>Desc</td>
+<td>Label</td>
+<td>Img</td>
+<td>Price</td>
+<td>&nbsp;</td>
+</tr>
+#foreach($offer in $offerList)
+<tr>
+<td>$offer.id</td>
+<td>$offer.name</td>
+<td>$offer.desc</td>
+<td>$offer.label</td>
+<td><img src="$offer.imgUrl" width="200" /></td>
+<td>$offer.price</td>
+<td>#if($isOwner)<a href="/offer/upload.html?offerId=${offer.id}" />Upload Image</a>#end</td>
+</tr>
+#end
+</table>
+</div>
+<hr/>
+#if($isOwner)<div><a href="/blog/add.html?shopId=${shop.id}">Add a blog</a></div>#end
+#foreach($blog in $blogList.list)
+<div><a href="/blog/view/${blog.id}.html">$blog.title</a></div>
+#end
+#if($blogList.pageNum > 1)
+<a href="/shop/view/$!{shop.name}.html?pageNum=1">第一页</a> <a href="/shop/view/$!{shop.name}.html?pageNum=${blogList.previousPage}">上一页</a>
+#end
+共 $blogList.totalPage 页, 当前显示第 $blogList.pageNum 页
+#if($blogList.pageNum < $blogList.totalPage)
+<a href="/shop/view/$!{shop.name}.html?pageNum=${blogList.nextPage}">下一页</a> <a href="/shop/view/$!{shop.name}.html?pageNum=${blogList.totalPage}">最后一页</a>
+#end
+<script type="text/javascript">
+(function(){
+  var _w = 72 , _h = 16;
+  var param = {
+    url:location.href,
+    type:'3',
+    count:'1', /**是否显示分享数，1显示(可选)*/
+    appkey:'198216231', /**您申请的应用appkey,显示分享来源(可选)*/
+    title:'${session_attr_user.userName}刚刚分享了$!{shop.name} (<a href="http://cn.weindex.ca/$!{shop.name}">链接地址</a>)', /**分享的文字内容(可选，默认为所在页面的title)*/
+    pic:'', /**分享图片的路径(可选)*/
+    //ralateUid:'', /**关联用户的UID，分享微博会@该用户(可选)*/
+	language:'zh_cn', /**设置语言，zh_cn|zh_tw(可选)*/
+    rnd:new Date().valueOf()
+  }
+  var temp = [];
+  for( var p in param ){
+    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+  }
+  document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
+})()
+</script>
+<br/>
+<br/>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/zh_CN/all.js#xfbml=1&appId=144269832392534";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-like" data-send="true" data-width="450" data-show-faces="true"></div>

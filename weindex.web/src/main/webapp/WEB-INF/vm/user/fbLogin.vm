@@ -1,0 +1,3 @@
+<div>
+<a href="https://www.facebook.com/dialog/oauth?client_id=144269832392534&state=${uuid}&redirect_uri=http://weindex.ca/user/fb/login/success.html">FaceBook Login</a>
+</div>

@@ -1,0 +1,143 @@
+<meta property="wb:webmaster" content="fb79501eb90a571b" />
+<style>
+.wrap{}   
+.section{float:left;margin-right:-40em;width:100%;}   
+.g1{margin-right:310px;float:none;width:auto;position:static;}   
+.g2{float:right;margin-left:-40em;width:100%;}   
+.main{float:none;width:auto;position:static;overflow:auto;margin-top:20px;} 
+.left{float:left;width:200px;position:relative;background:orange;display:none;} 
+.aside{float:right;width:300px;position:relative;margin-top:20px;}
+
+.main_tab{border:1px solid #888888; padding:5px;margin-bottom:10px;}
+.main_tab .sub{display:inline-block;width:33%;text-align:center;vertical-align:top;}  
+.main_tab .sub .line{border-right:1px solid #666666;}
+.main_tab .sub .type{display:inline-block;width:50%; text-align:center;}
+.main_tab .sub .more{text-align:right;}
+.banner{height:160px;border:1px solid #888888;text-align:center;vertical-align:middle;}
+
+.offer{margin-top:10px;}
+.offer .tab{display:inline-block;width:80px;text-align:center;}
+.offer .item{display:inline-block;width:180px;}
+.offer .name{text-align:center;}
+.offer .price{color:red;text-align:center;}
+
+.blog{margin-top:10px;}
+.blog .tab{display:inline-block;width:80px;text-align:center;}
+.blog .item{padding:10px;border-bottom:1px solid #AAAAAA;}
+
+.login{border:1px solid #AAAAAA;padding:5px;}
+.login .inputLine{margin-left:5px;margin-bottom:5px;}
+.login .inputLine .label{display:inline-block;width:65px;}
+.login input{width:205px;}
+.login_btn{display:inline-block;width:60px;height:21px;border:1px solid #888888;text-align:center;padding-top:5px;}
+.login .openshop{height:75px;border:1px solid #AAAAAA;margin-top:20px;margin-bottom:10px;margin-left:5px;margin-right:5px;}
+</style>
+<div class="wrap">   
+<div class="section">   
+<div class="g1">   
+<div class="g2">   
+<div class="main">
+	<div class="main_tab">
+		<div class="sub">
+			<div>店铺</div>
+			<div class="line"><div class="type">静物类</div><div class="type">节庆类</div></div>
+			<div class="line"><div class="type">卡通画</div><div class="type">交通类</div></div>
+			<div class="line"><div class="type">经典设计</div><div class="type">系统壁纸</div></div>
+			<div class="line"><div class="type">元素类</div><div class="type">体育类</div></div>
+			<div class="line"><div class="type">摄影壁纸</div><div class="type">&nbsp;</div></div>
+			<div class="more">更多&gt;</div>
+		</div>
+		<div class="sub">
+			<div>商品</div>
+			<div class="line"><div class="type">静物类</div><div class="type">节庆类</div></div>
+			<div class="line"><div class="type">卡通画</div><div class="type">交通类</div></div>
+			<div class="line"><div class="type">经典设计</div><div class="type">系统壁纸</div></div>
+			<div class="line"><div class="type">元素类</div><div class="type">体育类</div></div>
+			<div class="line"><div class="type">摄影壁纸</div><div class="type">&nbsp;</div></div>
+			<div class="more">更多&gt;</div>
+		</div>
+		<div class="sub">
+			<div>博文</div>
+			<div><div class="type">静物类</div><div class="type">节庆类</div></div>
+			<div><div class="type">卡通画</div><div class="type">交通类</div></div>
+			<div><div class="type">经典设计</div><div class="type">系统壁纸</div></div>
+			<div><div class="type">元素类</div><div class="type">体育类</div></div>
+			<div><div class="type">摄影壁纸</div><div class="type">&nbsp;</div></div>
+			<div class="more">更多&gt;</div>
+		</div>
+	</div>
+	<div class="banner">
+		Banner
+	</div>
+	<div class="offer">
+		<div class="title">商品<div class="tab selected">最新</div><div class="tab unselected">推荐</div></div>
+		<div>
+		#foreach($offer in $recentOffers) 
+			<div class="item">
+				<div style="padding-left:10px;"><img src="$offer.imgUrl" width="160px" /></div>
+				<div class="name"><a href="/offer/${offer.id}.html">${offer.name}</a></div>
+				<div class="price">${offer.price}</div>
+			</div>
+		#end		
+		</div>
+	</div>
+	<div class="blog">
+		<div class="title">博文<div class="tab selected">最新</div><div class="tab unselected">推荐</div></div>
+		<div>
+		#foreach($blog in $recentBlogs) 
+			<div class="item">
+				<div><a href="/blog/view/${blog.id}.html">${blog.title}</a></div>
+				<div>$!{bolg.summary}</div>
+			</div>
+		#end
+		</div>
+	</div>
+</div>  
+</div>   
+<div class="left"></div>  
+</div>  
+</div>  
+<div class="aside">
+	<div class="login">
+		<div class="inputLine"><div class="label">用户名：</div><input type="text" name="userName" /></div>
+		<div class="inputLine"><div class="label">密码：</div><input type="password" name="password" /></div>
+		<div style="text-align:center;"><div class="login_btn" style="margin-right:10px;">登录</div><div class="login_btn" style="margin-left:10px;">注册</div></div>
+		<div class="openshop">开店铺</div>
+	</div>
+</div>  
+</div>
+<div style="clear:both;"></div>
+
+<h1>This is home page</h1>
+<div><a href="/user/logout.html">Logout</a></div>
+<div>
+<h3>The Hot Offers</h3>
+<hr/>
+#foreach($offer in $hotOffers) 
+<div><a href="/offer/${offer.id}.html">${offer.name}</a></div>
+#end
+</div>
+<hr />
+<div>
+<h3>Recent Shops</h3>
+<hr/>
+#foreach($shop in $recentShops) 
+<div><a href="/${shop.name}">${shop.displayName}</a></div>
+#end
+</div>
+<hr />
+<div>
+<h3>Recent Offers</h3>
+<hr/>
+#foreach($offer in $recentOffers) 
+<div><a href="/offer/${offer.id}.html">${offer.name}</a></div>
+#end
+</div>
+<hr />
+<div>
+<h3>Recent Blogs</h3>
+<hr/>
+#foreach($blog in $recentBlogs) 
+<div><a href="/blog/view/${blog.id}.html">${blog.title}</a></div>
+#end
+</div>

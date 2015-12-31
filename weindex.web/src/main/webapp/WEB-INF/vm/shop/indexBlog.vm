@@ -1,0 +1,91 @@
+##<div class="menuBox">
+##	<a href="/${shop.name}">首 页</a>
+##    <a href="/${shop.name}?type=offer">商 品</a>
+##    <a href="/${shop.name}?type=blog" class="cur">博 文</a>
+##</div>
+        
+<!--店铺博文 begin-->
+<div class="box blog"> 	
+    <div class="p5"></div>
+     <div class="blogtitle">
+    <ul>
+	#foreach($blog in $blogList.list) 
+		<li><a href="/blog/view/${blog.id}.html">&nbsp;${blog.title}</a><div class="s"><span style="padding-right:15px;">${blog.commentNum}/${blog.visitNum}</span> <span>${blog.date}</span></div></li>
+	#end
+                ####if($blogList.list)
+                ####elseif($isOwner)
+                ###        <li>
+                ###                <font color=red>快快<a href="/blog/add.html">发布你的第一篇文章</a>，绑定微博，然后将文章定时发送微博吧</font></a>
+                ###        </li>
+                ####end
+
+    </ul>
+	</div>
+    <div class="p5"></div>
+</div>
+        
+<div class="p10 clear"></div>
+<!-- page begin -->
+#if($blogList.totalPage>1)
+<div class="pageNav">
+		#if($blogList.pageNum > 1)
+        	<a href="/${shop.name}?type=blog&pageNum=${blogList.previousPage}">上一页</a>
+        #end
+        #if($blogList.totalPage<=5)
+        	#foreach($i in [1..$blogList.totalPage])
+        		#if($i==$blogList.pageNum)
+        			<span class="cur">$i</span>
+        		#else
+        			<a href="/${shop.name}?type=blog&pageNum=$i">$i</a>
+        		#end
+        	#end
+        #else
+        	#if($blogList.pageNum<=3)
+        		#set($max=$blogList.pageNum+1)
+        		#foreach($i in [1..$max])
+	        		#if($i==$blogList.pageNum)
+    	    			<span class="cur">$i</span>
+        			#else
+        				<a href="/${shop.name}?type=blog&pageNum=$i">$i</a>
+        			#end
+        		#end
+        		<a>...</a>
+        		<a href="/${shop.name}?type=blog&pageNum=$blogList.totalPage">$blogList.totalPage</a>
+        	#elseif($blogList.pageNum>=$blogList.totalPage - 2)
+        		<a href="/${shop.name}?type=blog&pageNum=1">1</a>
+        		<a>...</a>
+        		#set($min=$blogList.pageNum - 1)
+        		#foreach($i in [$min..$blogList.totalPage])
+	        		#if($i==$blogList.pageNum)
+    	    			<span class="cur">$i</span>
+        			#else
+        				<a href="/${shop.name}?type=blog&pageNum=$i">$i</a><
+        			#end
+        		#end
+        	#else
+        		<a href="/${shop.name}?type=blog&pageNum=1">1</a>
+        		<a>...</a>
+        		#set($min=$blogList.pageNum - 1)
+        		#set($max=$blogList.pageNum+1)
+        		<a href="/${shop.name}?type=blog&pageNum=$min">$min</a>        	
+    	    	<span class="cur">$blogList.pageNum</span>
+        		<a href="/${shop.name}?type=blog&pageNum=$max">$max</a>        	
+        		<a>...</a>
+        		<a href="/${shop.name}?type=blog&pageNum=$blogList.totalPage">$blogList.totalPage</a>        	
+        	#end
+        #end
+		#if($blogList.pageNum < $blogList.totalPage)
+			<a href="/${shop.name}?type=blog&pageNum=${blogList.nextPage}">下一页</a>	
+        #end
+</div>
+#end
+<!-- page end -->
+
+      <div class="p10 clear"></div>
+        
+    </div>
+    <!--店铺右边 end-->
+    
+</div>
+
+<!-- main end --> 

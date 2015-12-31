@@ -1,0 +1,33 @@
+#set($layout = "/layout/loginLayout.vm")
+<!-- main begin -->
+<div class="w860 userLogin">
+	<!-- 登陆 begin -->
+	<div class="leftbox">
+    	<div class="fb f14">为您的微博帐号创建新用户</div>
+        <div class="p10"></div>
+       #if($msg)
+        <p style="color:red;">$msg</p>
+        <div class="p10"></div>
+        #end
+<form name="fbFrm" action="/user/weibo/create.html" method="POST">
+        <div class="li"><span class="t">用户名：</span><input type="text" class="ipt" name="userName" id="userName" value="$!{userName}" maxlength="16"></div>
+        <div class="li"><span class="t">密码：</span><input type="password" class="ipt" name="password" id="password" maxlength="30"></div>
+        <div class="li"><span class="t">重复输入密码：</span><input type="password" class="ipt" name="password2" id="password2" maxlength="30"></div>
+        ##<div class="li"><span class="t">&nbsp;</span><!--<div class="fl"><input type="checkbox" checked="checked" class="fl">&nbsp;下次自动登陆</div>--><div class="fr"><a href="#"><span class="yellow">忘记密码</span></a></div></div>
+        <div class="clear p10"></div>
+        <div class="li"><span class="t">&nbsp;</span><input type="submit" value="确 定" class="sub"></div>
+        </form>
+    </div>
+    <!-- 登陆 end --> 
+</div>
+
+<!-- main end --> 
+
+#**
+<div>
+<form name="fbFrm" action="/user/weibo/create.html" method="POST">
+<div>Name: <input type="text" name="name" maxlength="100" /></div>
+<div><input type="submit" value="Submit" /></div>
+</form>
+</div>
+**#

@@ -1,0 +1,178 @@
+#set($layout = "/layout/homeOfferLayout.vm")
+#if($type=='hot')
+	<div class="Shop">
+		#foreach($shop in $result.list) 
+    			<div class="ShopCon">
+    			    <div class="ShopConLeft">
+    			        <p class="ShopPic"><a href="/${shop.name}">#if($shop.logoUrl)<img src="$shop.logoUrl"/>#else<img src="/img/pic_shop_01.jpg"/>#end</a></p>
+    			        <p class="ShopName"><a href="/${shop.name}" target="_blank">${shop.displayName}</a></p>
+    			        ##<p class="ShopGzhu"><a href="/${shop.name}"><img src="/img/btn_Guanzhu.gif" width="62" height="22" /></a></p>
+    			        ##<p class="ShopIntro" style="width:280px;">$!{shop.desc}……</p>
+    			    </div>
+    			    <div class="ShopConRight">
+    			        <p>个性网址： <a href="/${shop.name}" target="_blank">www.weindex.ca/${shop.name}</a></p>
+    			        <p>商品数量： <span class="fc_ff0"> ${shop.offerNum}</span>　　文章数量： <span class="fc_ff0">${shop.blogNum}</span><span style="margin-left:20px;"> 所属类别：</span> <span class="fc_1e7">#foreach($l in $shop.labelList)#if($velocityCount>1), #end${l.cnName}#end</span></p>
+    			        ##<p>同城送货： <span class="fc_1e7">是</span></p>
+    			        <p>电　　话： <span class="fc_1e7">#if($shop.telephone)$!{shop.telephone}#else 604-xxx-xxxx #end &nbsp;</span><span style="margin-left:46px">   地　　址： </span><span class="fc_1e7">$!{shop.address}#if($shop.city), ${shop.city}#end &nbsp;</span></p>
+    			        <p>店铺公告：${shop.bulletin}</p>
+    			        <p class="ShopMore"><a href="/${shop.name}">more</a></p>
+    			    </div>
+    			</div>
+		#end
+	</div>
+#else
+	<div id="Con" class="latestShop">
+            <table id="shopList">
+                <tr><td>店铺logo</td><td>名字</td><td>类别</td><td>电话</td><td>城市</td></tr>
+
+        	#foreach($shop in $result.list)
+        	        <tr><td>#if($shop.logoUrl)<img src="$shop.logoUrl"/>#else<img src="/img/pic_shop_01.jpg"/>#end</td><td><a href="/${shop.name}" class="fl">${shop.name}</a></td><td>#foreach($l in $shop.labelList)#if($velocityCount>1), #end${l.cnName}#end</td><td>$!{shop.telephone}</td><td>#if($shop.city)${shop.city}#end</td></tr>
+        	#end
+ 	    </table>
+        </div>
+#end
+<!-- page begin -->
+#if($result.totalPage>1)
+	#if($type=='hot')
+		<div id="page">
+		    <ul>
+				#if($result.pageNum > 1)
+		        	<li><a href="/index/shop.html?pageNum=${result.previousPage}&type=hot">上一页</a></li>
+		        #end
+		        #if($result.totalPage<=5)
+		        	#foreach($i in [1..$result.totalPage])
+		        		#if($i==$result.pageNum)
+		        			<li class="pageActive"><a href="/index/shop.html?pageNum=$i&type=hot">$i</a></li>
+		        		#else
+		        			<li><a href="/index/shop.html?pageNum=$i&type=hot">$i</a></li>
+		        		#end
+		        	#end
+		        #else
+		        	#if($result.pageNum<=3)
+		        		#set($max=$result.pageNum+1)
+		        		#foreach($i in [1..$max])
+			        		#if($i==$result.pageNum)
+		    	    			<li class="pageActive"><a href="/index/shop.html?pageNum=$i&type=hot">$i</a></li>
+		        			#else
+		        				<li><a href="/index/shop.html?pageNum=$i&type=hot">$i</a></li>
+		        			#end
+		        		#end
+		        		<li>...</li>
+		        		<li><a href="/index/shop.html?pageNum=$result.totalPage&type=hot">$result.totalPage</a></li>
+		        	#elseif($result.pageNum>=$result.totalPage - 2)
+		        		<li><a href="/index/shop.html?pageNum=1&type=hot">1</a></li>
+		        		<li>...</li>
+		        		#set($min=$result.pageNum - 1)
+		        		#foreach($i in [$min..$$result.totalPage])
+			        		#if($i==$result.pageNum)
+		    	    			<li class="pageActive"><a href="/index/shop.html?pageNum=$i&type=hot">$i</a></li>
+		        			#else
+		        				<li><a href="/index/shop.html?pageNum=$i&type=hot">$i</a></li>
+		        			#end
+		        		#end
+		        	#else
+		        		<li><a href="/index/shop.html?pageNum=1&type=hot">1</a></li>
+		        		<li>...</li>
+		        		#set($min=$result.pageNum - 1)
+		        		#set($max=$result.pageNum+1)
+		        		<li><a href="/index/shop.html?pageNum=$min&type=hot">$min</a></li>        	
+		        		<li class="pageActive"><a href="/index/shop.html?pageNum=$result.pageNum&type=hot">$result.pageNum</a></li>        	
+		        		<li><a href="/index/shop.html?pageNum=$max&type=hot">$max</a></li>        	
+		        		<li>...</li>
+		        		<li><a href="/index/shop.html?pageNum=$result.totalPage&type=hot">$result.totalPage</a></li>        	
+		        	#end
+		        #end
+				#if($result.pageNum < $result.totalPage)
+					<li><a href="/index/shop.html?pageNum=${result.nextPage}&type=hot">下一页</a></li>	
+		        #end
+		    </ul>
+		</div>
+	#else
+                <div id="page">
+                    <ul>
+                                #if($result.pageNum > 1)
+                                <li><a href="/index/shop.html?pageNum=${result.previousPage}">上一页</a></li>
+                        #end
+                        #if($result.totalPage<=5)
+                                #foreach($i in [1..$result.totalPage])
+                                        #if($i==$result.pageNum)
+                                                <li class="pageActive"><a href="/index/shop.html?pageNum=$i">$i</a></li>
+                                        #else
+                                                <li><a href="/index/shop.html?pageNum=$i">$i</a></li>
+                                        #end
+                                #end
+                        #else
+                                #if($result.pageNum<=3)
+                                        #set($max=$result.pageNum+1)
+                                        #foreach($i in [1..$max])
+                                                #if($i==$result.pageNum)
+                                                <li class="pageActive"><a href="/index/shop.html?pageNum=$i">$i</a></li>
+                                                #else
+                                                        <li><a href="/index/shop.html?pageNum=$i">$i</a></li>
+                                                #end
+                                        #end
+                                        <li>...</li>
+                                        <li><a href="/index/shop.html?pageNum=$result.totalPage">$result.totalPage</a></li>
+                                #elseif($result.pageNum>=$result.totalPage - 2)
+                                        <li><a href="/index/shop.html?pageNum=1">1</a></li>
+                                        <li>...</li>
+                                        #set($min=$result.pageNum - 1)
+                                        #foreach($i in [$min..$$result.totalPage])
+                                                #if($i==$result.pageNum)
+                                                <li class="pageActive"><a href="/index/shop.html?pageNum=$i">$i</a></li>
+                                                #else
+                                                        <li><a href="/index/shop.html?pageNum=$i">$i</a></li>
+                                                #end
+                                        #end
+                                #else
+                                        <li><a href="/index/shop.html?pageNum=1">1</a></li>
+                                        <li>...</li>
+                                        #set($min=$result.pageNum - 1)
+                                        #set($max=$result.pageNum+1)
+                                        <li><a href="/index/shop.html?pageNum=$min">$min</a></li>
+                                        <li class="pageActive"><a href="/index/shop.html?pageNum=$result.pageNum">$result.pageNum</a></li>
+                                        <li><a href="/index/shop.html?pageNum=$max">$max</a></li>
+                                        <li>...</li>
+                                        <li><a href="/index/shop.html?pageNum=$result.totalPage">$result.totalPage</a></li>
+                                #end
+                        #end
+                                #if($result.pageNum < $result.totalPage)
+                                        <li><a href="/index/shop.html?pageNum=${result.nextPage}">下一页</a></li>
+                        #end
+                    </ul>
+                </div>
+	#end
+#end
+<!-- page end -->
+
+#**
+	<div class="shop">
+		<div class="title">店铺
+		#if($type=='hot')
+			<div class="tab unselected"><a href="/index/shop.html?type=new">最新</a></div><div class="tab unselected">推荐</div>
+		#else
+			<div class="tab selected">最新</div><div class="tab unselected"><a href="/index/shop.html?type=hot">推荐</a></div>
+		#end
+		</div>
+		<div id="newShop">
+		#foreach($shop in $result.list) 
+			<div class="item">
+				<div class="logo">Logo</div>
+				<div class="shopname"><a href="/${shop.name}">${shop.displayName}</a></div>
+			</div>
+		#end
+			<div class="more">
+			#if($result.pageNum > 1)
+				<a href="/index/shop.html?pageNum=1&type=${type}">第一页</a> <a href="/index/shop.html?pageNum=${result.previousPage}&type=${type}">上一页</a>
+			#end
+			共 $result.totalPage 页, 当前显示第 $result.pageNum 页
+			#if($result.pageNum < $result.totalPage)
+				<a href="/index/shop.html?pageNum=${result.nextPage}&type=${type}">下一页</a> <a href="/index/shop.html?pageNum=${result.totalPage}&type=${type}">最后一页</a>
+			#end			
+			</div>
+		</div>
+	</div>
+	**#
+<script language="JavaScript">
+showNav(1);
+</script>

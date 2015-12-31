@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WeiboAction">
+	<resultMap id="result" class="ca.weindex.common.model.WeiboAction">
+		<result property="id" column="ID" />
+		<result property="weiboUserId" column="WEIBO_USER_ID" />
+		<result property="weiboId" column="WEIBO_ID" />
+		<result property="weiboCommentId" column="WEIBO_COMMENT_ID" />
+		<result property="actionType" column="ACTION_TYPE" />
+		<result property="responseType" column="RESPONSE_TYPE" />
+		<result property="actionStatus" column="ACTION_STATUS" />
+		<result property="responseContent" column="RESPONSE_CONTENT" />
+		<result property="imageName" column="IMAGE_NAME" />
+		<result property="receivedTime" column="RECEIVED_TIME" />
+		<result property="responseTime" column="RESPONSE_TIME" />
+
+	</resultMap>
+
+	<insert id="insertWeiboAction">
+		insert into WEIBO_ACTION (WEIBO_USER_ID, WEIBO_ID, WEIBO_COMMENT_ID, ACTION_TYPE, RESPONSE_TYPE, ACTION_STATUS, RESPONSE_CONTENT, IMAGE_NAME, RECEIVED_TIME) values (#weiboUserId#, #weiboId#, #weiboCommentId#, #actionType#, #responseType#, #actionStatus#, #responseContent#, #imageName#, NOW())
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY AS ID
+		</selectKey>
+
+	</insert>
+
+	<select id="getNewActionList" resultMap="result">
+		select *
+		from WEIBO_ACTION
+		where WEIBO_USER_ID = #weiboUserId# and ACTION_STATUS=0 and ACTION_TYPE = #actionType#
+		order by RECEIVED_TIME asc 
+		limit 100
+	</select>
+
+	<select id="getAllNewActionList" resultMap="result">
+		select *
+		from WEIBO_ACTION
+		where  ACTION_STATUS=0 and ACTION_TYPE = #actionType#
+		order by RECEIVED_TIME asc 
+		limit 100
+	</select>
+
+
+	<select id="checkActionType0" resultClass="java.lang.Integer">
+		select count(*)
+		from WEIBO_ACTION where WEIBO_USER_ID = #weiboUserId# and WEIBO_ID = #weiboId# and ACTION_TYPE = 0
+	</select>
+
+	<select id="checkActionType1" resultClass="java.lang.Integer">
+		select count(*)
+		from WEIBO_ACTION where WEIBO_USER_ID = #weiboUserId# and WEIBO_ID = #weiboId# and WEIBO_COMMENT_ID = #weiboCommentId# and ACTION_TYPE = 1
+	</select>
+
+
+	<select id="checkActionType2" resultClass="java.lang.Integer">
+		select count(*)
+		from WEIBO_ACTION where WEIBO_USER_ID = #weiboUserId# and WEIBO_ID = #weiboId# and WEIBO_COMMENT_ID = #weiboCommentId# and ACTION_TYPE = 2
+	</select>
+
+
+	<select id="checkActionType3" resultClass="java.lang.Integer">
+		select count(*)
+		from WEIBO_ACTION where WEIBO_USER_ID = #weiboUserId# and WEIBO_ID = #weiboId# and ACTION_TYPE = 3
+	</select>
+
+
+	<update id="setActionComplete">
+		update WEIBO_ACTION SET ACTION_STATUS=1, RESPONSE_TIME = NOW() where ID = #value#
+	</update>
+
+
+
+	<select id="countNewAction" resultClass="java.lang.Integer">
+		select count(*)
+		from WEIBO_ACTION where ACTION_STATUS=0 and WEIBO_USER_ID = #weiboUserId# 
+	</select>
+
+
+	
+</sqlMap>

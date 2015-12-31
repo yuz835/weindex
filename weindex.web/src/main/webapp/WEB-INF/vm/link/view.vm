@@ -1,0 +1,204 @@
+<div class="f14 fb"></div>
+<div class="p10 clear"></div>
+<a href="/link/visitlink/$!{reddit.id}.html" target = "_blank"><font size=18px color=RED>$!{reddit.title}</font></a> </br>
+description: ${reddit.description} </br>
+<div id="likeReddit"><a href="javascript:void(0);" onclick="likeReddit('${reddit.id}')">up</a></div></br> 
+
+ <div id="likednum">${reddit.likedNum} </div></br>
+
+<div id="dislikeReddit"><a href="javascript:void(0);" onclick="dislikeReddit('${reddit.id}')">down</a></div></br>
+
+FavNum: <div id="favnum">${reddit.favNum} </div></br>
+
+<div id="favReddit"><a href="javascript:void(0);" onclick="favReddit('${reddit.id}')">Fav it</a></div></br>
+
+visitNum:  ${reddit.visitNum} </br>
+        </div>
+
+<!--评论 begin-->
+<div class="comments">
+    <div class="f14 fb">评论：</div>
+    <div class="p10"></div>
+#set($count=0)
+#set($marginnum=0)
+#foreach($comment in $commentList.list)
+    <div class="li">
+        <div class="p5"></div>
+	#set($marginnum= ${comment.level} * 35)
+        <p style="margin-left:${marginnum}px;">
+		${comment.content} [${comment.time}] 
+		<div id="likednumcomment_$count">|${comment.likedNum}</div>
+		<div id="likecomment_$count"><a href="javascript:void(0);" onclick="likeComment('${comment.id}', '$count')">like</a></div>
+		|
+		<div id="likecomment_$count"><a href="javascript:void(0);" onclick="dislikeComment('${comment.id}', '$count')">dislike</a></div>
+        </p>
+        <p style="margin-left:${marginnum}px;">
+		<a href="javascript:void(0);" onclick="deleteComment('${comment.id}')">删a</a>
+        	<a href="#" id="${comment.id}" class="comment_button" >回复</a>
+	</p>
+	<div id="slidepanel_addcomment_${comment.id}" class="comment_text">
+		<form name="commentFrm" id="commentform_${comment.id}" action="/link/comment/add.html" method="POST">
+			<input type="hidden" name="redditId" value="${reddit.id}" />
+			<input type="hidden" name="level" value="${comment.level}" />
+			<input type="hidden" name="commentId" value="${comment.id}" />
+			<div class="li"><textarea name="content" id="commentcontent_${comment.id}" style="width:390px;height:23px"></textarea></div>
+			<div class="p5"></div>
+			<div class="li"><input type="button" onclick="submitCommentForm('${comment.id}')" class="sub" value="发表评论"></div>
+		</form>
+	</div>
+    </div>
+    <div class="p10"></div>
+#set($count= $count+1)
+#end
+
+<script src="/js/jquery-1.8.3.min.js"></script>  
+<script language="JavaScript">
+## fix the $ conflict with velocity
+#set($dollar='$')
+
+function submitCommentForm(tag_num) {
+	var content = $("#commentcontent_"+tag_num).val();
+	if (content == null || content.length == 0) {
+		alert("请输入评论内容");
+		return;
+	}
+	var tmp = content.split(" ");
+	if (tmp.length >= content.length) {
+		alert("评论内容不能全为空格");
+		return;
+	}
+	if (content.length > 150) {
+		alert("评论内容长度不能超过 150 个字符");
+		return;
+	}
+	$("#commentform_"+tag_num).submit();
+}
+
+
+
+$(document).ready(function() {
+	$(".comment_text").hide();
+	$(".comment_button").click(function(){
+		var element = $(this);
+		var I = element.attr("id");
+		$("#slidepanel_addcomment_"+I).slideToggle(300);
+		$(this).toggleClass("active");
+		return false;
+	});
+});
+
+
+function deleteComment(id) {
+	if (confirm("确认要删除这条评论?")) {
+		window.open("/link/comment/del.html?id=" + id, "_self");
+	}
+}
+
+
+function likeComment(id, tag_num) {
+		${dollar}.ajax({		
+	  		url: "/link/likecomment/"+ id + ".html",
+	  		type: "GET",
+  			datatype: "json",
+	  		cache: false,
+    			error:function(){  
+                		alert("error occured!!!");  
+             		},  
+	  		success: function(responseText){
+  				var result = eval('(' + responseText + ')');
+    				if(result.result == 'success') {
+					$("#likednumcomment_"+tag_num).html(result.likednum);  
+				} else {
+                			alert("Please login to vote this thread...");  
+				};
+	  		}
+		});
+
+}
+
+
+function dislikeComment(id, tag_num) {
+		${dollar}.ajax({		
+	  		url: "/link/dislikecomment/" + id + ".html",
+	  		type: "GET",
+  			datatype: "json",
+	  		cache: false,
+    			error:function(){  
+                		alert("error occured!!!");  
+             		},  
+	  		success: function(responseText){
+  				var result = eval('(' + responseText + ')');
+    				if(result.result == 'success') {
+					$("#likednumcomment_"+tag_num).html(result.likednum);  
+				} else {
+                			alert("Please login to vote this thread...");  
+				};
+	  		}
+		});
+
+}
+
+
+
+function likeReddit(id) {
+		${dollar}.ajax({		
+	  		url: "/link/likelink/" + id + ".html",
+	  		type: "GET",
+  			datatype: "json",
+	  		cache: false,
+    			error:function(){  
+                		alert("error occured!!!");  
+             		},  
+	  		success: function(responseText){
+	    			##alert(data);
+  				var result = eval('(' + responseText + ')');
+    				if(result.result == 'success') {
+					$("#likednum").html(result.likednum);  
+				} else {
+                			alert("Please login to vote this thread...");  
+				};
+	  		}
+		});
+};
+
+function dislikeReddit(id) {
+		${dollar}.ajax({		
+	  		url: "/link/dislikelink/" + id + ".html",
+	  		type: "GET",
+  			datatype: "json",
+	  		cache: false,
+    			error:function(){  
+                		alert("error occured!!!");  
+             		},  
+	  		success: function(responseText){
+  				var result = eval('(' + responseText + ')');
+    				if(result.result == 'success') {
+					$("#likednum").html(result.likednum); 
+				} else {
+                			alert("Please login to vote this thread...");  
+				}; 
+	  		}
+		});
+};
+
+function favReddit(id) {
+		${dollar}.ajax({		
+	  		url: "/link/favlink/" + id + ".html",
+	  		type: "GET",
+  			datatype: "json",
+	  		cache: false,
+    			error:function(){  
+                		alert("error occured!!!");  
+             		},  
+	  		success: function(responseText){
+  				var result = eval('(' + responseText + ')');
+    				if(result.result == 'success') {
+					$("#favnum").html(result.favnum); 
+				} else {
+                			alert("Please login to vote this thread...");  
+				}; 
+	  		}
+		});
+};
+</script>
+

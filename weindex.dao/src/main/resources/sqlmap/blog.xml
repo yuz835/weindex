@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Blog">
+	<resultMap id="result" class="ca.weindex.common.model.Blog">
+		<result property="id" column="ID" />
+		<result property="shopId" column="SHOP_ID" />
+		<result property="author" column="AUTHOR" />
+		<result property="title" column="TITLE" />
+		<result property="summary" column="SUMMARY" />
+		<result property="label" column="LABEL" />
+		<result property="shopLabel" column="SHOP_LABEL" />
+		<result property="content" column="CONTENT" typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler" />
+		<result property="visible" column="VISIBLE" />
+		<result property="visitNum" column="VISIT_NUM" />
+		<result property="pos" column="POS" />
+		<result property="commentNum" column="COMMENT_NUM" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+	</resultMap>
+
+	<select id="getBlog" resultMap="result">
+		select *
+		from BLOG
+		where ID = #value#
+	</select>
+	
+	<select id="getBlogByShopId" resultMap="result">
+		select ID, SHOP_ID, AUTHOR, TITLE, SUMMARY, CONTENT, LABEL, SHOP_LABEL, VISIBLE, VISIT_NUM, COMMENT_NUM, POS, CREATE_TIME, UPDATE_TIME
+		from BLOG
+		where SHOP_ID = #value# 
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countBlogByShopId" resultClass="java.lang.Integer">
+		select count(*)
+		from BLOG
+		where SHOP_ID = #value# 
+	</select>
+	
+	<insert id="insertBlog">
+		insert into BLOG (SHOP_ID, TITLE, AUTHOR, SUMMARY, LABEL, SHOP_LABEL, CONTENT, VISIBLE, CREATE_TIME, UPDATE_TIME) values (#shopId#, #title#, #author#, #summary#, #label#, #shopLabel#, #content#, #visible#, NOW(), NOW())
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY AS ID
+		</selectKey>
+	</insert>
+	
+	<update id="updateBlog">
+		update BLOG SET TITLE = #title#, AUTHOR = #author#, SUMMARY = #summary#, LABEL = #label#, SHOP_LABEL = #shopLabel#, CONTENT = #content#, VISIBLE = #visible#, UPDATE_TIME = NOW() where ID = #id#
+	</update>
+	
+	<delete id="deleteBlog">
+		delete from BLOG where ID=#value#
+	</delete>
+	
+	<select id="countBlog" resultClass="java.lang.Integer">
+		select count(*)
+		from BLOG
+	</select>
+	
+	<select id="getRecentBlog" resultMap="result">
+		select *
+		from BLOG
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="getBlogByLabelId" resultMap="result">
+		select ID, SHOP_ID, TITLE, AUTHOR, SUMMARY, CONTENT, LABEL, SHOP_LABEL, VISIBLE, VISIT_NUM, COMMENT_NUM, CREATE_TIME, POS, UPDATE_TIME
+		from BLOG
+		where LABEL = #value# or LABEL like '$value$,%' or LABEL like '%,$value$,%' or LABEL like '%,$value$'
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countBlogByLabelId" resultClass="java.lang.Integer">
+		select count(*)
+		from BLOG
+		where LABEL = #value# or LABEL like '$value$,%' or LABEL like '%,$value$,%' or LABEL like '%,$value$'
+	</select>
+
+	<select id="getBlogByShopLabelId" resultMap="result">
+		select ID, SHOP_ID, TITLE, AUTHOR, SUMMARY, CONTENT, LABEL, SHOP_LABEL, VISIBLE, VISIT_NUM, COMMENT_NUM, POS, CREATE_TIME, UPDATE_TIME
+		from BLOG
+		where SHOP_ID = #shopId# and ( LABEL = #labelId# or LABEL like '$labelId$,%' or LABEL like '%,$labelId$,%' or LABEL like '%,$labelId$' )
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countBlogByShopLabelId" resultClass="java.lang.Integer">
+		select count(*)
+		from BLOG
+		where SHOP_ID = #shopId# and ( LABEL = #labelId# or LABEL like '$labelId$,%' or LABEL like '%,$labelId$,%' or LABEL like '%,$labelId$' )
+	</select>
+	
+	<select id="getBlogByShopShopLabelId" resultMap="result">
+		select ID, SHOP_ID, TITLE, AUTHOR, SUMMARY, CONTENT, LABEL, SHOP_LABEL, VISIBLE, VISIT_NUM, COMMENT_NUM, POS, CREATE_TIME, UPDATE_TIME
+		from BLOG
+		where SHOP_ID = #shopId# and ( SHOP_LABEL = #labelId# or SHOP_LABEL like '$labelId$,%' or SHOP_LABEL like '%,$labelId$,%' or SHOP_LABEL like '%,$labelId$' )
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countBlogByShopShopLabelId" resultClass="java.lang.Integer">
+		select count(*)
+		from BLOG
+		where SHOP_ID = #shopId# and ( SHOP_LABEL = #labelId# or SHOP_LABEL like '$labelId$,%' or SHOP_LABEL like '%,$labelId$,%' or SHOP_LABEL like '%,$labelId$' )
+	</select>
+	
+	<select id="getBlogLabelsByShopId" resultClass="java.lang.String">
+		select distinct(LABEL)
+		from BLOG
+		where SHOP_ID = #value#
+		order by ID desc
+	</select>
+
+	<update id="addBlogVisitNum">
+		update BLOG SET VISIT_NUM = VISIT_NUM+1 where ID = #id#
+	</update>
+	
+	<update id="updateBlogCommentNum">
+		update BLOG SET COMMENT_NUM = #commentNum# where ID = #id#
+	</update>
+	
+	<update id="updateBlogPosByShopId">
+		update BLOG SET POS = 0 where SHOP_ID = #value#
+	</update>
+	
+	<update id="updateBlogPos">
+		update BLOG SET POS = #pos# where ID = #id#
+	</update>
+	
+	
+</sqlMap>

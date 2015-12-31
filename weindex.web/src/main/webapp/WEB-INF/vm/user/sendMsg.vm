@@ -1,0 +1,47 @@
+#set($layout = "/layout/loginLayout.vm")
+<script>
+function submitForm() {
+	var content = $("#msgcontent").val();
+	if (content == null || content.length == 0) {
+		alert("消息内容不能为空");
+		return;
+	}
+	var tmp = content.split(" ");
+	if (tmp.length >= content.length) {
+		alert("消息内容不能全为空格");
+		return;
+	}
+	if (content.length > 150) {
+		alert("消息内容长度不能超过 150 个字符");
+		return;
+	}
+	$("#msgform").submit();
+}
+</script>
+<!-- main begin -->
+<div class="w600 myMsgBox">
+	<div class="p20"></div>
+	<div class="f14 fb">向 <a href="/user/profile/${user.id}.html">${user.userName}</a> 发送消息</div>
+    <div class="p10"></div>
+	<form name="msgFrm" id="msgform" action="/user/message.html" method="POST">
+		<input type="hidden" name="destId" value="${user.id}" />
+		<div class="li"><span class="f14 fl">消息：</span> <textarea name="content" id="msgcontent" class="txa"></textarea></div>
+		<div class="p5"></div>
+		<div class="li"><input type="button" onclick="submitForm()" class="sub" value="发送"></div>
+	</form>
+	<div class="p10"></div>
+	
+    <div class="tit">
+    	<div class="fl">共有 <span class="red">${list.size()}</span> 条消息</div>
+    </div>
+    <div class="p5"></div>
+#foreach($m in $list)
+    <div class="li"><div class="fr">${m.createTime}</div><!--<input type="checkbox">--> <span>${m.source} -&gt; ${m.dest}: ${m.contentText}</span></div>
+#end    
+    
+    <div class="p10 clear"></div>
+    
+    ##<div><input type="submit" class="gsub" value="删除"></div>
+</div>
+
+<!-- main end --> 

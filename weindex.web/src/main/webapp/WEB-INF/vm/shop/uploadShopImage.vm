@@ -1,0 +1,62 @@
+#set($layout = "/layout/shopLayout.vm")
+
+<!--店铺博文 begin-->
+<div class="blog fl w800"> 	
+#if($toolarge)
+	<div style="color:red;">图片大小不能超过 500K, 请重新上传</div>
+    <div class="p5"></div>
+#end
+<form method="POST" action="/shop/uploadImage.html" id="imgform" enctype="multipart/form-data">
+<input type="hidden" name="shopName" value="${shopName}" />
+<input type="hidden" name="imgType" value="${imgType}" />
+    <div class="p5"></div>
+    ##zhangeth 2013/04/15 <div class="f14 fb">#if($imgType=='banner')修改店铺 Banner 图片#else修改店铺 Logo 图片#end</div>
+    <div class="f14 fb">#if($imgType=='banner')修改店铺顶部横幅图片(1000x220)#else修改店铺头像Logo#end</div>
+    <div class="p10 clear"></div>
+    <div class="dli"><span class="f14 fl">上传图片：</span> <input type="file" name="file" id="imgfile" ><input type="button" onclick="submitForm()" value="上 传" class="gsub"></div>
+</form>
+#if($imgType == 'logo')
+    <div class="p10 clear"></div>
+    <div class="dli"><span class="f14 fl">或者：</span>  <input type="button" value="使用我的微博头像" class="gsub" onclick="useWeibo()">  <input type="button" value="使用我的 Facebook 头像" class="gsub" onclick="useFb()"></div>
+#end
+</div>
+<div class="p10 clear"></div>
+<script>
+function submitForm() {
+    var file = $("#imgfile").val();
+    if(file == null || file == "") {
+    	alert("请选择图片");
+    	return;
+    }
+    file = file.toLowerCase();
+    if (file.indexOf(".") == -1) {
+    	alert("请选择格式为 JPG/PNG/GIF/BMP 的图片文件上传");
+    	return;
+    }
+    var extname = file.substring(file.lastIndexOf(".") + 1);
+    if (extname != "jpg" && extname != "jpeg" && extname != "png" && extname != "gif" && extname != "bmp") {
+    	alert("请选择格式为 JPG/PNG/GIF/BMP 的图片文件上传");
+    	return;
+    }
+    $("#imgform").submit();
+}
+
+function useWeibo() {
+	if (confirm("确认要使用微博头像作为商铺 LOGO?")) {
+		window.open("/shop/useWeiboLogo.html?shopId=${shop.id}", "_self");
+	}
+}
+function useFb() {
+	if (confirm("确认要使用 Facebook 头像作为商铺 LOGO?")) {
+		window.open("/shop/useFbLogo.html?shopId=${shop.id}", "_self");
+	}
+}
+</script>
+#**
+<div>Please Choose an image file:</div>
+<form method="POST" action="/offer/uploadImage.html" enctype="multipart/form-data">
+<input type="hidden" name="offerId" value="${offerId}" />
+<input type="file" name="file" />
+<input type="submit" name="Submit" value="Submit" />
+</form>
+**#

@@ -1,0 +1,79 @@
+#set($layout = "/layout/shopLayout.vm")
+#parse('shop/bulletin.vm')
+
+<!--店铺博文 begin-->
+<div class="box blog"> 	
+    <div class="p5"></div>
+    <ul>
+	#foreach($blog in $blogList.list) 
+		<li><a href="/blog/view/${blog.id}.html" target="_blank">${blog.title}</a><div class="s"><span style="padding-right:15px;">点击率${blog.visitNum}</span> <span style="padding-right:15px;">评论${blog.commentNum}</span> <span>${blog.date}</span></div></li>
+	#end
+    </ul>
+    <div class="p5"></div>
+</div>
+        
+<div class="p10 clear"></div>
+<!-- page begin -->
+#if($blogList.totalPage>1)
+<div class="pageNav">
+		#if($blogList.pageNum > 1)
+        	<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=${blogList.previousPage}">上一页</a>
+        #end
+        #if($blogList.totalPage<=5)
+        	#foreach($i in [1..$blogList.totalPage])
+        		#if($i==$blogList.pageNum)
+        			<span class="cur">$i</span>
+        		#else
+        			<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$i">$i</a>
+        		#end
+        	#end
+        #else
+        	#if($blogList.pageNum<=3)
+        		#set($max=$blogList.pageNum+1)
+        		#foreach($i in [1..$max])
+	        		#if($i==$blogList.pageNum)
+    	    			<span class="cur">$i</span>
+        			#else
+        				<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$i">$i</a>
+        			#end
+        		#end
+        		<a>...</a>
+        		<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$blogList.totalPage">$blogList.totalPage</a>
+        	#elseif($blogList.pageNum>=$blogList.totalPage - 2)
+        		<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=1">1</a>
+        		<a>...</a>
+        		#set($min=$blogList.pageNum - 1)
+        		#foreach($i in [$min..$blogList.totalPage])
+	        		#if($i==$blogList.pageNum)
+    	    			<span class="cur">$i</span>
+        			#else
+        				<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$i">$i</a><
+        			#end
+        		#end
+        	#else
+        		<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=1">1</a>
+        		<a>...</a>
+        		#set($min=$blogList.pageNum - 1)
+        		#set($max=$blogList.pageNum+1)
+        		<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$min">$min</a>        	
+    	    	<span class="cur">$blogList.pageNum</span>
+        		<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$max">$max</a>        	
+        		<a>...</a>
+        		<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$blogList.totalPage">$blogList.totalPage</a>        	
+        	#end
+        #end
+		#if($blogList.pageNum < $blogList.totalPage)
+			<a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${labelId}&pageNum=${blogList.nextPage}">下一页</a>	
+        #end
+</div>
+#end
+<!-- page end -->
+
+      <div class="p10 clear"></div>
+        
+    </div>
+    <!--店铺右边 end-->
+    
+</div>
+
+<!-- main end --> 

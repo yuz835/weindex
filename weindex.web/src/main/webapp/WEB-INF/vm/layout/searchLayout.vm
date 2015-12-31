@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+  <title>经商知道</title>
+  <meta http-equiv="pragma" content="no-cache" />
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/weindex-index.css">
+##<link rel="stylesheet" href="/css/weindex.css">
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<script src="/js/jquery-1.8.3.min.js"></script>  
+<script src="/js/jquery.wookmark.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/weindex.js" ></script>
+<style>
+a{text-decoration:none;}
+##a:link,a:visited,a:active,a:hover{text-decoration:none;color:#0667AC;}
+</style>
+</head>
+<body>
+#parse('common/header.vm')
+<!-- main begin -->
+<div class="main">
+        <div class="Nav">
+            <ul>
+            <li id="nav_3"><a href="/index/blog.html?type=hot">博文</a></li>
+            <li id="nav_1"><a href="/index/shop.html?type=hot">店铺</a></li>
+            <li id="nav_2"><a href="/index/offer.html?type=hot">商品</a></li>
+              <li><a href="http:/search/map.html">地图版</a></li>
+		 ##zhangeth 2013/04/17 <li style="float:right;border:none;background:none;font-size:14px;text-decoration:underline;vertical-align:bottom;padding-top:10px;"><a href="http:/search/map.html">地图版</a></li>
+            </ul>
+        </div>
+    <!-- left begin -->
+    <div class="left" style="min-height:350px;">
+        <div class="warp">
+            <div class="warpLeft">
+$screen_content
+            </div>
+##            #if(!($ismap==true))
+##            <div class="warpRight">
+####                <div class="MenuGuanzhu"><a href="#"><img src="/img/btn_Guanzhu.gif" width="62" height="22" /></a><span>32.6万</span></div>
+##                <div class="banner"><img src="/img/banner_01.jpg" width="222"/></div>
+##             </div>
+##             #end
+        </div>
+    </div>
+    <!-- left end -->
+    <!-- right begin -->
+    <div class="right">
+            <!-- login begin -->
+			#parse('common/userInfo.vm')
+            <!-- login end -->  
+    </div>
+    <!-- right end -->
+</div>
+<!-- main end -->
+#parse('common/footer.vm')
+<script type="text/javascript">
+var koffset = 14;
+var kitemwidth = 218;
+var kskitemwidth = kitemwidth + koffset;
+var minpad = 32;
+
+function resetpad() {
+	var kswidth = $(window).width();
+	var ksval = kswidth - 575;
+	var kspad = 0;
+
+	for (var i=0; i<100; i++)
+	{
+		if (ksval - kskitemwidth*i >= 2*minpad && ksval - kskitemwidth*i < kskitemwidth+2*minpad)
+		{
+			kspad = (ksval - kskitemwidth*i)/2;
+			break;
+		}
+	}
+	kspad = 0;
+	$(".warpLeft").css("margin-right",(575+2*kspad)+"px");
+	$(".warpLeft").css("width", (kswidth - 575) + "px");
+	$(".warpRight").css("margin-right",(337+kspad)+"px");
+	$(".Nav").css("margin-right",(350+2*kspad)+"px");
+	$(".right").css("right",kspad+"px");
+	$(".left").css("padding-left",(336+kspad)+"px");
+
+}
+window.onload = function(){
+	//resetpad();
+      // Prepare layout options.
+      var options = {
+		align: 'left',
+        autoResize: true, // This will auto-update the layout when the browser window is resized.
+        container: $('#Content'), // Optional, used for some extra CSS styling
+        offset: koffset, // Optional, the distance between grid items
+        itemWidth: kitemwidth // Optional, the width of a grid item
+      };
+      // Get a reference to your grid items.
+      var handler = $('#tiles li');
+
+      // Call the layout function.
+      handler.wookmark(options);
+
+      // Capture clicks on grid items.
+      
+      
+      // search
+      $(".searchClassBtn").click(function(){
+    	  $(".searchCon").toggle();
+      });
+      
+      $("body").click(function(e){
+    	  if(!$(e.target).is('.searchClassBtn')){
+    		  $(".searchCon").hide();
+          }
+      });
+      
+      $(".searchCon li").click(function(){
+    	  $("#stype").val($(this).html());
+      });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+test diff blog view code
+--此行及以下内容将会被忽略--
+
+M    java/ca/weindex/web/controller/BlogController.java
+M    webapp/WEB-INF/vm/blog/view.vm

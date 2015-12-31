@@ -1,0 +1,75 @@
+#set($layout = "/layout/shopLayout.vm")
+###parse('shop/bulletin.vm')
+##
+###if($shop.desc)
+##<!--店铺简介 begin-->
+##<div class="box news">
+##    <div class="f14 fb">店铺简介</div>
+##    <div class="p5"></div>
+##    <div class="f14">${shop.desc}</div>
+##    <div class="p5"></div>
+##</div>
+##        
+##<div class="p5 "></div>
+###end
+#if($type=='offer')
+	#parse('shop/indexOffer.vm')
+#elseif($type=='blog')
+	#parse('shop/indexBlog.vm')
+#else
+	#parse('shop/indexMain.vm')
+#end
+
+#**
+			<div class="shop_announce">店铺公告</div>
+			<div class="shop_type_tab"><a href="/shop/view/${shop.name}.html?type=offer">商品</a>|<a href="/shop/view/${shop.name}.html?type=blog">博文</a></div>
+		#if($type=='offer')
+			#foreach($offer in $offerList.list)
+			<div class="shop_offer">
+				<div class="shop_offer_left">
+					<a href="/offer/view/${offer.id}.html"><img src="$offer.imgUrl" width="100px" /></a>
+				</div>
+				<div class="shop_offer_right">
+					<div class="shop_offer_title"><a href="/offer/view/${offer.id}.html">$offer.name</a></div>
+					<div>$offer.desc</div>
+					<div>类别: $!{offer.label}</div>
+				</div>
+			</div>
+			#end
+			<div>
+			#if($offerList.pageNum > 1)
+				<a href="/shop/view/$!{shop.name}.html?type=offer&pageNum=1">第一页</a> <a href="/shop/view/$!{shop.name}.html?type=offer&pageNum=${offerList.previousPage}">上一页</a>
+			#end
+			共 $offerList.totalPage 页, 当前显示第 $offerList.pageNum 页
+			#if($offerList.pageNum < $offerList.totalPage)
+				<a href="/shop/view/$!{shop.name}.html?type=offer&pageNum=${offerList.nextPage}">下一页</a> <a href="/shop/view/$!{shop.name}.html?type=offer&pageNum=${offerList.totalPage}">最后一页</a>
+			#end
+			</div>
+		#elseif($type=='blog')
+			<div>
+			#foreach($blog in $blogList.list) 
+				<div class="shop_blog">
+					<div><a href="/blog/view/${blog.id}.html">${blog.title}</a></div>
+					<div>$!{bolg.summary}</div>
+				</div>
+			#end
+			</div>
+			<div>
+			#if($blogList.pageNum > 1)
+				<a href="/shop/view/$!{shop.name}.html?type=blog&pageNum=1">第一页</a> <a href="/shop/view/$!{shop.name}.html?type=blog&pageNum=${blogList.previousPage}">上一页</a>
+			#end
+			共 $blogList.totalPage 页, 当前显示第 $blogList.pageNum 页
+			#if($blogList.pageNum < $blogList.totalPage)
+				<a href="/shop/view/$!{shop.name}.html?type=blog&pageNum=${blogList.nextPage}">下一页</a> <a href="/shop/view/$!{shop.name}.html?type=blog&pageNum=${blogList.totalPage}">最后一页</a>
+			#end
+			</div>		
+		#end
+		</div>
+**#
+#if($commentList.pageNum==1)
+<div style="display:none" id="clickDiv"></div>
+<script>
+var html = "<img src=\"/shop/visitlogo/${shop.id}.html\"/>";
+$("#clickDiv").html(html);
+</script>
+#end

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OfferImage">
+	<resultMap id="result" class="ca.weindex.common.model.OfferImage">
+		<result property="id" column="ID" />
+		<result property="offerId" column="OFFER_ID" />
+		<result property="name" column="NAME" />
+		<result property="desc" column="DESCRIPTION" />
+		<result property="type" column="TYPE" />
+		<result property="img" column="IMG" typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler" />
+		<result property="offerLogo" column="OFFER_LOGO" />
+		<result property="thumbType" column="THUMBTYPE" />
+	</resultMap>
+
+	<select id="getOfferImage" resultMap="result">
+		select *
+		from OFFER_IMAGE
+		where ID = #value#
+	</select>
+
+	<select id="getOfferImageByOfferId" resultMap="result">
+		select *
+		from OFFER_IMAGE
+		where OFFER_ID = #value#
+	</select>
+	
+	<select id="getOfferImageByNameType" resultMap="result">
+		select *
+		from OFFER_IMAGE
+		where NAME = #name# and TYPE = #type#
+	</select>
+	
+	<insert id="insertOfferImage">
+		insert into OFFER_IMAGE (OFFER_ID, NAME, DESCRIPTION, TYPE, OFFER_LOGO, IMG, THUMBTYPE) values (#offerId#, #name#, #desc#, #type#, #offerLogo#, #img#, #thumbType#)
+	</insert>
+	
+	<update id="updateOfferImage">
+		update OFFER_IMAGE SET  Name = #name#, DESCRIPTION = #desc#, TYPE = #type#,  IMG = #img#, OFFER_LOGO = #offerLogo#, THUMBTYPE = #thumbType# where ID = #id#
+	</update>
+
+
+	<delete id="deleteOfferImage">
+		delete from OFFER_IMAGE where ID = #value#
+	</delete>
+	
+	<update id="updateOfferImageLogo">
+		update OFFER_IMAGE SET OFFER_LOGO = #offerLogo# where ID = #id#
+	</update>
+</sqlMap>

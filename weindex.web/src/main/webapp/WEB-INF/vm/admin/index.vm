@@ -1,0 +1,41 @@
+<table>
+<tr>
+<td>ID</td>
+<td>UserName</td>
+<td>EMail</td>
+<td>Weibo</td>
+<td>Facebook</td>
+<td>isAdmin</td>
+<td>Country</td>
+<td>City</td>
+<td>Street</td>
+<td>Zip</td>
+<td></td>
+</tr>
+#foreach($u in $list) 
+<tr>
+<td>$!{u.id}</td>
+<td>$!{u.userName}</td>
+<td>$!{u.email}</td>
+<td>$!{u.weiboId}</td>
+<td>$!{u.facebookId}</td>
+<td>$!{u.isAdmin()}</td>
+<td>$!{u.country}</td>
+<td>$!{u.city}</td>
+<td>$!{u.street}</td>
+<td>$!{u.zip}</td>
+<td>
+#if(${u.isAdmin()}) 
+<a href="/admin/admin/remove.html?id=${u.id}">Remove Admin</a>
+#else
+<a href="/admin/admin/set.html?id=${u.id}">Set Admin</a>
+#end
+</td>
+</tr>
+#end
+</table>
+<hr />
+<div><a href="/admin/offer/list.html">Manage Homepage Offers</a></div>
+<div><a href="/admin/label.html">Manage Labels</a></div>
+<div><a href="/admin/genthumbs.html"><font color =RED>generate thumbs (don't click unless I told u to do it!!!)</font></a></div>
+

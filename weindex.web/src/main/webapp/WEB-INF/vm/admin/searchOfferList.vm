@@ -1,0 +1,30 @@
+<div>
+<form name="searchFrm" action="/admin/offer/search.html" method="GET">
+<input type="text" name="keyword" size="30" maxlength="100" />
+<input type="submit" value="Submit" />
+</form>
+</div>
+<div>
+<table>
+<tr>
+<td>ID</td>
+<td>Name</td>
+<td>Desc</td>
+<td>Label</td>
+<td>Img</td>
+<td>Price</td>
+<td>&nbsp;</td>
+</tr>
+#foreach($offer in $list)
+<tr>
+<td>$offer.id</td>
+<td>$offer.name</td>
+<td>$offer.desc</td>
+<td>$offer.label</td>
+<td><img src="$offer.imgUrl" width="200" /></td>
+<td>$offer.price</td>
+<td><a href="/admin/offer/add.html?id=${offer.id}" />Add</a></td>
+</tr>
+#end
+</table>
+</div>

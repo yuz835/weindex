@@ -1,0 +1,63 @@
+/* header begin */
+.header_banner{width:960px; height:70px;background-color:#000000;color:#aaaaaa;font-size:12px;}
+.header_logo{display:inline-block; width:100px; height:38px; border:2px solid #222222;text-align:center;padding-top:22px;}
+.header_info{display:inline-block;height:60px;vertical-align:top;position: absolute;right: 10px;padding-top:15px;padding-right:30px;}
+/* header end */
+
+/* footer begin */
+.footer{width:960px;height:30px;background:#556069;clear:both;margin-top:10px;}
+.footer_content{display:inline-block;padding-top:10px;padding-left:35px;color:#cccccc;font-size:12px;}
+.footer_copyright{display:inline-block;padding-left:30px;margin-top:10px;font-size:12px;color:#cccccc;}
+/* footer end */
+
+/* search bar begin */
+.searchbanner{width:960px; background-color:#eeeeee;height:50px;padding-top:10px;}
+.searchbanner_tabdiv{display:inline-block; margin-top:8px;width:100px;text-align:center;}
+.searchbanner_searchdiv{display:inline-block;position: absolute;right: 20px;}
+.searchbanner .searchBtn{display:inline-block;height:28px;width:150px;text-align:center;padding-top:10px;color:#FFFFFF;background-color:red;}
+/* search bar end */
+
+/* index page begin */
+.wrap{}   
+.section{float:left;margin-right:-40em;width:100%;}   
+.g1{margin-right:310px;float:none;width:auto;position:static;}   
+.g2{float:right;margin-left:-40em;width:100%;}   
+.main{float:none;width:auto;position:static;overflow:auto;margin-top:20px;} 
+.left{float:left;width:200px;position:relative;background:orange;display:none;} 
+.aside{float:right;width:300px;position:relative;margin-top:20px;}
+
+.main_tab{border:1px solid #888888; padding:5px;margin-bottom:10px;}
+.main_tab .sub{display:inline-block;width:33%;text-align:center;vertical-align:top;}  
+.main_tab .sub .line{border-right:1px solid #666666;}
+.main_tab .sub .type{display:inline-block;width:49%; text-align:center;}
+.main_tab .sub .more{text-align:right;padding-right:15px;}
+.banner{height:160px;border:1px solid #888888;text-align:center;vertical-align:middle;}
+
+.offer{margin-top:10px;}
+.offer .tab{display:inline-block;width:80px;text-align:center;}
+.offer .item{display:inline-block;width:180px;height:204px;vertical-align:bottom;}
+.offer .more{text-align:right;margin:5px;padding-right:40px;}
+.offer .name{text-align:center;height:20px;}
+.offer .price{color:red;text-align:center;height:20px;}
+
+.blog{margin-top:10px;}
+.blog .tab{display:inline-block;width:80px;text-align:center;}
+.blog .item{padding:10px;border-bottom:1px solid #AAAAAA;}
+.blog .more{text-align:right;margin:5px;padding-right:40px;}
+
+.login{border:1px solid #AAAAAA;padding:5px;font-size:14px;}
+.login .inputLine{margin-left:5px;margin-bottom:5px;}
+.login .inputLine .label{display:inline-block;width:65px;}
+.login input{width:205px;}
+.login .btnline{text-align:center;margin-top:10px;}
+.login_btn{display:inline-block;width:60px;height:21px;text-align:center;padding-top:5px;color:#ffffff;background-color:#009bba;}
+.login .openshop{text-align:center;height:40px;padding-top:20px;font-size:20px;border:1px solid #AAAAAA;margin-top:20px;margin-bottom:10px;margin-left:5px;margin-right:5px;color:#ffffff;background-color:#009bba;}
+
+.shop{margin-top:13px;border:1px solid #AAAAAA;}
+.shop .title{margin-bottom:15px;}
+.shop .tab{display:inline-block;width:80px;text-align:center;}
+.shop .item{display:inline-block;width:135px;margin:5px;}
+.shop .item .logo{height:26px;border:1px solid #AAAAAA; text-align:center;padding-top:10px;}
+.shop .item .shopname{text-align:center;margin:5px;}
+.shop .more{text-align:right;margin:5px;padding-right:40px;}
+/* index page end */

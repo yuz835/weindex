@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Favorite">
+	<resultMap id="favShop" class="ca.weindex.common.model.UserFavoriteShop">
+		<result property="id" column="ID" />
+		<result property="shopId" column="SHOP_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="publicFav" column="PUBLIC" />
+	</resultMap>
+
+	<resultMap id="favOffer" class="ca.weindex.common.model.UserFavoriteOffer">
+		<result property="id" column="ID" />
+		<result property="offerId" column="OFFER_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="publicFav" column="PUBLIC" />
+	</resultMap>
+
+	<resultMap id="favBlog" class="ca.weindex.common.model.UserFavoriteBlog">
+		<result property="id" column="ID" />
+		<result property="blogId" column="BLOG_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="publicFav" column="PUBLIC" />
+	</resultMap>
+
+	<resultMap id="offer" class="ca.weindex.common.model.Offer">
+		<result property="id" column="ID" />
+		<result property="shopId" column="SHOP_ID" />
+		<result property="name" column="NAME" />
+		<result property="desc" column="DESCRIPTION" />
+		<result property="label" column="LABEL" />
+		<result property="imgUrl" column="IMG_URL" />
+		<result property="price" column="PRICE" />
+		<result property="type" column="TYPE" />
+		<result property="visible" column="VISIBLE" />
+		<result property="publicFav" column="PUBLIC" />
+		<result property="thumbListImgUrl" column="THUMBLISTIMGURL" />
+	</resultMap>
+
+	<resultMap id="blog" class="ca.weindex.common.model.Blog">
+		<result property="id" column="ID" />
+		<result property="shopId" column="SHOP_ID" />
+		<result property="title" column="TITLE" />
+		<result property="author" column="AUTHOR" />
+		<result property="summary" column="SUMMARY" />
+		<result property="label" column="LABEL" />
+		<result property="content" column="CONTENT" typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler" />
+		<result property="visible" column="VISIBLE" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="publicFav" column="PUBLIC" />
+	</resultMap>
+
+	<resultMap id="shop" class="ca.weindex.common.model.Shop">
+		<result property="id" column="ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="name" column="NAME" />
+		<result property="displayName" column="DISPLAY_NAME" />
+		<result property="desc" column="DESCRIPTION" />
+		<result property="bulletin" column="BULLETIN" />
+		<result property="label" column="LABEL" />
+		<result property="offerLabels" column="OFFER_LABELS" />
+		<result property="blogLabels" column="BLOG_LABELS" />
+		<result property="verified" column="VERIFIED" />
+		<result property="country" column="COUNTRY" />
+		<result property="city" column="CITY" />
+		<result property="address" column="ADDRESS" />
+		<result property="longi" column="LONGITUDE" javaType="java.lang.Integer" />
+		<result property="lati" column="LATITUDE" javaType="java.lang.Integer" />
+		<result property="zip" column="ZIP" />
+		<result property="logoUrl" column="LOGO_URL" />
+		<result property="bannerUrl" column="BANNER_URL" />
+		<result property="telephone" column="TELEPHONE" />
+		<result property="offerNum" column="OFFER_NUM" />
+		<result property="blogNum" column="BLOG_NUM" />
+		<result property="visitNum" column="VISIT_NUM" />
+		<result property="commentNum" column="COMMENT_NUM" />
+		<result property="publicFav" column="PUBLIC" />
+	</resultMap>
+
+	<resultMap id="favReddit" class="ca.weindex.common.model.UserFavoriteReddit">
+		<result property="id" column="ID" />
+		<result property="redditId" column="REDDIT_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="publicFav" column="PUBLIC" />
+	</resultMap>
+
+	<resultMap id="likedReddit" class="ca.weindex.common.model.UserLikedReddit">
+		<result property="id" column="ID" />
+		<result property="redditId" column="REDDIT_ID" />
+		<result property="userId" column="USER_ID" />
+	</resultMap>
+
+	<resultMap id="dislikedReddit" class="ca.weindex.common.model.UserDislikedReddit">
+		<result property="id" column="ID" />
+		<result property="redditId" column="REDDIT_ID" />
+		<result property="userId" column="USER_ID" />
+	</resultMap>
+
+	<resultMap id="likedComment" class="ca.weindex.common.model.UserLikedComment">
+		<result property="id" column="ID" />
+		<result property="commentId" column="COMMENT_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="type" column="TYPE" />
+	</resultMap>
+
+	<resultMap id="dislikedComment" class="ca.weindex.common.model.UserDislikedComment">
+		<result property="id" column="ID" />
+		<result property="commentId" column="COMMENT_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="type" column="TYPE" />
+	</resultMap>
+
+	<resultMap id="reddit" class="ca.weindex.common.model.Reddit">
+		<result property="id" column="ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="author" column="AUTHOR" />
+		<result property="title" column="TITLE" />
+		<result property="type" column="TYPE" />
+		<result property="linkUrl" column="LINK_URL" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="content" column="CONTENT" typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler" />
+		<result property="label" column="LABEL" />
+		<result property="likedNum" column="LIKED_NUM" />
+		<result property="favNum" column="FAV_NUM" />
+		<result property="visitNum" column="VISIT_NUM" />
+		<result property="commentNum" column="COMMENT_NUM" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+	</resultMap>
+
+	<resultMap id="redditComment" class="ca.weindex.common.model.RedditComment">
+		<result property="id" column="ID" />
+		<result property="redditId" column="REDDIT_ID" />
+		<result property="content" column="CONTENT" />
+		<result property="creatorId" column="CREATOR_ID" />
+		<result property="creatorName" column="CREATOR_NAME" />
+		<result property="traceCommentId" column="TRACE_COMMENT_ID" />
+		<result property="level" column="LEVEL" />
+		<result property="likedNum" column="LIKED_NUM" />
+		<result property="createTime" column="CREATE_TIME" />
+	</resultMap>
+
+	<insert id="addLikedReddit">
+		insert into LIKED_REDDIT (REDDIT_ID, USER_ID, CREATE_TIME) values (#redditId#, #userId#, NOW())
+	</insert>
+
+	<insert id="addDislikedReddit">
+		insert into DISLIKED_REDDIT (REDDIT_ID, USER_ID, CREATE_TIME) values (#redditId#, #userId#, NOW())
+	</insert>
+
+	<insert id="addLikedComment">
+		insert into LIKED_COMMENT (COMMENT_ID, USER_ID, TYPE, CREATE_TIME) values (#commentId#, #userId#, #type#, NOW())
+	</insert>
+
+	<insert id="addDislikedComment">
+		insert into DISLIKED_COMMENT (COMMENT_ID, USER_ID, TYPE, CREATE_TIME) values (#commentId#, #userId#, #type#, NOW())
+	</insert>
+
+	<insert id="addFavReddit">
+		insert into FAVORITE_REDDIT (REDDIT_ID, USER_ID, CREATE_TIME) values (#redditId#, #userId#, NOW())
+	</insert>
+
+	<delete id="delLikedReddit">
+		delete from LIKED_REDDIT where REDDIT_ID = #redditId# and USER_ID = #userId#
+	</delete>
+
+	<delete id="delDislikedReddit">
+		delete from DISLIKED_REDDIT where REDDIT_ID = #redditId# and USER_ID = #userId#
+	</delete>
+
+	<delete id="delLikedComment">
+		delete from LIKED_COMMENT where COMMENT_ID = #commentId# and USER_ID = #userId# and TYPE = #type#
+	</delete>
+
+	<delete id="delDislikedComment">
+		delete from DISLIKED_COMMENT where COMMENT_ID = #commentId# and USER_ID = #userId# and TYPE = #type#
+	</delete>
+
+	<delete id="delFavReddit">
+		delete from FAVORITE_REDDIT where REDDIT_ID = #redditId# and USER_ID = #userId#
+	</delete>
+
+
+	<select id="checkFavReddit" resultMap="favReddit">
+		select * from FAVORITE_REDDIT where REDDIT_ID = #redditId# and USER_ID = #userId#
+	</select>
+
+	<select id="checkLikedReddit" resultMap="likedReddit">
+		select * from LIKED_REDDIT where REDDIT_ID = #redditId# and USER_ID = #userId#
+	</select>
+
+	<select id="checkDislikedReddit" resultMap="dislikedReddit">
+		select * from DISLIKED_REDDIT where REDDIT_ID = #redditId# and USER_ID = #userId#
+	</select>
+
+	<select id="checkLikedComment" resultMap="likedComment">
+		select * from LIKED_COMMENT where COMMENT_ID = #commentId# and USER_ID = #userId# and TYPE = #type#
+	</select>
+
+	<select id="checkDislikedComment" resultMap="dislikedComment">
+		select * from DISLIKED_COMMENT where COMMENT_ID = #commentId# and USER_ID = #userId# and TYPE = #type#
+	</select>
+	
+	<select id="countUserLikedReddit" resultClass="java.lang.Integer">
+		select count(*)
+		from LIKED_REDDIT h left join REDDIT o ON h.REDDIT_ID = o.id
+		where h.USER_ID = #value# 
+	</select>
+	
+	<select id="getUserLikedReddit" resultMap="reddit">
+		select o.*, h.PUBLIC
+		from LIKED_REDDIT h left join REDDIT o ON h.REDDIT_ID = o.id
+		where h.USER_ID = #value# 
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="countUserDislikedReddit" resultClass="java.lang.Integer">
+		select count(*)
+		from DISLIKED_REDDIT h left join REDDIT o ON h.REDDIT_ID = o.id
+		where h.USER_ID = #value# 
+	</select>
+	
+	<select id="getUserDislikedReddit" resultMap="reddit">
+		select o.*, h.PUBLIC
+		from DISLIKED_REDDIT h left join REDDIT o ON h.REDDIT_ID = o.id
+		where h.USER_ID = #value# 
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="countUserFavReddit" resultClass="java.lang.Integer">
+		select count(*)
+		from FAVORITE_REDDIT h left join REDDIT o ON h.REDDIT_ID = o.id
+		where h.USER_ID = #value# 
+	</select>
+	
+	<select id="getUserFavReddit" resultMap="reddit">
+		select o.*, h.PUBLIC
+		from FAVORITE_REDDIT h left join REDDIT o ON h.REDDIT_ID = o.id
+		where h.USER_ID = #value# 
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="countUserLikedRedditComment" resultClass="java.lang.Integer">
+		select count(*)
+		from LIKED_COMMENT h left join REDDIT_COMMENT o ON h.COMMENT_ID = o.id
+		where h.USER_ID = #value# and h.TYPE = 4
+	</select>
+	
+	<select id="getUserLikedRedditComment" resultMap="redditComment">
+		select o.*, h.PUBLIC
+		from LIKED_COMMENT h left join REDDIT_COMMENT o ON h.COMMENT_ID = o.id
+		where h.USER_ID = #value# and h.TYPE = 4
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="countUserDislikedRedditComment" resultClass="java.lang.Integer">
+		select count(*)
+		from DISLIKED_COMMENT h left join REDDIT_COMMENT o ON h.COMMENT_ID = o.id
+		where h.USER_ID = #value# and h.TYPE = 4
+	</select>
+	
+	<select id="getUserDislikedRedditComment" resultMap="redditComment">
+		select o.*, h.PUBLIC
+		from DISLIKED_COMMENT h left join REDDIT_COMMENT o ON h.COMMENT_ID = o.id
+		where h.USER_ID = #value# and h.TYPE = 4
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<insert id="addFavShop">
+		insert into FAVORITE_SHOP (SHOP_ID, USER_ID, CREATE_TIME) values (#shopId#, #userId#, NOW())
+	</insert>
+
+	<insert id="addFavOffer">
+		insert into FAVORITE_OFFER (OFFER_ID, USER_ID, CREATE_TIME) values (#offerId#, #userId#, NOW())
+	</insert>
+
+	<insert id="addFavBlog">
+		insert into FAVORITE_BLOG (BLOG_ID, USER_ID, CREATE_TIME) values (#blogId#, #userId#, NOW())
+	</insert>
+
+	<delete id="delFavShop">
+		delete from FAVORITE_SHOP where SHOP_ID = #shopId# and USER_ID = #userId#
+	</delete>
+
+	<delete id="delFavOffer">
+		delete from FAVORITE_OFFER where OFFER_ID = #offerId# and USER_ID = #userId#
+	</delete>
+
+	<delete id="delFavBlog">
+		delete from FAVORITE_BLOG where BLOG_ID = #blogId# and USER_ID = #userId#
+	</delete>
+
+	<update id="updateFavShop">
+		update FAVORITE_SHOP set public=#publicFav# where SHOP_ID = #shopId# and USER_ID = #userId#
+	</update>
+
+	<update id="updateFavOffer">
+		update FAVORITE_OFFER set public=#publicFav# where OFFER_ID = #offerId# and USER_ID = #userId#
+	</update>
+
+	<update id="updateFavBlog">
+		update FAVORITE_BLOG set public=#publicFav# where BLOG_ID = #blogId# and USER_ID = #userId#
+	</update>
+
+	<select id="checkFavShop" resultMap="favShop">
+		select * from FAVORITE_SHOP where SHOP_ID = #shopId# and USER_ID = #userId#
+	</select>
+
+	<select id="checkFavOffer" resultMap="favOffer">
+		select * from FAVORITE_OFFER where OFFER_ID = #offerId# and USER_ID = #userId#
+	</select>
+
+	<select id="checkFavBlog" resultMap="favBlog">
+		select * from FAVORITE_BLOG where BLOG_ID = #blogId# and USER_ID = #userId#
+	</select>
+	
+	<select id="countUserFavOffer" resultClass="java.lang.Integer">
+		select count(*)
+		from FAVORITE_OFFER h left join OFFER o ON h.OFFER_ID = o.id
+		where h.USER_ID = #value# and o.VISIBLE=0
+	</select>
+	
+	<select id="getUserFavOffer" resultMap="offer">
+		select o.*, h.PUBLIC
+		from FAVORITE_OFFER h left join OFFER o ON h.OFFER_ID = o.id
+		where h.USER_ID = #value# and o.VISIBLE=0
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countUserFavShop" resultClass="java.lang.Integer">
+		select count(*)
+		from FAVORITE_SHOP h left join OFFER o ON h.SHOP_ID = o.id
+		where h.USER_ID = #value#
+	</select>
+	
+	<select id="getUserFavShop" resultMap="shop">
+		select o.*, h.PUBLIC
+		from FAVORITE_SHOP h left join SHOP o ON h.SHOP_ID = o.id
+		where h.USER_ID = #value#
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countUserFavBlog" resultClass="java.lang.Integer">
+		select count(*)
+		from FAVORITE_BLOG h left join BLOG o ON h.BLOG_ID = o.id
+		where h.USER_ID = #value# and o.VISIBLE=0
+	</select>
+	
+	<select id="getUserFavBlog" resultMap="blog">
+		select o.*, h.PUBLIC
+		from FAVORITE_BLOG h left join BLOG o ON h.BLOG_ID = o.id
+		where h.USER_ID = #value# and o.VISIBLE=0
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countUserPublicFavOffer" resultClass="java.lang.Integer">
+		select count(*)
+		from FAVORITE_OFFER h left join OFFER o ON h.OFFER_ID = o.id
+		where h.USER_ID = #value# and o.VISIBLE=0 and h.PUBLIC=0
+	</select>
+	
+	<select id="getUserPublicFavOffer" resultMap="offer">
+		select o.*, h.PUBLIC
+		from FAVORITE_OFFER h left join OFFER o ON h.OFFER_ID = o.id
+		where h.USER_ID = #value# and o.VISIBLE=0 and h.PUBLIC=0
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countUserPublicFavShop" resultClass="java.lang.Integer">
+		select count(*)
+		from FAVORITE_SHOP h left join OFFER o ON h.SHOP_ID = o.id
+		where h.USER_ID = #value# and h.PUBLIC=0
+	</select>
+	
+	<select id="getUserPublicFavShop" resultMap="shop">
+		select o.*, h.PUBLIC
+		from FAVORITE_SHOP h left join SHOP o ON h.SHOP_ID = o.id
+		where h.USER_ID = #value# and h.PUBLIC=0
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countUserPublicFavBlog" resultClass="java.lang.Integer">
+		select count(*)
+		from FAVORITE_BLOG h left join BLOG o ON h.BLOG_ID = o.id
+		where h.USER_ID = #value# and o.VISIBLE=0 and h.PUBLIC=0
+	</select>
+	
+	<select id="getUserPublicFavBlog" resultMap="blog">
+		select o.*, h.PUBLIC
+		from FAVORITE_BLOG h left join BLOG o ON h.BLOG_ID = o.id
+		where h.USER_ID = #value# and o.VISIBLE=0 and h.PUBLIC=0
+		order by h.ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,91 @@
+#set($layout = "/layout/shopLayout.vm")
+#set($isOwner=(${shop.userId}==${session_attr_user.id}))
+#parse('shop/bulletin.vm')
+
+<!--店铺商品 begin-->
+<div class="box product">
+	<div class="p5"></div>
+	<ul class="uPro">
+	#foreach($offer in $offerList.list)
+		<li>
+			<a href="/offer/view/${offer.id}.html" target="_blank"><img #if($offer.imgUrl) src="$offer.imgUrl" #else src="/img/pic2.jpg"#end /></a>
+			<a href="/offer/view/${offer.id}.html" target="_blank">$offer.name</a>
+			##<div>描述：$!{offer.desc}</div>
+			##<div>类别：#foreach($l in $offer.labelList)#if($velocityCount>1) | #end $l.cnName #end</div>
+			<div>价格：<span>$</span>$!{offer.price}</div>
+			#if($offer.type==0)<div>成色：${offer.quality}%</div>#else<div>&nbsp;</div>#end
+			#if($isOwner)<div class="sCancel"><a href="/offer/edit.html?shopId=${shop.id}&offerId=${offer.id}"><span class="blue">编辑</span></a>&nbsp;<a href="javascript:void(0);" onclick="deleteOffer('${offer.id}')"><span class="blue">删除</span></a></div>#end
+		</li>
+	#end
+	</ul>
+#if($isOwner)
+	<script type="text/javascript">
+		$(function(){
+			$(".uPro li").mouseover(function(e) {
+				$(".sCancel",this).show();
+			}).mouseout(function(e) {
+				$(".sCancel",this).hide();
+			});
+		})
+	</script>
+#end
+	<div class="clear"></div>
+</div>
+<div class="p10 clear"></div>
+        
+<!-- page begin -->
+#if($offerList.totalPage>1)
+<div class="pageNav">
+		#if($offerList.pageNum > 1)
+        	<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=${offerList.previousPage}">上一页</a>
+        #end
+        #if($offerList.totalPage<=5)
+        	#foreach($i in [1..$offerList.totalPage])
+        		#if($i==$offerList.pageNum)
+        			<span class="cur">$i</span>
+        		#else
+        			<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$i">$i</a>
+        		#end
+        	#end
+        #else
+        	#if($offerList.pageNum<=3)
+        		#set($max=$offerList.pageNum+1)
+        		#foreach($i in [1..$max])
+	        		#if($i==$offerList.pageNum)
+    	    			<span class="cur">$i</span>
+        			#else
+        				<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$i">$i</a>
+        			#end
+        		#end
+        		<a>...</a>
+        		<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$offerList.totalPage">$offerList.totalPage</a>
+        	#elseif($offerList.pageNum>=$offerList.totalPage - 2)
+        		<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=1">1</a>
+        		<a>...</a>
+        		#set($min=$offerList.pageNum - 1)
+        		#foreach($i in [$min..$offerList.totalPage])
+	        		#if($i==$offerList.pageNum)
+    	    			<span class="cur">$i</span>
+        			#else
+        				<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$i">$i</a><
+        			#end
+        		#end
+        	#else
+        		<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=1">1</a>
+        		<a>...</a>
+        		#set($min=$offerList.pageNum - 1)
+        		#set($max=$offerList.pageNum+1)
+        		<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$min">$min</a>        	
+    	    	<span class="cur">$offerList.pageNum</span>
+        		<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$max">$max</a>        	
+        		<a>...</a>
+        		<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=$offerList.totalPage">$offerList.totalPage</a>        	
+        	#end
+        #end
+		#if($offerList.pageNum < $offerList.totalPage)
+			<a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${labelId}&pageNum=${offerList.nextPage}">下一页</a>	
+        #end
+</div>
+#end
+<!-- page end -->
+<div class="p10 clear"></div>

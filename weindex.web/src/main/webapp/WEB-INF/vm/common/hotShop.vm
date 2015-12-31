@@ -1,0 +1,58 @@
+<!-- 人气店铺 begin --> 
+<div class="hotShop">
+    <p>人气店铺</p>
+    <div class="hotShopMain">
+        <ul>
+		#foreach($shop in $hotShops)
+			<li>
+				<a href="/${shop.name}">
+					#if($shop.logoUrl)
+					<div style="text-align:center;margin-top:10px;"><img #if($shop.logoUrl) src="$shop.logoUrl" #else src="/img/pic_shop_01.jpg"#end width="120" height="120" /></div> ##zhangeth
+					#else
+					<div style="width:143px;height:143px;">&nbsp;</div>
+					#end
+					<div style="color:#7f7f7f;text-align:center;text-overflow:ellipsis;">${shop.displayName}</div>
+					##<div style="color:#7f7f7f;text-align:center;text-overflow:ellipsis;">$!{shop.desc}</div>
+				</a>
+				     #if($shop.owner.weiboId) ##zhangeth 2013/04/15
+				  	test
+					<wb:follow-button uid="$shop.owner.weiboId" type="red_1" width="67" height="24" ></wb:follow-button> ##zhangeth 2013/04/15    
+				#end
+			</li>
+				
+		#end
+#**            <li><a href="#"><img src="/img/logoHotshop_01.jpg" width="149" height="143" /></a></li>
+            <li><a href="#"><img src="/img/logoHotshop_02.jpg" width="149" height="143" /></a></li>
+            <li><a href="#"><img src="/img/logoHotshop_03.jpg" width="149" height="143" /></a></li>
+            <li><a href="#"><img src="/img/logoHotshop_04.jpg" width="149" height="143" /></a></li>
+            <li><a href="#"><img src="/img/logoHotshop_05.jpg" width="149" height="143" /></a></li>
+            <li><a href="#"><img src="/img/logoHotshop_06.jpg" width="149" height="143" /></a></li>**#
+        </ul>
+    </div>
+    <p class="text_more text_link2"><a href="/index/shop.html?type=hot">更多&gt;&gt;</a></p>
+</div>
+<!-- 人气店铺 end --> 
+
+#**
+	<div class="shop">
+		<div class="title">店铺<div class="tab selected" id="newShopTab" onclick="showHideDiv('newShop', 'recShop', 'newShopTab', 'recShopTab')">最新</div><div class="tab unselected" id="recShopTab" onclick="showHideDiv('recShop', 'newShop', 'recShopTab', 'newShopTab')">推荐</div></div>
+		<div id="newShop">
+		#foreach($shop in $recentShops) 
+			<div class="item">
+				<div class="logo">Logo</div>
+				<div class="shopname"><a href="/${shop.name}">${shop.displayName}</a></div>
+			</div>
+		#end
+			<div class="more"><a href="/index/shop.html">更多&gt;</a></div>
+		</div>
+		<div id="recShop" style="display:none">
+		#foreach($shop in $hotShops) 
+			<div class="item">
+				<div class="logo">Logo</div>
+				<div class="shopname"><a href="/${shop.name}">${shop.displayName}</a></div>
+			</div>
+		#end
+			<div class="more"><a href="/index/shop.html?type=hot">更多&gt;</a></div>
+		</div>
+	</div>
+**#

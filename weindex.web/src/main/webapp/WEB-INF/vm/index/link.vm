@@ -1,0 +1,162 @@
+#set($layout = "/layout/homeLayout.vm")
+#if($type=='hot')
+        <div style="margin-top:10">
+		<ul id="linkList">
+		#foreach($link in $result.list) 
+                        <li>
+                        	<a href="/link/view/${link.id}.html" class="fl">${blog.title}</a><div><span>$!{link.author}</span><span>$!{link.date}</span></div>
+		#end
+	  </ul>
+	</div>
+#else
+        <div  style="margin-top:10">
+                <ul id="linkList">
+                #foreach($link in $result.list)
+                        <li><a href="/link/view/${link.id}.html" class="fl">${link.title}</a><div><span>$!{link.author}</span><span>$!{link.date}</span></div></li>
+                #end
+        </div>
+#end
+<!-- page begin -->
+#if($result.totalPage>1)
+#if($type=='hot')	
+	<div id="page">
+	    <ul>
+			#if($result.pageNum > 1)
+	        	<li><a href="/index/blog.html?pageNum=${result.previousPage}&type=hot">上一页</a></li>
+	        #end
+	        #if($result.totalPage<=5)
+	        	#foreach($i in [1..$result.totalPage])
+	        		#if($i==$result.pageNum)
+	        			<li class="pageActive"><a href="/index/blog.html?pageNum=$i&type=hot">$i</a></li>
+	        		#else
+	        			<li><a href="/index/blog.html?pageNum=$i&type=hot">$i</a></li>
+	        		#end
+	        	#end
+	        #else
+	        	#if($result.pageNum<=3)
+	        		#set($max=$result.pageNum+1)
+	        		#foreach($i in [1..$max])
+		        		#if($i==$result.pageNum)
+	    	    			<li class="pageActive"><a href="/index/blog.html?pageNum=$i&type=hot">$i</a></li>
+	        			#else
+	        				<li><a href="/index/blog.html?pageNum=$i&type=hot">$i</a></li>
+	        			#end
+	        		#end
+	        		<li>...</li>
+	        		<li><a href="/index/blog.html?pageNum=$result.totalPage&type=hot">$result.totalPage</a></li>
+	        	#elseif($result.pageNum>=$result.totalPage - 2)
+	        		<li><a href="/index/blog.html?pageNum=1&type=hot">1</a></li>
+	        		<li>...</li>
+	        		#set($min=$result.pageNum - 1)
+	        		#foreach($i in [$min..$result.totalPage])
+		        		#if($i==$result.pageNum)
+	    	    			<li class="pageActive"><a href="/index/blog.html?pageNum=$i&type=hot">$i</a></li>
+	        			#else
+	        				<li><a href="/index/blog.html?pageNum=$i&type=hot">$i</a></li>
+	        			#end
+	        		#end
+	        	#else
+	        		<li><a href="/index/blog.html?pageNum=1&type=hot">1</a></li>
+	        		<li>...</li>
+	        		#set($min=$result.pageNum - 1)
+	        		#set($max=$result.pageNum+1)
+	        		<li><a href="/index/blog.html?pageNum=$min&type=hot">$min</a></li>        	
+	        		<li class="pageActive"><a href="/index/blog.html?pageNum=$result.pageNum&type=hot">$result.pageNum</a></li>        	
+	        		<li><a href="/index/blog.html?pageNum=$max&type=hot">$max</a></li>        	
+	        		<li>...</li>
+	        		<li><a href="/index/blog.html?pageNum=$result.totalPage&type=hot">$result.totalPage</a></li>        	
+	        	#end
+	        #end
+			#if($result.pageNum < $result.totalPage)
+				<li><a href="/index/blog.html?pageNum=${result.nextPage}&type=hot">下一页</a></li>	
+	        #end
+	    </ul>
+	</div>
+#else
+        <div id="page">
+    		<ul>
+    		            #if($result.pageNum > 1)
+    		            <li><a href="/index/blog.html?pageNum=${result.previousPage}">上一页</a></li>
+    		    #end
+    		    #if($result.totalPage<=5)
+    		            #foreach($i in [1..$result.totalPage])
+    		                    #if($i==$result.pageNum)
+    		                            <li class="pageActive"><a href="/index/blog.html?pageNum=$i">$i</a></li>
+    		                    #else
+    		                            <li><a href="/index/blog.html?pageNum=$i">$i</a></li>
+    		                    #end
+    		            #end
+    		    #else
+    		            #if($result.pageNum<=3)
+    		                    #set($max=$result.pageNum+1)
+    		                    #foreach($i in [1..$max])
+    		                            #if($i==$result.pageNum)
+    		                            <li class="pageActive"><a href="/index/blog.html?pageNum=$i">$i</a></li>
+    		                            #else
+    		                                    <li><a href="/index/blog.html?pageNum=$i">$i</a></li>
+    		                            #end
+    		                    #end
+    		                    <li>...</li>
+    		                    <li><a href="/index/blog.html?pageNum=$result.totalPage">$result.totalPage</a></li>
+    		            #elseif($result.pageNum>=$result.totalPage - 2)
+    		                    <li><a href="/index/blog.html?pageNum=1">1</a></li>
+    		                    <li>...</li>
+    		                    #set($min=$result.pageNum - 1)
+    		                    #foreach($i in [$min..$result.totalPage])
+    		                            #if($i==$result.pageNum)
+    		                            <li class="pageActive"><a href="/index/blog.html?pageNum=$i">$i</a></li>
+    		                            #else
+    		                                    <li><a href="/index/blog.html?pageNum=$i">$i</a></li>
+    		                            #end
+    		                    #end
+    		            #else
+    		                    <li><a href="/index/blog.html?pageNum=1">1</a></li>
+    		                    <li>...</li>
+    		                    #set($min=$result.pageNum - 1)
+    		                    #set($max=$result.pageNum+1)
+    		                    <li><a href="/index/blog.html?pageNum=$min">$min</a></li>
+    		                    <li class="pageActive"><a href="/index/blog.html?pageNum=$result.pageNum">$result.pageNum</a></li>
+    		                    <li><a href="/index/blog.html?pageNum=$max">$max</a></li>
+    		                    <li>...</li>
+    		                    <li><a href="/index/blog.html?pageNum=$result.totalPage">$result.totalPage</a></li>
+    		            #end
+    		    #end
+    		            #if($result.pageNum < $result.totalPage)
+    		                    <li><a href="/index/blog.html?pageNum=${result.nextPage}">下一页</a></li>
+    		    #end
+    		</ul>
+	</div>
+#end
+#end
+<!-- page end -->
+#**
+	<div class="blog">
+		<div class="title">博文
+		#if($type=='hot')
+			<div class="tab unselected"><a href="/index/blog.html?type=new">最新</a></div><div class="tab unselected">推荐</div>
+		#else
+			<div class="tab selected">最新</div><div class="tab unselected"><a href="/index/blog.html?type=hot">推荐</a></div>
+		#end
+		</div>
+		<div id="newBlog">
+		#foreach($blog in $result.list) 
+			<div class="item">
+				<div><a href="/blog/view/${blog.id}.html">${blog.title}</a></div>
+				<div>$!{bolg.summary}</div>
+			</div>
+		#end
+			<div class="more">
+			#if($result.pageNum > 1)
+				<a href="/index/blog.html?pageNum=1&type=${type}">第一页</a> <a href="/index/blog.html?pageNum=${result.previousPage}&type=${type}">上一页</a>
+			#end
+			共 $result.totalPage 页, 当前显示第 $result.pageNum 页
+			#if($result.pageNum < $result.totalPage)
+				<a href="/index/blog.html?pageNum=${result.nextPage}&type=${type}">下一页</a> <a href="/index/blog.html?pageNum=${result.totalPage}&type=${type}">最后一页</a>
+			#end			
+			</div>
+		</div>
+	</div>
+***#
+<script language="JavaScript">
+showNav(3);
+</script>

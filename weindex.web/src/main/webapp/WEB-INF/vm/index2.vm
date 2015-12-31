@@ -1,0 +1,177 @@
+<meta property="wb:webmaster" content="fb79501eb90a571b" />
+<script language="JavaScript">
+function showHideDiv(showDivId, hideDivId, showTabId, hideTabId) {
+	document.getElementById(showDivId).setAttribute("style", "display:block");
+	document.getElementById(hideDivId).setAttribute("style", "display:none");
+	document.getElementById(showTabId).setAttribute("class", "tab selected");
+	document.getElementById(hideTabId).setAttribute("class", "tab unselected");
+}
+</script>
+<div class="wrap">   
+<div class="section">   
+<div class="g1">   
+<div class="g2">   
+<div class="main">
+	<div class="main_tab">
+		<div class="sub">
+			<div>店铺</div>
+			#set($num=0)
+			<div class="line">
+			#foreach($l in $labels)
+				#if($num % 2 == 0 && $num != 0)</div><div class="line">#end
+				<div class="type"><a href="/label/${l.id}/shop.html">${l.cnName}</a></div>
+				#set($num = $num + 1)
+			#end
+			#if($num % 2 == 0)
+				</div>
+			#else
+				<div class="type">&nbsp;</div></div>
+			#end
+			<div class="more">更多&gt;</div>
+		</div>
+		<div class="sub">
+			<div>商品</div>
+			#set($num=0)
+			<div class="line">
+			#foreach($l in $labels)
+				#if($num % 2 == 0 && $num != 0)</div><div class="line">#end
+				<div class="type"><a href="/label/${l.id}/offer.html">${l.cnName}</a></div>
+				#set($num = $num + 1)
+			#end
+			#if($num % 2 == 0)
+				</div>
+			#else
+				<div class="type">&nbsp;</div></div>
+			#end
+			<div class="more">更多&gt;</div>
+		</div>
+		<div class="sub">
+			<div>博文</div>
+			#set($num=0)
+			<div class="line">
+			#foreach($l in $labels)
+				#if($num % 2 == 0 && $num != 0)</div><div class="line">#end
+				<div class="type"><a href="/label/${l.id}/blog.html">${l.cnName}</a></div>
+				#set($num = $num + 1)
+			#end
+			#if($num % 2 == 0)
+				</div>
+			#else
+				<div class="type">&nbsp;</div></div>
+			#end
+			<div class="more">更多&gt;</div>
+		</div>
+	</div>
+	<div class="banner">
+		Banner
+	</div>
+	<div class="offer">
+		<div class="title">商品<div class="tab selected" id="newOfferTab" onclick="showHideDiv('newOffer', 'recOffer', 'newOfferTab', 'recOfferTab')">最新</div><div class="tab unselected" id="recOfferTab" onclick="showHideDiv('recOffer', 'newOffer', 'recOfferTab', 'newOfferTab')">推荐</div></div>
+		<div id="newOffer">
+		#foreach($offer in $recentOffers) 
+			<div class="item">
+				<div style="padding-left:10px;height:160px;"><img src="$offer.imgUrl" width="160px" /></div>
+				<div class="name"><a href="/offer/view/${offer.id}.html">${offer.name}</a></div>
+				<div class="price">${offer.price}</div>
+			</div>
+		#end
+		</div>
+		<div class="more"><a href="/index/offer.html">更多&gt;</a></div>
+		<div id="recOffer" style="display:none">
+		#foreach($offer in $hotOffers) 
+			<div class="item">
+				<div style="padding-left:10px;height:160px;"><img src="$offer.imgUrl" width="160px" /></div>
+				<div class="name"><a href="/offer/view/${offer.id}.html">${offer.name}</a></div>
+				<div class="price">${offer.price}</div>
+			</div>
+		#end
+			<div class="more"><a href="/index/offer.html?type=hot">更多&gt;</a></div>
+		</div>
+	</div>
+	<div class="blog">
+		<div class="title">博文<div class="tab selected" id="newBlogTab" onclick="showHideDiv('newBlog', 'recBlog', 'newBlogTab', 'recBlogTab')" >最新</div><div class="tab unselected" id="recBlogTab" onclick="showHideDiv('recBlog', 'newBlog', 'recBlogTab', 'newBlogTab')">推荐</div></div>
+		<div id="newBlog">
+		#foreach($blog in $recentBlogs) 
+			<div class="item">
+				<div><a href="/blog/view/${blog.id}.html">${blog.title}</a></div>
+				<div>$!{bolg.summary}</div>
+			</div>
+		#end
+			<div class="more"><a href="/index/blog.html">更多&gt;</a></div>
+		</div>
+		<div id="recBlog" style="display:none">	
+		#foreach($blog in $hotBlogs) 
+			<div class="item">
+				<div><a href="/blog/view/${blog.id}.html">${blog.title}</a></div>
+				<div>$!{bolg.summary}</div>
+			</div>
+		#end
+			<div class="more"><a href="/index/blog.html?type=hot">更多&gt;</a></div>
+		</div>
+	</div>
+</div>  
+</div>   
+<div class="left"></div>  
+</div>  
+</div>  
+<div class="aside">
+	<div class="login">
+		#if($session_attr_user)
+			<div class="inputLine"><div class="label">用户名：</div><span><a href="/user/profile/${session_attr_user.id}.html">${session_attr_user.userName}</a></span></div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;width:80px;" onclick="window.open('/user/modify/pwd.html','_self')">修改密码</div>
+				<div class="login_btn" style="margin-left:10px;width:80px;" onclick="window.open('/user/logout.html','_self')">退出登录</div>
+			</div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;width:80px;" onclick="window.open('/user/favorite/${session_attr_user.id}.html?type=0','_self')">我的收藏</div>
+				<div class="login_btn" style="margin-left:10px;width:80px;" onclick="window.open('/user/address.html','_self')">我的地址</div>
+			</div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;width:80px;" onclick="window.open('/user/contactor.html','_self')">联系人</div>
+				#if($session_attr_user.isAdmin()) 
+				<div class="login_btn" style="margin-left:10px;width:80px;" onclick="window.open('/admin.html','_self')">系统管理</div>
+				#else
+				<div class="login_btn" style="margin-left:10px;width:80px;border:none;">&nbsp;</div>
+				#end
+			</div>
+			
+		#else
+		<form name="loginFrm" id="loginFrm" method="POST" action="/user/login.html">
+			<div class="inputLine"><div class="label">用户名：</div><input type="text" name="userName" /></div>
+			<div class="inputLine"><div class="label">密码：</div><input type="password" name="password" /></div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;" onclick="document.getElementById('loginFrm').submit()">登录</div>
+				<div class="login_btn" style="margin-left:10px;" onclick="window.open('/user/signup.html','_self')">注册</div>
+			</div>
+		</form>
+		#end
+		#if($session_attr_user.withShop)
+			<a href="/${session_attr_user.shopName}"><div class="openshop">我的店铺</div></a>
+		#else
+			<a href="/shop/open.html"><div class="openshop">免费开店</div></a>
+		#end
+	</div>
+	<div class="shop">
+		<div class="title">店铺<div class="tab selected" id="newShopTab" onclick="showHideDiv('newShop', 'recShop', 'newShopTab', 'recShopTab')">最新</div><div class="tab unselected" id="recShopTab" onclick="showHideDiv('recShop', 'newShop', 'recShopTab', 'newShopTab')">推荐</div></div>
+		<div id="newShop">
+		#foreach($shop in $recentShops) 
+			<div class="item">
+				<div class="logo">Logo</div>
+				<div class="shopname"><a href="/${shop.name}">${shop.displayName}</a></div>
+			</div>
+		#end
+			<div class="more"><a href="/index/shop.html">更多&gt;</a></div>
+		</div>
+		<div id="recShop" style="display:none">
+		#foreach($shop in $hotShops) 
+			<div class="item">
+				<div class="logo">Logo</div>
+				<div class="shopname"><a href="/${shop.name}">${shop.displayName}</a></div>
+			</div>
+		#end
+			<div class="more"><a href="/index/shop.html?type=hot">更多&gt;</a></div>
+		</div>
+	</div>
+</div>  
+</div>
+<div style="clear:both;"></div>

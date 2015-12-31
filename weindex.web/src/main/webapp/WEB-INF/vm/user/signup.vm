@@ -1,0 +1,7 @@
+<form name="signups" action="/user/signup.html" method="POST">
+<div>User Name: <input type="text" name="userName" maxlength="20" /></div>
+<div>Password: <input type="password" name="password" maxlength="100" /></div>
+<div>Email: <input type="text" name="email" maxlength="20" /></div>
+<div><input type="submit" name="Submit" value="Submit" /></div>
+</form>
+#parse('index/footer.vm')

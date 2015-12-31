@@ -1,0 +1,82 @@
+#set($layout = "/layout/favLayout.vm")
+<!-- list begin -->
+
+<div id="Con" class="latestShop"> 
+            <table id="shopList">
+                <tr><td>店铺logo</td><td>名字</td><td>类别</td><td>电话</td><td>城市</td></tr>
+         
+                #foreach($shop in $result.list)
+                        <tr><td>#if($shop.logoUrl)<img src="$shop.logoUrl"/>#else<img src="/img/pic_shop_01.jpg"/>#end</td><td><a href="/${shop.name}" class="fl">${shop.name}</a></td><td>#foreach($l in $shop.labelList)#if($velocityCount>1), #end${l.cnName}#end</td><td>$!{shop.telephone}</td><td>#if($shop.city)${shop.city}#end</td></tr>
+                #end
+            </table>
+        </div>
+``
+
+##<div id="Content" class="blogBox" style="margin-top:0">
+##	<ul id="blogList">
+##	#foreach($shop in $result.list) 
+##		<li style="width:435px;">
+##			<div class="fl"><img #if($shop.logoUrl) src="$shop.logoUrl" #else src="/img/bpic.jpg"#end><div class="h10"></div>${shop.displayName}</div>
+##			<div class="cont" style="width:235px">
+##				<div class="p">
+##					##<p>$!{shop.desc}...</p>
+##					##<div class="p5 clear"></div>
+##					<a href="/${shop.name}" class="btn" target="_blank"><span class="blue">详细点击&gt;&gt;</span></a>
+##				#if($isOwner)
+##					<div class="p5 clear"></div>
+##					<p>#if($shop.publicFav==0)公开#else私密#end</p>
+##				#end
+##				</div>
+##				##<div><span class="yellow">送货标签：</span>XX  XX  X  XX  XX  </div>
+##			</div>
+##		#if($isOwner)
+##			<div class="sCancel" style="width:445px;">
+##				<a href="/user/favorite/shop/del.html?shopId=${shop.id}&src=fav"><span class="blue">取消收藏</span></a>
+##			#if($shop.publicFav==0)
+##				<a href="/user/favorite/shop/close.html?shopId=${shop.id}&src=fav"><span class="blue">私密收藏</span></a>
+##			#else
+##				<a href="/user/favorite/shop/open.html?shopId=${shop.id}&src=fav"><span class="blue">公开收藏</span></a>
+##			#end
+##			</div>
+##		#end
+##		</li>
+##	#end
+##	</ul>
+###if($isOwner)
+##  <script type="text/javascript">
+##		  	$(function(){
+##				$(".blogBox li").mouseover(function(e) {
+##                    $(".sCancel",this).show();
+##                }).mouseout(function(e) {
+##                    $(".sCancel",this).hide();
+##                });
+##			})
+##  </script>
+###end
+##</div>
+<!-- list end -->
+
+#**
+	<div class="shop">
+		<div class="title"><a href="/user/profile/${user.id}.html">${user.userName}</a> 收藏的店铺</div>
+		<div id="newShop">
+		#foreach($shop in $result.list) 
+			<div class="item">
+				<div class="logo">Logo</div>
+				<div class="shopname"><a href="/${shop.name}">${shop.displayName}</a></div>
+			</div>
+		#end
+			<div class="more">
+			#if($result.pageNum > 1)
+				<a href="/user/favorite/${user.id}.html?type=1&pageNum=1">第一页</a> <a href="/user/favorite/${user.id}.html?type=1&pageNum=${result.previousPage}">上一页</a>
+			#end
+			共 $result.totalPage 页, 当前显示第 $result.pageNum 页
+			#if($result.pageNum < $result.totalPage)
+				<a href="/user/favorite/${user.id}.html?type=1&pageNum=${result.nextPage}">下一页</a> <a href="/user/favorite/${user.id}.html?type=1&pageNum=${result.totalPage}">最后一页</a>
+			#end			
+			</div>
+		</div>
+		<div><a href="/user/favorite/${user.id}.html?type=0">收藏的商品</a></div>
+		<div><a href="/user/favorite/${user.id}.html?type=2">收藏的博文</a></div>
+	</div>
+**#

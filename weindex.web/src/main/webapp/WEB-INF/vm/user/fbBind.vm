@@ -1,0 +1,58 @@
+#set($layout = "/layout/loginLayout.vm")
+<!-- main begin -->
+<div class="w860 userLogin">
+	<!-- 登陆 begin -->
+	<div class="leftbox">
+    	<div class="fb f14">为您的 Facebook 帐号绑定用户</div>
+        <div class="p10"></div>
+<form name="bindFrm" method="POST" action="/user/fb/bind.html">
+        <div class="li"><span class="t">用户名：</span><input type="text" class="ipt" name="userName" id="userName" value="$!{userName}" ></div>
+        <div class="li"><span class="t">密码：</span><input type="password" class="ipt" name="password" id="password"></div>
+        <div class="li"><span class="t">&nbsp;</span><!--<div class="fl"><input type="checkbox" checked="checked" class="fl">&nbsp;下次自动登陆</div>--><div class="fr"><a href="#"><span class="yellow">忘记密码</span></a></div></div>
+
+#if($needCaptcha=='true')
+<div style="padding-left:46px;">
+<div id="captcha"></div>
+</div>
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+<script language="JavaScript">
+  Recaptcha.create("6Lft9doSAAAAAJFRLFWswelB8Aq2moSedtROpqn9",
+    "captcha",
+    {
+      theme: "red",
+      callback: Recaptcha.focus_response_field
+    }
+  );
+</script>
+#end
+
+        <div class="clear p10"></div>
+        <div class="li"><span class="t">&nbsp;</span><input type="submit" value="确 定" class="sub"></div>
+        </form>
+    </div>
+    <!-- 登陆 end --> 
+</div>
+
+<!-- main end --> 
+#**
+<form name="bindFrm" method="POST" action="/user/fb/bind.html">
+<div>User Name: <input type="text" name="userName" maxlength="20" /></div>
+<div>Password: <input type="password" name="password" maxlength="100" /></div>
+#if($needCaptcha=='true')
+<div id="captcha"></div>
+#end
+<div><input type="submit" name="Submit" value="Submit" /></div>
+</form>
+#if($needCaptcha=='true')
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+<script language="JavaScript">
+  Recaptcha.create("6Lft9doSAAAAAJFRLFWswelB8Aq2moSedtROpqn9",
+    "captcha",
+    {
+      theme: "red",
+      callback: Recaptcha.focus_response_field
+    }
+  );
+</script>
+#end
+**#

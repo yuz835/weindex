@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+  <title>经商知道</title>
+  <meta http-equiv="pragma" content="no-cache" />
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/weindex.css">
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<script src="/js/jquery-1.8.3.min.js"></script>  
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.wookmark.min.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<style>
+a{text-decoration:none;}
+a:link,a:visited,a:active,a:hover{text-decoration:none;color:#0667AC;}
+</style>
+</head>
+<body>
+#parse('common/header.vm')
+##parse('common/searchBar.vm')
+
+<meta property="wb:webmaster" content="fb79501eb90a571b" />
+<script language="JavaScript">
+function showHideDiv(showDivId, hideDivId, showTabId, hideTabId) {
+	document.getElementById(showDivId).setAttribute("style", "display:block");
+	document.getElementById(hideDivId).setAttribute("style", "display:none");
+	document.getElementById(showTabId).setAttribute("class", "tab selected");
+	document.getElementById(hideTabId).setAttribute("class", "tab unselected");
+}
+</script>
+<style>
+.wrap{}   
+.section{float:left;margin-right:-40em;width:100%;}   
+.g1{margin-right:310px;float:none;width:auto;position:static;}   
+.g2{float:right;margin-left:-40em;width:100%;}   
+.main{float:none;width:auto;position:static;overflow:auto;margin-top:20px;} 
+.left{float:left;width:200px;position:relative;background:orange;display:none;} 
+.aside{float:right;width:300px;position:relative;margin-top:20px;}
+
+.main_tab{border:1px solid #888888; padding:5px;margin-bottom:10px;}
+.main_tab .sub{display:inline-block;width:33%;text-align:center;vertical-align:top;}  
+.main_tab .sub .line{border-right:1px solid #666666;}
+.main_tab .sub .type{display:inline-block;width:50%; text-align:center;}
+.main_tab .sub .more{text-align:right;padding-right:15px;}
+.banner{height:160px;border:1px solid #888888;text-align:center;vertical-align:middle;}
+
+.offer{margin-top:10px;}
+.offer .tab{display:inline-block;width:80px;text-align:center;}
+.offer .item{display:inline-block;width:180px;height:204px;vertical-align:bottom;}
+.offer .more{text-align:right;margin:5px;padding-right:40px;}
+.offer .name{text-align:center;height:20px;}
+.offer .price{color:red;text-align:center;height:20px;}
+
+.blog{margin-top:10px;}
+.blog .tab{display:inline-block;width:80px;text-align:center;}
+.blog .item{padding:10px;border-bottom:1px solid #AAAAAA;}
+
+.login{border:1px solid #AAAAAA;padding:5px;}
+.login .inputLine{margin-left:5px;margin-bottom:5px;}
+.login .inputLine .label{display:inline-block;width:65px;}
+.login input{width:205px;}
+.login .btnline{text-align:center;margin-top:10px;}
+.login_btn{display:inline-block;width:60px;height:21px;border:1px solid #888888;text-align:center;padding-top:5px;}
+.login .openshop{text-align:center;height:75px;border:1px solid #AAAAAA;margin-top:20px;margin-bottom:10px;margin-left:5px;margin-right:5px;}
+
+.shop{margin-top:10px;border:1px solid #AAAAAA;}
+.shop .title{margin-bottom:15px;}
+.shop .tab{display:inline-block;width:80px;text-align:center;}
+.shop .item{display:inline-block;width:135px;margin:5px;}
+.shop .item .logo{height:26px;border:1px solid #AAAAAA; text-align:center;padding-top:10px;}
+.shop .item .shopname{text-align:center;margin:5px;}
+</style>
+<div class="wrap">   
+<div class="section">   
+<div class="g1">   
+<div class="g2">   
+<div class="main">
+$screen_content
+</div>  
+</div>   
+<div class="left"></div>  
+</div>  
+</div>  
+<div class="aside">
+	<div class="login">
+		#if($session_attr_user)
+			<div class="inputLine"><div class="label">用户名：</div><span><a href="/user/profile/${session_attr_user.id}.html">${session_attr_user.userName}</a></span></div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;width:80px;" onclick="window.open('/user/modify/pwd.html','_self')">修改密码</div>
+				<div class="login_btn" style="margin-left:10px;width:80px;" onclick="window.open('/user/logout.html','_self')">退出登录</div>
+			</div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;width:80px;" onclick="window.open('/user/favorite/${session_attr_user.id}.html','_self')">我的收藏</div>
+				<div class="login_btn" style="margin-left:10px;width:80px;" onclick="window.open('/user/address.html','_self')">我的地址</div>
+			</div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;width:80px;" onclick="window.open('/user/contactor.html','_self')">联系人</div>
+				#if($session_attr_user.isAdmin()) 
+				<div class="login_btn" style="margin-left:10px;width:80px;" onclick="window.open('/admin.html','_self')">系统管理</div>
+				#else
+				<div class="login_btn" style="margin-left:10px;width:80px;border:none;">&nbsp;</div>
+				#end
+			</div>
+			
+		#else
+		<form name="loginFrm" id="loginFrm" method="POST" action="/user/login.html">
+			<div class="inputLine"><div class="label">用户名：</div><input type="text" name="userName" /></div>
+			<div class="inputLine"><div class="label">密码：</div><input type="password" name="password" /></div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;" onclick="document.getElementById('loginFrm').submit()">登录</div>
+				<div class="login_btn" style="margin-left:10px;" onclick="window.open('/user/signup.html','_self')">注册</div>
+			</div>
+		</form>
+		#end
+		#if($session_attr_user.withShop)
+			<a href="/${session_attr_user.shopName}"><div class="openshop">我的店铺</div></a>
+		#else
+			<a href="/shop/open.html"><div class="openshop">开店铺</div></a>
+		#end
+	</div>
+</div>  
+</div>
+<div style="clear:both;"></div>
+
+#parse('common/footer.vm')
+</body>
+</html>

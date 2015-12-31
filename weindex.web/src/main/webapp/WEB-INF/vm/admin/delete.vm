@@ -1,0 +1,16 @@
+<form name="labelFrm" action="/admin/label/edit.html" method="POST">
+<input type="hidden" name="id" value="${label.id}" />
+<div>Name(cn): <input type="text" name="cnName" maxlength="20" value="${label.cnName}"/></div>
+<div>Name(en): <input type="text" name="enName" maxlength="20" value="${label.enName}"/></div>
+<div>Type: <select name="type">
+<option selected="selected" value="${label.type}">
+"${label.type}"
+</option>
+<option value="0">全局标签(0)</option><option value="1">店铺标签(1)</option><option value="2">商品标签(2)</option><option value="3">博文标签(3)</option></select></div>
+<div>Desc: <input type="text" name="desc" maxlength="200" value="${label.desc}"/></div>
+<div>Pos: <input type="number" name="pos" maxlength="5" value="${label.pos}"/></div>
+<div>parentCategoryId: <input type="number" name="parentCategoryId" maxlength="5" value="${label.parentCategoryId}"/></div>
+<div>currentCategoryId: <input type="number" name="currentCategoryId" maxlength="5" value="${label.currentCategoryId}"/></div>
+<div><input type="submit" value="Submit" /></div>
+</form>
+<input type="hidden" name="id" value="${label.id}" />

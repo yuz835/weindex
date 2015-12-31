@@ -1,0 +1,21 @@
+#set($layout = "/layout/loginLayout.vm")
+<!-- main begin -->
+<div class="w600 myMsgBox">
+	<div class="p20"></div>
+	<div class="f14 fb">我的短消息</div>
+    <div class="p10"></div>
+    <div class="tit">
+    	<div class="fl">共收到 <span class="red">${list.size()}</span> 条短消息, 其中 <span class="red">${unreadNum}</span> 条新消息</div>
+        ##<div class="fr gray">共0页，当前显示第1页</div>
+    </div>
+    <div class="p5"></div>
+#foreach($m in $list)
+    <div class="li"><div class="fr">${m.createTime}</div><!--<input type="checkbox">--> <span>${m.contentText}</span></div>
+#end    
+    
+    <div class="p10 clear"></div>
+    
+    ##<div><input type="submit" class="gsub" value="删除"></div>
+</div>
+
+<!-- main end --> 

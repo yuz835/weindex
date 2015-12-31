@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ShopLabel">
+	<resultMap id="result" class="ca.weindex.common.model.ShopLabel">
+		<result property="id" column="ID" />
+		<result property="shopId" column="SHOP_ID" />
+		<result property="cnName" column="CN_NAME" />
+		<result property="enName" column="EN_NAME" />
+		<result property="type" column="TYPE" />
+		<result property="desc" column="DESCRIPTION" />
+		<result property="visible" column="VISIBLE" />
+	</resultMap>
+
+	<select id="getShopLabelById" resultMap="result">
+		select *
+		from SHOP_LABEL
+		where ID = #value#
+	</select>
+
+	<select id="getShopLabelByShopId" resultMap="result">
+		select *
+		from SHOP_LABEL
+		where SHOP_ID = #value#
+		order by ID
+		desc
+	</select>
+
+	<select id="getShopLabelByShopIdType" resultMap="result">
+		select *
+		from SHOP_LABEL
+		where SHOP_ID = #shopId# and TYPE = #type#
+		order by ID desc
+	</select>
+
+	<insert id="insertShopLabel">
+		insert into SHOP_LABEL (SHOP_ID, CN_NAME, EN_NAME, TYPE, DESCRIPTION)
+		values (#shopId#, #cnName#, #enName#, #type#, #desc#)
+	</insert>
+
+	<delete id="deleteShopLabel">
+		delete from SHOP_LABEL where ID = #value#
+	</delete>
+
+	<update id="updateShopLabel">
+		update SHOP_LABEL set VISIBLE = #visible# where ID = #id#
+	</update>
+
+	<select id="getShopLabelByIdList" resultMap="result">
+		<![CDATA[ 
+		select * 
+		from SHOP_LABEL
+		]]>
+		<dynamic prepend=" WHERE ">
+			<isPropertyAvailable property="value">
+				<isNotNull property="value">
+					<iterate property="value" conjunction="," close=")"
+						open=" ID in (">
+						#value[]#
+					</iterate>
+				</isNotNull>
+			</isPropertyAvailable>
+		</dynamic>
+	</select>
+</sqlMap>

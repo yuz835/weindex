@@ -1,0 +1,14 @@
+<!-- header begin -->
+<div id="header">
+#parse('common/banner.vm')
+#parse('common/searchBar.vm')
+</div>
+<!-- header end -->
+#**
+<div class="header_banner">
+<a href="/"><div class="header_logo">Logo</div></a>
+<div class="header_info">
+你好, 欢迎来到经商之道! &nbsp;&nbsp;&nbsp; 登录 | 免费注册 &nbsp;&nbsp;&nbsp; 用户中心 &nbsp;&nbsp;&nbsp; 设为首页 | 收藏 | 帮助
+</div>
+</div>
+**#

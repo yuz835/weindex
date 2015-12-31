@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WeiboUser">
+	<resultMap id="result" class="ca.weindex.common.model.WeiboUser">
+		<result property="id" 			column="ID"/> 
+		<result property="weiboUserId" 		column="WEIBO_USER_ID"/> 
+		<result property="screenName" 		column="SCREEN_NAME"/>            
+		<result property="name" 		column="NAME"/>                 
+		<result property="province" 		column="PROVINCE"/>                  
+		<result property="city" 		column="CITY"/>                      
+		<result property="location" 		column="LOCATION"/>    
+		<result property="url"			column="URL"/>                   
+		<result property="profileImageUrl"      column="PROFILE_IMAGE_URL"/> 		 
+		<result property="gender"           	column="GENDER"/>    
+		<result property="followersCount"       column="FOLLOWERS_COUNT"/>    
+		<result property="friendsCount"         column="FRIENDS_COUNT"/>    
+		<result property="statusesCount"        column="STATUSES_COUNT"/>    
+		<result property="favouritesCount"      column="FAVOURITES_COUNT"/>    
+		<result property="createdAt"           	column="CREATED_AT"/>    
+		<result property="verified"         	column="VERIFIED"/>    
+		<result property="verifiedType"         column="VERIFIED_TYPE"/>   
+		<result property="biFollowersCount"     column="BIFOLLOWER_COUNT"/>    
+		<result property="avatarLarge"       	column="AVATAR_LARGE"/>    
+		<result property="lang"              	column="LANG"/>    
+	</resultMap>
+
+
+
+	<insert id="insertWeiboUser">
+		insert into WEIBO_USER (
+				WEIBO_USER_ID, 
+				SCREEN_NAME,          
+				NAME,                
+				PROVINCE,             
+				CITY,                 
+				LOCATION, 
+				URL,                  
+				PROFILE_IMAGE_URL, 	
+				GENDER,    
+				FOLLOWERS_COUNT,    
+				FRIENDS_COUNT,    
+				STATUSES_COUNT,    
+				FAVOURITES_COUNT,    
+				CREATED_AT,    
+				VERIFIED,    
+				VERIFIED_TYPE,    
+				BIFOLLOWER_COUNT,
+				AVATAR_LARGE,    
+				LANG    
+				)	
+			values (
+				#weiboUserId#,  		   
+				#screenName#,  	   
+				#name#,  	   
+				#province#,  	   
+				#city#,  	   
+				#location#,  
+				#url#, 		   
+				#profileImageUrl#,  
+				#gender#,           
+				#followersCount#,   
+				#friendsCount#,     
+				#statusesCount#,    
+				#favouritesCount#,  
+				#createdAt#,        
+				#verified#,         
+				#verifiedType#,   
+				#biFollowersCount#,  
+				#avatarLarge#,      
+				#lang#             
+				)   
+	</insert>
+
+
+	<select id="checkWeiboUserByWeiboUserId" resultClass="java.lang.Integer">
+		select count(*)
+		from WEIBO_USER
+		where WEIBO_USER_ID = #value#
+	</select>
+
+	<select id="countWeiboUser" resultClass="java.lang.Integer">
+		select count(*)
+		from WEIBO_USER
+	</select>
+
+	<select id="getWeiboUserByWeiboUserId" resultMap="result">
+		select *
+		from WEIBO_USER where  WEIBO_USER_ID = 	#value# 		    
+	</select>
+
+	<select id="getWeiboUser" resultMap="result">
+		select *
+		from WEIBO_USER 
+		where  BIFOLLOWER_COUNT >= 0 AND CITY = 5 AND PROVINCE = 400
+		order by ID desc
+		limit 200
+	</select>
+
+	<select id="getWeiboUserById" resultMap="result">
+		select *
+		from WEIBO_USER 
+		where ID = #value# 
+	</select>
+
+	<select id="getWeiboUserByCityAndBiFollowerCount" resultMap="result">
+		select *
+		from WEIBO_USER where CITY = #city# and BIFOLLOWER_COUNT = #biFollowersCount#
+		order by ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<update id="updateWeiboUser">
+		update WEIBO_USER SET 
+		    SCREEN_NAME =       #screenName#,  	          
+		    NAME =              #name#,  	    
+		    PROVINCE =          #province#,  	     
+		    CITY =              #city#,  	     
+		    LOCATION =     	#location#,  	    
+		    URL =               #url#, 		    
+		    PROFILE_IMAGE_URL = #profileImageUrl#,   	 
+		    GENDER =        	#gender#,            
+		    FOLLOWERS_COUNT =   #followersCount#,    
+		    FRIENDS_COUNT =     #friendsCount#,      
+		    STATUSES_COUNT =    #statusesCount#,     
+		    FAVOURITES_COUNT =  #favouritesCount#,   
+		    CREATED_AT =    	#createdAt#,         
+		    VERIFIED =     	#verified#,          	
+		    VERIFIED_TYPE =    	#verifiedType#,      
+		    BIFOLLOWER_COUNT =  #biFollowersCount#,  
+		    AVATAR_LARGE =  	#avatarLarge#,       
+		    LANG =     		#lang#  where
+		    WEIBO_USER_ID =  	#weiboUserId# 		    
+	</update>
+
+	
+</sqlMap>
+

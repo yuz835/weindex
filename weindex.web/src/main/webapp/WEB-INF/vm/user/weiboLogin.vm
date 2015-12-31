@@ -1,0 +1,3 @@
+<div>
+<a href="https://api.weibo.com/oauth2/authorize?client_id=198216231&response_type=code&redirect_uri=http://weindex.ca/user/weibo/login/success.html">Weibo Login</a>
+</div>

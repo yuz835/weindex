@@ -1,0 +1,2 @@
+#set($layout = "/layout/json.vm")
+$content

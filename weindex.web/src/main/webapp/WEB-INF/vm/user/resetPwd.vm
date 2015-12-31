@@ -1,0 +1,26 @@
+#set($layout = "/layout/loginLayout.vm")
+<!-- main begin -->
+<div class="w600 userLogin">
+	<div class="p20"></div>
+	<div class="f14 fb">找回密码</div>
+    <div class="p10"></div>
+	<form name="resetPwdFrm" action="/user/showResetPwd.html" method="POST">
+       #if($message)
+        <p style="color:red;">$message</p>
+        <div class="p10"></div>
+        #end
+		<div class="li"><span class="f14 fl">用户名：</span> <input type="text" class="ipt" name="name" id="userName" value="$!{name}" ></div>
+		<div class="p5"></div>
+		<div class="li"><input type="submit" class="sub" value="提交"></div>
+	</form>
+	<div class="p10"></div>
+</div>
+
+<!-- main end --> 
+#**
+<form name="resetPwdFrm" action="/user/showResetPwd.html" method="POST">
+<div>$!{message}</div>
+<div>用户名: <input type="text" name="name" size="40" value="$!{name}"/></div>
+<div><input type="submit" value="提交"/></div>
+</form>
+**#

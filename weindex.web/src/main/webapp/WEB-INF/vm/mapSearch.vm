@@ -1,0 +1,151 @@
+#set($layout = "/layout/searchLayout.vm")
+<div>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+<script>
+var geocoder; 
+var map; 
+$(document).ready(function() {
+	#if(${session_attr_user.longi}&&${session_attr_user.lati})
+	var longi = ${session_attr_user.longi}/10000000;
+	var lati = ${session_attr_user.lati}/10000000;
+	displayMap(lati, longi);
+	#else
+	getLocation();
+	#end
+});
+
+function getLocation() {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(showPosition);
+	} else {
+		alert("抱歉, 您的浏览器无法取得您的当前位置");
+	}
+}
+
+function showPosition(position) {
+	var lati = position.coords.latitude;
+	var longi = position.coords.longitude;
+	displayMap(lati, longi); 
+}
+
+function displayMap(lati, longi) {
+    geocoder = new google.maps.Geocoder(); 
+    var latlng = new google.maps.LatLng(lati, longi); 
+    var myOptions = { 
+      zoom: 12, 
+      center: latlng, 
+      mapTypeId: google.maps.MapTypeId.ROADMAP 
+    } 
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
+
+    var boundsChangedListener = google.maps.event.addListener(map, 'tilesloaded', function() { 
+      //Chrome need timeout!? 
+      setTimeout(function(){ 
+      	search(1);
+      },500); 
+    }); 
+}
+
+var result;
+var searchlist;
+var markerList = new Array();
+#set($dollar='$')
+function search(i) {
+    var bonds = map.getBounds();
+    var ne = bonds.getNorthEast();
+    var sw = bonds.getSouthWest();
+    var neLat = ne.lat();
+    var neLng = ne.lng();
+    var swLat = sw.lat();
+    var swLng = sw.lng();
+    //alert(neLat + " : " + neLng + "..." + swLat + " : " + swLng);
+	//$.ajax({
+	${dollar}.ajax({		
+  		url: "/search/mapSearch.html",
+  		type: "POST",
+  		datatype: "json",
+  		cache: false,
+  		data: {startLat: swLat, endLat: neLat, startLng: swLng, endLng: neLng, pageNum:i, pageSize:10},
+  		success: function(responseText){
+  			result = eval('(' + responseText + ')');
+  			alert(responseText);
+  			for (var i = 0; i < markerList.length; i++) {
+  				markerList[i].setMap(null);
+  			}
+  			markerList = new Array();
+  			searchlist = result.list;
+  			for (var i = 0; i < result.list.length; i++) {
+  				var name = result.list[i].name;
+  				var dispname = result.list[i].displayName;
+  				var shopId = result.list[i].id;
+  				var address = result.list[i].address;
+  				var zip = result.list[i].zip;
+  				var lng = result.list[i].longi / 10000000;
+  				var lat = result.list[i].lati / 10000000;
+  				var pos = new google.maps.LatLng(lat, lng);
+  				var marker = new google.maps.Marker({ 
+					title:dispname, 
+					map: map,  
+					position: pos 
+				});
+				showMessage(marker, i);
+				markerList[markerList.length] = marker;
+  			}
+  			##zhangeth 2013/04/17 don't need to show them here showList(result);
+  		}
+	});
+}
+
+function showList(result) {
+	var list = result.list;
+	var html = "";
+	for (var i = 0; i < list.length; i++) {
+		var item = "<div style=\"padding-top:5px;padding-bottom:5px;border-bottom:dotted 1px #CCCCCC;font-size:14px;\"><a href=\"/" + list[i].name + "\">" + list[i].displayName + "</a></div>";
+		html += item;
+	}
+	var more = "<div class=\"more\">";
+	if(result.pageNum > 1) {
+		more += "<a href=\"#\" onclick=\"searchFirst()\">第一页</a> <a href=\"#\" onclick=\"searchPrevious()\">上一页</a>";
+	}
+	var totalPage = result.totalPage;
+	if (totalPage == 0) {
+		totalPage = 1;
+	}
+	more += "共 " + totalPage + " 页, 当前显示第 " + result.pageNum + " 页";
+	if(result.pageNum < result.totalPage) {
+		more += "<a href=\"#\" onclick=\"searchNext()\">下一页</a> <a href=\"#\" onclick=\"searchLast()\">最后一页</a>";
+	}
+	more += "</div>";
+	$("#resultlist").html(html + more);
+}
+
+function searchFirst() {
+	search(1);
+}
+
+function searchPrevious() {
+	search(result.previousPage);
+}
+
+function searchNext() {
+	search(result.nextPage);
+}
+
+function searchLast() {
+	search(result.totalPage);
+}
+
+function showMessage(marker, i) {
+        var content = "<a href='/" + searchlist[i].name + "'>" + searchlist[i].displayName + "</a><br/>" + searchlist[i].address + "<br/>" + searchlist[i].zip;
+	var infowindow = new google.maps.InfoWindow({
+		content: content,
+		size: new google.maps.Size(50,50)
+	});
+	google.maps.event.addListener(marker, 'click', function() {
+		infowindow.open(map,marker);
+	});
+}
+</script>
+<div id="map_canvas" style="height:600px;width:800px;"></div> 
+<div id="resultlist" class="shop"></div>
+</div>

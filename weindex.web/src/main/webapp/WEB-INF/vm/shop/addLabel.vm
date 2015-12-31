@@ -1,0 +1,61 @@
+#set($layout = "/layout/shopLayout.vm")
+<form name="descFrm" id="labelform" action="/shop/labels/add.html" method="POST">
+<input type="hidden" name="shopId" value="${shop.id}" />
+<!--店铺博文 begin-->
+<div class="blog fl w800"> 	
+    <div class="p5"></div>
+    <div class="f14 fb">新增店铺自有标签</div>
+    <div class="p10 clear"></div>
+    <div class="dli"><span class="f14 fl" style="padding-left:1em">标签中文名称：</span> <input type="text" class="inp" style="width:300px" name="cnName" maxlength="40" id="labelcnname"></div>
+    <div class="p5 clear"></div>
+    <div class="dli"><span class="f14 fl" style="padding-left:1em">标签英文名称：</span> <input type="text" class="inp" style="width:300px" name="enName" maxlength="40" id="labelenname"></div>
+    <div class="p5 clear"></div>
+    <div class="dli">
+    	<span class="f14 fl" style="padding-left:1em">标签类型：</span> 
+    	<select class="inp" style="height:33px;vertical-align:top;" name="type">
+			<option value="0">商品标签</option>
+			<option value="1">博文标签</option>
+		</select></div>
+    <div class="p5 clear"></div>
+    <div style="padding-left:84px"><input type="button" onclick="submitForm()" value="提 交" class="gsub"></div>
+    <div class="p10 clear"></div>
+</div>
+<div class="p10 clear"></div>
+</form>
+<script>
+function submitForm() {
+	var cnName = $("#labelcnname").val();
+	if (cnName == null || cnName.length == 0) {
+		alert("标签中文名称不能为空");
+		return;
+	}
+	if (cnName.length > 40) {
+		return;
+	}
+	var tmp = cnName.split(" ");
+	if (tmp.length >= cnName.length) {
+        alert("标签中文名称不能全为空格");
+        return;
+    }
+	
+	var enName = $("#labelenname").val();
+	if (enName == null || enName.length == 0) {
+		alert("标签英文名称不能为空");
+		return;
+	}
+	if (enName.length > 40) {
+		return;
+	}
+	var tmp = enName.split(" ");
+	if (tmp.length >= enName.length) {
+        alert("标签英文名称不能全为空格");
+        return;
+    }
+	var reg = new RegExp("^[a-zA-Z0-9\\s]*$");
+	if (!reg.test(enName)){
+        alert("标签英文名称不能包含字母数字和空格外的其他字符");
+        return;
+    }
+	$("#labelform").submit();
+}
+</script>

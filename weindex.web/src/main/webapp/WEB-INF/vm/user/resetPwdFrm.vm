@@ -1,0 +1,33 @@
+#set($layout = "/layout/loginLayout.vm")
+<!-- main begin -->
+<div class="w600 userLogin">
+	<div class="p20"></div>
+	<div class="f14 fb">找回密码</div>
+    <div class="p10"></div>
+	<form name="resetPwdFrm" action="/user/resetPwd.html" method="POST">
+<input type="hidden" name="id" value="${userid}" />
+<input type="hidden" name="token" value="${token}" />
+       #if($message)
+        <p style="color:red;">$message</p>
+        <div class="p10"></div>
+        #end
+		<div class="li"><span class="f14 fl">请输入新密码：</span> <input type="password" class="ipt" name="password" id="password" maxlength="30" /></div>
+		<div class="p5"></div>
+		<div class="li"><span class="f14 fl">重复输入密码：</span> <input type="password" class="ipt" name="password2" id="password2" maxlength="30" /></div>
+		<div class="p5"></div>
+		<div class="li"><input type="submit" class="sub" value="提交"></div>
+	</form>
+	<div class="p10"></div>
+</div>
+
+<!-- main end --> 
+#**
+<form name="resetPwdFrm" action="/user/resetPwd.html" method="POST">
+<input type="hidden" name="id" value="${userid}" />
+<input type="hidden" name="token" value="${token}" />
+<div>$!{message}</div>
+<div>新密码: <input type="password" name="password" size="40"/></div>
+<div>请重复输入密码: <input type="password" name="password2" size="40"/></div>
+<div><input type="submit" value="提交"/></div>
+</form>
+**#

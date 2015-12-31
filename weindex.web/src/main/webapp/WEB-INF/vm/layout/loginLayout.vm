@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+  <title>经商知道</title>
+  <meta http-equiv="pragma" content="no-cache" />
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/weindex-index.css">
+##<link rel="stylesheet" href="/css/weindex.css">
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<script src="/js/jquery-1.8.3.min.js"></script>  
+<script src="/js/jquery.wookmark.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/weindex.js" ></script>
+<style>
+a{text-decoration:none;}
+a:link,a:visited,a:active,a:hover{text-decoration:none;color:#0667AC;}
+</style>
+</head>
+<body>
+#parse('common/headerWithoutSearchBar.vm')
+$screen_content
+#parse('common/footer.vm')
+</body>
+</html>

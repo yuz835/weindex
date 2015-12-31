@@ -1,0 +1,84 @@
+<!--店铺商品 begin-->
+#set($isOwner=(${shop.userId}==${session_attr_user.id}))
+<div class="box">
+	<div class="f14 fb">店铺商品</div>
+            <div class="proMain">
+                <ul class="proRecom">
+			     <li>
+        		                <p><a href="#"><span class="iconHot"></span><img src="/img/product_recom_01.jpg"></a></p>
+        		                <p>
+        		                    <span class="proName"><a href="#">商品名称</a></span>
+        		                    <span class="proPrice">$10</span>
+        		                </p>
+        		            </li>
+        		            <li style="float:right;">
+        		                <p><a href="#"><span class="iconHot"></span><img src="/img/product_recom_01.jpg"></a></p>
+        		                <p>
+        		                    <span class="proName"><a href="#">商品名称</a></span>
+        		                    <span class="proPrice">$10</span>
+        		                </p>
+        		            </li>
+
+			    		</ul>
+                
+		<ul class="proNew">
+                    <li>
+                        <p><a href="#"><span class="iconRecom"></span><img src="/img/product_new_01.jpg"></a></p>
+                        <p>
+                            <span class="proName"><a href="#">商品名称</a></span>
+                            <span class="proPrice">$10</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p><a href="#"><span class="iconRecom"></span><img src="/img/product_new_01.jpg"></a></p>
+                        <p>
+                            <span class="proName"><a href="#">商品名称</a></span>
+                            <span class="proPrice">$10</span>
+                        </p>
+                    </li>
+                    <li style="float:right; padding-right:0px;">
+                        <p><a href="#"><span class="iconRecom"></span><img src="/img/product_new_01.jpg"></a></p>
+                        <p>
+                            <span class="proName"><a href="#">商品名称</a></span>
+                            <span class="proPrice">$10</span>
+                        </p>
+                    </li>
+                </ul>
+	</div>
+
+###if($isOwner)
+##	<script type="text/javascript">
+##		$(function(){
+##			$(".uPro li").mouseover(function(e) {
+##				$(".sCancel",this).show();
+##			}).mouseout(function(e) {
+##				$(".sCancel",this).hide();
+##			});
+##		})
+##	</script>
+###end
+##<div> 
+##            <p style="padding-top:10px;padding-right: 5px;text-align: right;"><a href="http://www.weindex.ca/weindex?type=offer">更多&gt;&gt;</a></p>
+##
+##</div>
+
+    	<div class="p10 clear"></div>
+    	<p style="padding-top:10px;padding-right: 5px;text-align: right;"><a href="/${shop.name}?type=offer">更多&gt;&gt;</a></p>
+</div>
+<!--店铺商品 end-->
+        
+<!--店铺博文 begin-->
+<div class="box blog" style="margin-top:15px;">
+	<div class="f14 fb">店铺博文</div>
+	<div class="p5"></div>
+     	<div class="blogtitle">
+		<ul>
+		#foreach($blog in $blogList.list) 
+			<li><a href="/blog/view/${blog.id}.html" target="_blank">&nbsp;${blog.title}</a><div class="s"><span style="padding-right:15px;">${blog.commentNum}/${blog.visitNum}</span> <span>${blog.date}</span></div></li>
+		#end
+    		</ul>
+    		<p style="padding-top:10px;padding-right: 5px;text-align: right;"><a href="/${shop.name}?type=blog">更多&gt;&gt;</a></p>
+      	</div>
+	 <div class="p5"></div>
+</div>
+        

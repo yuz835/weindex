@@ -1,0 +1,16 @@
+#set($layout = "/layout/loginLayout.vm")
+<!-- main begin -->
+<div class="w600 myMsgBox">
+	<div class="p20"></div>
+	<div class="f14 fb">我的联系人</div>
+    <div class="p10"></div>
+#foreach($c in $list) 
+	#if($c.contactorId != -1 && $c.contactorId != $session_attr_user.id)
+	<div class="li"><span><a href="/user/message.html?to=${c.contactorId}">${c.contactor} #if($c.readedNum != $c.totalNum) (${c.unreadedNum})#end</a></span></div>
+	#end
+#end
+    <div class="p10 clear"></div>
+    
+</div>
+
+<!-- main end --> 

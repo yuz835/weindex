@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WeiboUserFollowed">
+	<resultMap id="result" class="ca.weindex.common.model.WeiboUserFollowed">
+		<result property="id" column="ID" />
+		<result property="weiboUserId" column="WEIBO_USER_ID" />
+		<result property="screenName" column="SCREEN_NAME" />
+		<result property="firstFollowedIndex" column="FIRST_FOLLOWED_INDEX" />
+		<result property="latestFollowedIndex" column="LATEST_FOLLOWED_INDEX" />
+		<result property="created" column="CREATED" />
+	</resultMap>
+
+
+	<insert id="insertWeiboUserFollowed">
+		insert into WEIBO_USER_FOLLOWED (WEIBO_USER_ID, SCREEN_NAME, FIRST_FOLLOWED_INDEX, LATEST_FOLLOWED_INDEX, CREATED) values (#weiboUserId#, #screenName#, #firstFollowedIndex#, #latestFollowedIndex#, NOW())
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY AS ID
+		</selectKey>
+	</insert>
+
+	<select id="checkWeiboUserFollowedByWeiboUserId" resultClass="java.lang.Integer">
+		select count(*)
+		from WEIBO_USER_FOLLOWED
+		where WEIBO_USER_ID = #value#
+	</select>
+
+	<select id="getWeiboUserFollowedByWeiboUserId" resultMap="result">
+		select *
+		from WEIBO_USER_FOLLOWED
+		where WEIBO_USER_ID = #value#
+	</select>
+
+
+	<delete id="deleteWeiboUserFollowedByWeiboUserId">
+		delete from WEIBO_USER_FOLLOWED where WEIBO_USER_ID=#value#
+	</delete>
+
+	<update id="updateWeiboUserFollowed">
+		update WEIBO_USER_FOLLOWED SET 
+		    	FIRST_FOLLOWED_INDEX 	=       #firstFollowedIndex#,  	          
+		    	LATEST_FOLLOWED_INDEX 	=       #latestFollowedIndex#  	          
+			where WEIBO_USER_ID 	=  	#weiboUserId# 		    
+	</update>
+
+
+	
+</sqlMap>

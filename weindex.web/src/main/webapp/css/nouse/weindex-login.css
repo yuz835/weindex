@@ -1,0 +1,124 @@
+@charset "utf-8";
+/* CSS Document */
+
+.box{ width:100%; }
+.main{ width:100%; margin:0 auto; overflow:hidden;}
+
+/*left*/
+.left{ float:left; margin-left:-322px; padding-left:336px; width:100%;}
+.Nav{ height:37px; margin-top:10px; overflow:hidden;margin-right:350px; }
+.Nav li{ float:left; width:116px; height:35px; margin-right:10px; overflow:hidden; line-height:35px; text-align:center; font-size:16px; font-weight:bold; font-family:"微软雅黑"; background:url(/img/bg_Nav.gif) repeat-x; border:1px solid #cfcfcf; }
+.Nav li.NavActive a{ color:#0783a6; }
+.warp{ width:100%; }
+.warpLeft{ float:left; margin-top:13px; margin-right:589px; }
+.warpLeft .Menu{ float:left; height:32px; overflow:hidden; margin-right:15px;}
+.warpLeft .Menu ul li{ float:left; width:auto; height:30px; padding:0px 8px; margin-right:7px; overflow:hidden; line-height:30px; text-align:center; border:1px solid #cfcfcf; }
+.warpLeft .Menu ul li a{ color:#7f7f7f; }
+.warpLeft .Menu ul li a:hover{ color:#0098c9; }
+#Content { margin-top:45px;  }
+#tiles{ list-style-type: none; position: relative; }
+#tiles li{ float:left; display:block; width:192px; padding:12px; background:#fff; border:1px solid #c9c7c8; }
+#tiles li p.ConName{ height:30px; line-height:30px; }
+#tiles li span.ConOperLeft{ float:left; width:54px; height:17px; padding:4px 3px; overflow:hidden; line-height:17px; color:#c90000; background:#f2f2f2; }
+#tiles li span.ConMore,.ConMore a{ float:right; width:82px; height:22px; line-height:22px; text-align:center; color:#1a90b1; background:#ededed; }
+.warpRight{ float:right; width:222px; margin-top:12px; margin-right:337px; position:absolute; right:0px; }
+.warpRight .MenuGuanzhu{ width:122px; }
+.warpRight .MenuGuanzhu img{ float:left; padding-top:4px; }
+.warpRight .MenuGuanzhu span{ float:right; width:57px; height:22px; margin-top:3px; overflow:hidden; line-height:22px; text-align:center; background:url(/img/Box_Guanzhu.gif) no-repeat; }
+.warpRight .banner{ float:left; width:222px; height:340px; margin-top:20px; border-bottom:1px solid #fff; }
+
+/*right*/
+.right{ position:absolute; right:0px; width:322px;}
+.RightMain{ float:right; width:310px; }
+
+/*login*/
+.login{ width:260px; height:250px; padding:0px 24px; margin-top:15px; overflow:hidden; background:#fff; border:1px solid #e5e5e5; }
+.login .loginMain{ width:260px; margin-top:14px; overflow:hidden; line-height:32px; }
+.login .loginMain img{ margin-top:8px; }
+.login .loginMainLeft{ float:left; width:60px; }
+.login .loginMainRight{ float:left; width:200px; }
+.login .loginBox{ width:180px; height:32px; padding-left:10px; background:#e8e8e8; }
+.login .loginBtn{ float:right; width:70px; height:38px; margin-top:2px; margin-right:10px; line-height:38px; text-align:center; color:#fff; font-size:14px; cursor:pointer; background:#009bb9; }
+
+/*人气店铺*/
+.hotShop{ width:302px; padding:0px 3px; margin-top:13px; overflow:hidden; background:#fff; border:1px solid #e6e6e6; }
+.hotShop p{ font-size:16px; line-height:38px; text-indent:7px; }
+.hotShop .hotShopMain{ width:301px; overflow:hidden; border-top:1px solid #e6e6e6; border-left:1px solid #e6e6e6; }
+.hotShop .hotShopMain li{ float:left; width:149px; height:143px; overflow:hidden; border-right:1px solid #e6e6e6; border-bottom:1px solid #e6e6e6; }
+.hotShop p.text_more,.hotRticle p.text_more{ padding-right:5px; text-align:right; }
+
+/*本周热门文章*/
+.hotRticle{ width:280px; padding:0px 18px 0px 10px; margin-top:13px; overflow:hidden; background:#fff; border:1px solid #e6e6e6; }
+.hotRticle p{ font-size:16px; line-height:38px; }
+.hotRticle .hotRticleCon{ width:280px; padding:15px 0px 18px 0px; overflow:hidden; border-bottom:1px dashed #e6e6e6; }
+.hotRticle .hotRticlePic{ float:left; width:83px; height:65px; overflow:hidden; }
+.hotRticle .hotRticleIntro{ float:right; width:175px; height:60px; padding-top:5px; overflow:hidden; line-height:21px; color:#8c8c8c; }
+.hotRticle .hotRticleOper{ width:280px; height:20px; margin-top:5px; overflow:hidden; line-height:20px; }
+.hotRticle .hotRticleName{ float:left; color:#525252; }
+.hotRticle .hotRticleTime{ float:right; color:#c5c5c5; }
+.hotRticle p.text_more{ padding:20px 0px 0px 0px; }
+
+.map{ width:292px; height:147px; padding:8px; margin-top:13px; overflow:hidden; background:#fff; border:1px solid #e6e6e6; }
+
+/*店铺-博客*/
+.Shop,.Blog{ margin-top:33px; }
+.Shop .ShopCon{ float:left; width:552px; height:196px; padding:16px 8px 10px 15px; margin:12px 12px 0px 0px; overflow:hidden; background:#fff; border:1px solid #c9c7c8; }
+.Shop .ShopConLeft{ float:left; width:280px; }
+.Shop .ShopConLeft p.ShopPic{ float:left; width:278px; height:84px; border:1px solid #e6e6e6; }
+.Shop .ShopConLeft p.ShopName,.ShopGzhu,.ShopIntro{ margin-top:5px; }
+.Shop .ShopConLeft p.ShopName{ float:left; width:100%; height:20px; line-height:20px; }
+.Shop .ShopConLeft p.ShopName a{ color:#373737; }
+.Shop .ShopConLeft p.ShopName a:hover{ color:#0096c9; }
+.Shop .ShopConLeft p.ShopGzhu{ float:left; width:62px; height:22px; }
+.Shop .ShopConLeft p.ShopIntro{ float:left; color:#8c8c8c; }
+.Shop .ShopConRight{ float:left; padding-left:15px; line-height:24px; color:#010101; }
+.Shop .ShopConRight p span.fc_ff0{ color:#ff0000; }
+.Shop .ShopConRight p span.fc_1e7{ color:#1e7dc4; }
+.Shop .ShopConRight p.ShopMore,p.ShopMore a,.BlogMore,.BlogMore a{ float:right; width:82px; height:22px; margin-top:30px; line-height:22px; text-align:center; background:#ededed; }
+.Shop .ShopConRight p.ShopMore a,.BlogMore a{ float:left; margin-top:0px; }
+.Shop .ShopConRight p a,.BlogMore a{ color:#1a90b1; }
+.Blog .BlogCon{ float:left; width:535px; height:190px; padding:15px 24px 15px 17px; margin:12px 12px 0px 0px; overflow:hidden; background:#fff; border:1px solid #c9c7c8; }
+.Blog .BlogConLeft{ float:left; width:192px; overflow:hidden; }
+.Blog .BlogConLeft p.BlogName{ float:left; height:30px; line-height:30px; margin-top:5px; }
+.Blog .BlogConLeft p.BlogName a{ color:#444; }
+.Blog .BlogConLeft p.BlogName a:hover{ color:#1e7dc4; }
+.Blog .BlogConRight{ float:right; width:325px; }
+.Blog .BlogConRight p.BlogTime{ color:#c5c5c5; }
+.Blog .BlogConRight p.BlogIntro{ float:left; margin-top:5px; line-height:23px; color:#8c8c8c; }
+.Blog .BlogConRight p.BlogMore{ float:left; margin-top:13px; overflow:hidden; }
+.Blog .BlogConRight p.BlogTag{ float:left; width:100%; height:20px; line-height:20px; margin-top:13px; color:#ff0000; }
+.Blog .BlogConRight p.BlogTag span{ padding-right:15px; }
+.Blog .BlogConRight p.BlogTag span a{ color:#979797; }
+.Blog .BlogConRight p.BlogTag span a:hover{ color:#1a90b1; }
+
+/*搜索页*/
+.SearchTag{ float:left; width:97%; padding-bottom:13px; overflow:hidden; border-bottom:1px dashed #c9c9c9; }
+.SearchTag p{ float:left; width:100%; line-height:30px; color:#767676; }
+.SearchTag p span{ padding-right:12px; overflow:hidden; }
+.SearchTag p span a{ color:#009bba; }
+.SearchTag p .SearchInp{ width:112px; height:23px; padding-left:5px; margin-top:2px; overflow:hidden; line-height:23px; border:1px solid #cbcbcb; background:#fff; }
+.SearchTag p .SearchBtn{ width:38px; height:23px; margin-left:8px; margin-top:3px; overflow:hidden; line-height:23px; text-align:center; cursor:pointer; background:#e6e6e6; border:1px solid #cbcbcb; }
+.SearchPage{ float:left; width:100%; height:30px; line-height:30px; margin-top:8px; }
+.SearchPage span{ color:#ff0000; }
+.SearchList table td{ height:35px; line-height:35px; border-bottom:1px dashed #d5d5d5; }
+.SearchList table td.SearchListCon a{ color:#757575; }
+.SearchList table td.SearchListUser a,.SearchListTime,.SearchListNo,.SearchList table td.SearchListCon a:hover{ color:#009bba; }
+
+/*Login*/
+.LoginMain{ clear:both; margin:0 auto; width:870px; padding-top:45px; overflow:hidden; }
+.LoginLeft{ float:left; width:360px; padding-right:66px; }
+.LoginLeft h1,.LoginRight h2{ font-size:14px; font-weight:bold; }
+.LoginCon{ height:35px; margin-top:14px; overflow:hidden; }
+.LoginCon2{ height:20px; margin-top:14px; line-height:20px; }
+.LoginCon3{ margin-top:30px; padding-left:70px; }
+.LoginCon3 img{ margin-top:23px; padding-right:7px; overflow:hidden; }
+.LoginConLeft{ float:left; width:70px; height:34px; line-height:34px; font-size:14px; text-align:right; }
+.LoginConRight input{ float:left; width:285px; height:34px; padding-left:5px; line-height:34px; background:#d3d3d3; }
+.LoginCon2 .LoginConVolun{ padding-left:70px; display:inline; }
+.LoginCon2 .LoginConVolun input{ vertical-align:-3px; margin-right:5px; }
+.LoginCon2 .LoginConVolun span{ color:#808080; }
+.LoginCon2 .LoginConPword a{ float:right; color:#ff0000; }
+.LoginCon .LoginBtn{ float:left; margin:0px; padding:0px; width:85px; height:34px; margin-left:70px; overflow:hidden; line-height:34px; text-align:center; color:#fff; font-size:14px; background:#1e7dc4; }
+.LoginRight{ float:right; width:360px; padding-left:75px; overflow:hidden; border-left:1px solid #d8d8d8; }
+.LoginRight p{ color:#808080; }
+.LoginMain h3{ height:280px; margin-top:30px; overflow:hidden; text-align:center; font-size:14px; font-weight:bold; }

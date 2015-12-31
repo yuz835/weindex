@@ -1,0 +1,9 @@
+#set($layout = "/layout/loginLayout.vm")
+<!-- main begin -->
+<div class="w600 userLogin">
+	<div class="p20"></div>
+	<div class="f14 fb">密码重置邮件发送成功, 请检查您的收件箱, 谢谢!</div>
+    <div class="p10"></div>
+</div>
+
+<!-- main end --> 

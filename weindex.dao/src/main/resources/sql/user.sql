@@ -1,0 +1,21 @@
+CREATE TABLE user (
+id INT NOT NULL AUTO_INCREMENT,
+name VARCHAR(64) NOT NULL UNIQUE,
+is_admin INT default 0,
+password varchar(256),
+email varchar(256),
+weibo_id varchar(256),
+weibo_token varchar(256),
+weiboShowVerifyId VARCHAR(256),
+fb_id varchar(256),
+country varchar(128),
+city varchar(128),
+zip varchar(20),
+address varchar(256),
+longitude INT(11),
+latitude INT(11),
+login_failed_times INT default 0,
+lost_pwd_token varchar(256),
+lost_pwd_token_expiry BIGINT,
+PRIMARY KEY (id)
+) ENGINE=InnoDB default charset=utf8;

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolbox scope="request">
+	<tool>
+		<key>text</key>
+		<class>org.apache.velocity.tools.generic.ResourceTool</class>
+		<parameter name="bundles" value="test" />
+		<!-- <parameter name="locale" value="zh_CN" /> -->
+	</tool>
+	<!-- <tool class="org.apache.velocity.tools.generic.ResourceTool" bundles="test" 
+		locale="en_US" /> -->
+	<tool>
+		<key>mytool</key>
+		<scope>application</scope>
+		<class>ca.weindex.web.MyTool</class>
+	</tool>
+</toolbox>

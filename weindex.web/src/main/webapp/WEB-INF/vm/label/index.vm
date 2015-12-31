@@ -1,0 +1,34 @@
+#set($layout = "/layout/searchLayout.vm")
+<!-- list begin -->
+<div id="Content" class="blogBox" style="margin-top:0">
+<div class="labelWrap">
+	<div class="labelType">店铺</div>
+    <ul>
+    	#foreach($l in $labelList)
+    		#if($l.type==0 || $l.type==1)
+    			<li><a href="/label/${l.id}/shop.html">$l.cnName</a></li>
+    		#end
+    	#end
+	</ul>
+<div class="p10 clear"></div>
+	<div class="labelType">商品</div>
+    <ul>
+    	#foreach($l in $labelList)
+    		#if($l.type==0 || $l.type==2)
+    			<li><a href="/label/${l.id}/offer.html">$l.cnName</a></li>
+    		#end
+    	#end
+	</ul>
+<div class="p10 clear"></div>
+	<div class="labelType">博文</div>
+    <ul>
+    	#foreach($l in $labelList)
+    		#if($l.type==0 || $l.type==3)
+    			<li><a href="/label/${l.id}/blog.html">$l.cnName</a></li>
+    		#end
+    	#end
+	</ul>
+</div>
+</div>
+<!-- list end -->
+<div class="clear" style="height:40px;"></div>

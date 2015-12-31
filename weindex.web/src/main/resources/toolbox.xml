@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tools>
+   <toolbox scope="request">
+       <tool key="res"
+              class="org.apache.velocity.tools.generic.ResourceTool"
+              bundles="test"
+              locale="en_US"/>
+   </toolbox>
+</tools>

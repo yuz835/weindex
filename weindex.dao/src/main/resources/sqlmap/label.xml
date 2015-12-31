@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Label">
+	<resultMap id="result" class="ca.weindex.common.model.Label">
+		<result property="id" column="ID" />
+		<result property="cnName" column="CN_NAME" />
+		<result property="enName" column="EN_NAME" />
+		<result property="type" column="TYPE" />
+		<result property="desc" column="DESCRIPTION" />
+		<result property="visible" column="VISIBLE" />
+		<result property="pos" column="POS" />
+		<result property="parentCategoryId" column="PARENTCATEGORYID" />
+		<result property="currentCategoryId" column="CURRENTCATEGORYID" />
+		<result property="levelId" column="LEVELID" />
+	</resultMap>
+
+	<select id="getLabelById" resultMap="result">
+		select *
+		from LABEL
+		where ID = #value#
+	</select>
+
+	<select id="getLabel" resultMap="result">
+		select *
+		from LABEL
+		order by POS desc, ID desc
+	</select>
+
+	<select id="getLabelByType" resultMap="result">
+		select *
+		from LABEL
+		where TYPE = #value#
+		order by PARENTCATEGORYID, POS desc, ID desc
+	</select>
+
+	<select id="getLabelByTypeLevelCategory" resultMap="result">
+		select *
+		from LABEL
+		where TYPE = #type# and LEVELID = #levelId# and PARENTCATEGORYID = #parentCategoryId#
+		order by PARENTCATEGORYID, POS desc, ID desc
+	</select>
+
+	<select id="getLabelByTypeLevel" resultMap="result">
+		select *
+		from LABEL
+		where  TYPE = #type# and LEVELID = #levelId#
+		order by PARENTCATEGORYID, POS desc, ID desc
+	</select>
+
+
+
+	<insert id="insertLabel">
+		insert into LABEL (CN_NAME, EN_NAME, TYPE, DESCRIPTION, POS, PARENTCATEGORYID, CURRENTCATEGORYID, LEVELID)
+		values (#cnName#, #enName#, #type#, #desc#, #pos#, #parentCategoryId#, #currentCategoryId#, #levelId#)
+	</insert>
+
+	<delete id="deleteLabel">
+		delete from LABEL where ID = #value#
+	</delete>
+
+	<update id="updateLabel">
+		update LABEL set  CN_NAME = #cnName#, EN_NAME = #enName#, TYPE= #type#, DESCRIPTION = #desc#, POS = #pos#, PARENTCATEGORYID = #parentCategoryId#, CURRENTCATEGORYID = #currentCategoryId#, LEVELID = #levelId# where ID = #id#
+	</update>
+
+	<select id="getLabelByIdList" resultMap="result">
+		<![CDATA[ 
+		select * 
+		from LABEL
+		]]>
+		<dynamic prepend=" WHERE ">
+			<isPropertyAvailable property="value">
+				<isNotNull property="value">
+					<iterate property="value" conjunction="," close=")"
+						open=" ID in (">
+						#value[]#
+					</iterate>
+				</isNotNull>
+			</isPropertyAvailable>
+		</dynamic>
+	</select>
+
+	<select id="getLabelByParentCategoryId" resultMap="result">
+		select *
+		from LABEL
+		where PARENTCATEGORYID = #value#
+	</select>
+</sqlMap>

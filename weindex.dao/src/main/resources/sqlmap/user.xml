@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="User">
+	<resultMap id="result" class="ca.weindex.common.model.User">
+		<result property="id" column="ID" />
+		<result property="userName" column="NAME" />
+		<result property="email" column="EMAIL" />
+		<result property="admin" column="IS_ADMIN" />
+		<result property="weiboId" column="WEIBO_ID" />
+		<result property="weiboToken" column="WEIBO_TOKEN" />
+		<result property="facebookId" column="FB_ID" />
+		<result property="country" column="COUNTRY" />
+		<result property="city" column="CITY" />
+		<result property="address" column="ADDRESS" />
+		<result property="longi" column="LONGITUDE" javaType="java.lang.Integer" />
+		<result property="lati" column="LATITUDE" javaType="java.lang.Integer" />
+		<result property="zip" column="ZIP" />
+		<result property="lostPwdToken" column="LOST_PWD_TOKEN" />
+	</resultMap>
+
+	<select id="checkUserName" resultClass="java.lang.Integer">
+		select count(*)
+		from USER
+		where NAME = #value#
+	</select>
+
+	<select id="checkEmail" resultClass="java.lang.Integer">
+		select count(*)
+		from USER
+		where EMAIL = #value#
+	</select>
+
+	<select id="getUserIdByName" resultClass="java.lang.Integer">
+		select ID
+		from USER
+		where NAME = #value#
+	</select>
+
+	<select id="getUserByName" resultMap="result">
+		select *
+		from USER
+		where NAME = #value#
+	</select>
+
+	<insert id="insertUser">
+		insert into USER (NAME, PASSWORD, EMAIL, WEIBO_ID, WEIBO_TOKEN, FB_ID) values (#userName#, #pwdMd5#, #email#, #weiboId#, #weiboToken#, #facebookId#)
+	</insert>
+	
+	<update id="updateUserPassword">
+		update USER SET PASSWORD = #pwdMd5# where ID = #id#
+	</update>
+	
+	<update id="updateUserAdmin">
+		update USER SET IS_ADMIN = #admin# where ID = #id#
+	</update>
+	
+	<update id="updateWeiboToken">
+		update USER SET WEIBO_TOKEN = #weiboToken# where ID = #id#
+	</update>
+	
+	<update id="updateUser">
+		update USER SET EMAIL = #email#, COUNTRY = #country#, CITY = #city#, ADDRESS = #address#, ZIP = #zip#, LONGITUDE = #longi#, LATITUDE = #lati# where ID = #id#
+	</update>
+	
+	<select id="getUserList" resultMap="result">
+		select *
+		from USER
+	</select>
+	
+	<select id="getUserById" resultMap="result">
+		select *
+		from USER where ID = #value#
+	</select>
+	
+	<select id="getUserByNamePwd" resultMap="result">
+		select *
+		from USER
+		where NAME = #userName# and PASSWORD = #pwdMd5#
+	</select>
+	
+	<select id="getUserByWeiboId" resultMap="result">
+		select *
+		from USER
+		where WEIBO_ID = #value#
+	</select>
+	
+	<select id="getUserByFbId" resultMap="result">
+		select *
+		from USER
+		where FB_ID = #value#
+	</select>
+	
+	<select id="getUserWithoutWeiboId" resultMap="result">
+		select *
+		from USER
+		where WEIBO_ID is null
+	</select>
+	
+	<select id="getUserWithoutFbId" resultMap="result">
+		select *
+		from USER
+		where FB_ID is null
+	</select>
+	
+	<update id="updateUserWeiboId">
+		update USER set WEIBO_ID = #weiboId#, WEIBO_TOKEN = #weiboToken# where ID = #id#
+	</update>
+	
+	<update id="updateUserFbId">
+		update USER set FB_ID = #facebookId# where ID = #id#
+	</update>
+	
+	<select id="getUserLoginFailedTimes" resultClass="java.lang.Integer">
+		select LOGIN_FAILED_TIMES
+		from USER
+		where NAME = #value#
+	</select>
+	
+	<update id="userLoginFailed">
+		update USER set LOGIN_FAILED_TIMES = LOGIN_FAILED_TIMES + 1 where NAME = #value#
+	</update>
+	
+	<update id="userLoginSuccess">
+		update USER set LOGIN_FAILED_TIMES = 0 where NAME = #value#
+	</update>
+	
+	<insert id="insertUserSession">
+		insert into USER_SESSION (USER_ID, TOKEN, CREATE_TIME, EXPIRY_TIME) values (#userId#, #token#, #createTime#, #expiryTime#)
+	</insert>
+	
+	<select id="checkLoginByToken" resultMap="result">
+		select USER.* 
+		from USER_SESSION left join USER on USER_SESSION.USER_ID=USER.ID 
+		where USER_SESSION.TOKEN = #token# and USER_SESSION.EXPIRY_TIME > #expiryTime# and USER_SESSION.VALID = 1
+	</select>
+	
+	<delete id="removeUserSession">
+		delete from USER_SESSION where USER_ID = #userId# and TOKEN = #token#
+	</delete>
+
+	<update id="updateLostPwdToken">
+		update USER set LOST_PWD_TOKEN = #lostPwdToken#, LOST_PWD_TOKEN_EXPIRY = #lostPwdTokenExpiry# where NAME = #userName# and EMAIL = #email#
+	</update>
+
+	<select id="getUserByLostPwdToken" resultMap="result">
+		select *
+		from USER
+		where LOST_PWD_TOKEN = #lostPwdToken# and LOST_PWD_TOKEN_EXPIRY > #lostPwdTokenExpiry#
+	</select>
+
+	<update id="updatePasswordByLostPwdToken">
+		update USER set PASSWORD = #pwdMd5#, LOST_PWD_TOKEN = '' where LOST_PWD_TOKEN = #lostPwdToken# and LOST_PWD_TOKEN_EXPIRY > #lostPwdTokenExpiry# and ID = #id#
+	</update>
+	
+	
+</sqlMap>

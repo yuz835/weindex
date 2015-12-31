@@ -1,0 +1,94 @@
+<!-- login begin -->
+#if($session_attr_user)
+<div class="userInfo">
+	<div>用户名：<a href="/user/profile/${session_attr_user.id}.html"><span class="red">$!{session_attr_user.userName}</span></a></div>
+	<div class="h10"></div>
+	<div class="ucbox">
+		#if($session_attr_user.unreadedMessageNum>0)
+			<div class="gray">站内信（<a href="/user/messages.html" class="red fb">$session_attr_user.unreadedMessageNum</a>）</div>
+		#else
+			<div class="gray"><a href="/user/messages.html" class="fb">站内信</a></div>
+		#end
+		<div class="h5"></div>
+		<div class="btn">
+			<a href="/user/modify/pwd.html">修改密码</a>
+			<a href="/user/logout.html">退出登陆</a>
+			<a href="/user/favorite/${session_attr_user.id}.html?type=0">我的收藏</a>
+			<a href="/user/address.html">我的地址</a>
+			<a href="/user/contactor.html">联系人</a>
+			#if($session_attr_user.isAdmin()) 
+				<a href="/admin.html">系统管理</a>
+			#else
+				<a href="/user/profile/${session_attr_user.id}.html"><font color=red>绑定微博</font></a> 
+			#end
+		</div>
+		<div class="clear"></div>
+		#if($session_attr_user.withShop)
+			<div class="myshop"><a href="/${session_attr_user.shopName}">我的店铺</a></div>
+		#else
+			<div class="myshop"><a href="/shop/open.html">免费开店</a></div>
+		#end
+	</div>
+</div>
+#else
+<div class="login">
+<form id="loginFrm" name="loginFrm" method="POST" action="/user/login.html">
+<div class="loginMain">
+    <div class="loginMainLeft">用户名：</div>
+    <div class="loginMainRight">
+        <input type="text" name="userName" id="userNameFld" class="loginBox" />
+    </div>
+</div>
+<div class="loginMain">
+    <div class="loginMainLeft">密　码：</div>
+    <div class="loginMainRight">
+        <input type="password" name="password" id="passwordFld" class="loginBox" />
+    </div>
+</div>
+<div class="loginMain">
+    <input type="button" name="loginBtn" id="loginBtn" value="登录" class="loginBtn" onclick="document.getElementById('loginFrm').submit()"/>
+    <input type="button" name="signupBtn" id="signupBtn" value="注册" class="loginBtn" onclick="window.open('/user/signup.html','_self')"/>
+</div>
+<div class="loginMain"><a href="#"><img src="/img/btn_Setup.gif" width="262" height="57" /></a></div>
+</form>
+</div>
+#end
+<!-- login end -->  
+#**
+	<div class="login">
+		#if($session_attr_user)
+			<div class="inputLine"><div class="label">用户名：</div><span><a href="/user/profile/${session_attr_user.id}.html">${session_attr_user.userName}</a></span></div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;width:80px;" onclick="window.open('/user/modify/pwd.html','_self')">修改密码</div>
+				<div class="login_btn" style="margin-left:10px;width:80px;" onclick="window.open('/user/logout.html','_self')">退出登录</div>
+			</div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;width:80px;" onclick="window.open('/user/favorite/${session_attr_user.id}.html?type=0','_self')">我的收藏</div>
+				<div class="login_btn" style="margin-left:10px;width:80px;" onclick="window.open('/user/address.html','_self')">我的地址</div>
+			</div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;width:80px;" onclick="window.open('/user/contactor.html','_self')">联系人</div>
+				#if($session_attr_user.isAdmin()) 
+				<div class="login_btn" style="margin-left:10px;width:80px;" onclick="window.open('/admin.html','_self')">系统管理</div>
+				#else
+				<div class="login_btn" style="margin-left:10px;width:80px;border:none;">&nbsp;</div>
+				#end
+			</div>
+			
+		#else
+		<form name="loginFrm" id="loginFrm" method="POST" action="/user/login.html">
+			<div class="inputLine"><div class="label">用户名：</div><input type="text" name="userName" /></div>
+			<div class="inputLine"><div class="label">密码：</div><input type="password" name="password" /></div>
+			<div class="btnline">
+				<div class="login_btn" style="margin-right:10px;" onclick="document.getElementById('loginFrm').submit()">登录</div>
+				<div class="login_btn" style="margin-left:10px;" onclick="window.open('/user/signup.html','_self')">注册</div>
+			</div>
+		</form>
+		#end
+		#if($session_attr_user.withShop)
+			<a href="/${session_attr_user.shopName}"><div class="openshop">我的店铺</div></a>
+		#else
+			<a href="/shop/open.html"><div class="openshop">免费开店</div></a>
+		#end
+	</div>
+**#

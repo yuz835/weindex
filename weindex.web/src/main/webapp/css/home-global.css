@@ -1,0 +1,56 @@
+@charset "utf-8";
+/* CSS Document */
+
+body,ul,li,dl,dd,dt,h1,p,span,img,input,table,tr,td{ padding:0; margin:0; border:0; list-style:none; }
+body,input{ font-size:12px; font-family:Arial, Helvetica, sans-serif; color:#000; text-align:left; }
+body{ line-height:18px; background:url(/img/bg.jpg); }
+a{ text-decoration:none; color:#000; }
+a:hover{ color:#0096c9; }
+.clear{ clear:both; margin:0; padding:0; border:0px; width:0px; height:0px; overflow:hidden; }
+.fc_fff,.text_link1 a:hover{ color:#fff; }
+.text_link1 a{ color:#aaa; }
+.text_link2 a{ color:#0096c9; }
+
+/*header*/
+#header{ clear:both; width:960px; margin:0 auto; height:133px; border-bottom:1px solid #676767; }
+#header #headerTop{ height:48px; background:url(/img/bg_Header.gif) repeat-x; }
+#header #logo{ float:left; width:166px; height:45px; padding-left:15px; overflow:hidden; }
+#header #headerMenu{ float:right; height:20px; line-height:20px; padding-right:52px; margin-top:15px; overflow:hidden; color:#aaa; }
+#header #headerMenu span.pr_20{ padding-right:20px; }
+#header #headerMenu span.pr_30{ padding-right:30px; }
+#header #headerMenu span.pr_50{ padding-right:50px; }
+#header #headerMenu span.plr_10{ padding:0px 10px; }
+#header #headerMenu a:link, a:visited, a:active {
+    color: #0667ac;
+    text-decoration: none;
+}
+
+#header #headerMenu a:hover {
+	color:#000000;	
+};
+
+/*search*/
+#search{ float:right; height:36px; padding:17px 52px 0px 0px; overflow:hidden; }
+#search .searchBtn{ float:right; width:220px; height:36px; cursor:pointer; }
+#search .searchClass{ float:right; width:139px; height:36px; margin-right:12px; }
+#search .searchClassBox .searchClassInp{ float:left; width:105px; height:34px; line-height:34px; text-align:center; font-size:16px; border:1px solid #e4e4e4; border-right:none; }
+#search .searchClassBox ul.searchCon{ clear:both; width:107px; text-align:center; font-size:16px; z-index:1; position:absolute; margin-top:35px; border:1px solid #e4e4e4; border-top:0px; background:#fff; }
+#search .searchClassBox ul.searchCon li{ height:34px; line-height:34px; }
+#search .searchClassBox .searchClassBtn{ float:left; width:32px; height:36px; overflow:hidden; }
+#search .searchBox{ float:right; width:550px; height:34px; line-height:34px; padding-left:5px; margin-right:12px; overflow:hidden; color:#d2d2d2; background:#fff; border:1px solid #e5e5e5; }
+
+/*footer*/
+#footer{ width:960px; margin:0 auto;height:365px; margin-top:120px; overflow:hidden; background:#566069; }
+#footer #footerMain{ clear:both; margin:0px auto; width:844px; overflow:hidden; }
+#footer #footerMain ul{ float:left; width:211px; }
+#footer #footerMain ul p{ padding-bottom:15px; overflow:hidden; font-size:18px; font-family:"微软雅黑"; color:#fff; font-weight:bold; }
+#footer #footerMain ul li{ float:left; width:100%; line-height:24px; text-indent:10px; color:#ccc; }
+#footer #footerMain ul li a{ color:#ccc; }
+#footer #footerMain ul li img{ padding:15px 0px 0px 25px; overflow:hidden; }
+.btnBacktop{ float:right; width:68px; height:50px; overflow:hidden; }
+
+/*page*/
+#page{ clear:both; margin:0 auto; padding-top:65px; width:310px; overflow:hidden; }
+#page li{ float:left; width:auto; height:20px; margin:0px 4px; overflow:hidden; line-height:20px; font-size:13px; }
+#page li a{ float:left; height:20px; padding:0px 5px; overflow:hidden; color:#7f7f7f; }
+#page li a:hover,#page li.pageActive a{ color:#fff; background:#7f7f7f; }

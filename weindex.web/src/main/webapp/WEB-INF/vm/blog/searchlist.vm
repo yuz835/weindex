@@ -1,0 +1,112 @@
+#set($layout = "/layout/searchLayout.vm")
+<!-- search tag -->
+<div class="searchMenu">
+##	<div class="li">类型：<a href="${searchUri}">全部</a>
+##	    #foreach($l in $labels)
+##	    	<a href="${searchUri}&label=${l.id}">${l.cnName}</a>
+##		#end
+##	</div>
+	##<div class="li">排序：<a href="#">最匹配的</a> <a href="#">最新上传</a> <a href="#">推荐最多</a> <a href="#">人气最高</a> <a href="#">评论最多</a> <a href="#">收藏最多</a></div>
+	##<div class="li">时间：<a href="#">不限</a> <a href="#">三天内</a> <a href="#">一周内</a> <a href="#">一个月内</a> <a href="#">一年内</a></div>
+    <form name="searchFrm" action="/search.html" method="GET" id="searchfrms">
+    	<input type="hidden" name="type" id="stypeFld" value="3"/>
+	    <div class="li"><font color=red>关键词搜索：</font><input type="text" name="keyword" id="skeyword" class="ipt" value="$!keyword" /> <input type="submit" id="confirmBtn" value="确定" class="sub" /></div>
+    </form>
+</div>
+<div id="searchBlog" style="min-width:450px;">
+	<div>共 <span class="red">${result.totalPage}</span> 页，当前显示第 <span class="red">${result.pageNum}</span> 页</div>
+	<div class="p5 clear"></div>
+
+
+        <div id="Con" class="latestBlog" style="margin-top:10">
+                <ul id="blogList">
+                #foreach($blog in $result.list)
+                        <li><a href="/blog/view/${blog.id}.html" class="fl">${blog.title}</a><div><span>$!{blog.author}</span><span>$!{blog.date}</span></div></li>
+                #end
+        </div>
+
+##<div class="blogList">
+##	#foreach($blog in $result.list) 
+##		<li><a href="/blog/view/${blog.id}.html" class="fl" target="_blank">${blog.title}</a><div class="fr"><em>${blog.author}</em><em>${blog.date}</em><!--<em>人气29292</em>--></div></li>
+##	#end
+##</div>
+<!-- page begin -->
+#if($result.totalPage>1)
+<div id="page">
+    <ul>
+		#if($result.pageNum > 1)
+        	<li><a href="${searchUri}&pageNum=${result.previousPage}">上一页</a></li>
+        #end
+        #if($result.totalPage<=5)
+        	#foreach($i in [1..$result.totalPage])
+        		#if($i==$result.pageNum)
+        			<li class="pageActive"><a href="${searchUri}&pageNum=$i">$i</a></li>
+        		#else
+        			<li><a href="${searchUri}&pageNum=$i">$i</a></li>
+        		#end
+        	#end
+        #else
+        	#if($result.pageNum<=3)
+        		#set($max=$result.pageNum+1)
+        		#foreach($i in [1..$max])
+	        		#if($i==$result.pageNum)
+    	    			<li class="pageActive"><a href="${searchUri}&pageNum=$i">$i</a></li>
+        			#else
+        				<li><a href="${searchUri}&pageNum=$i">$i</a></li>
+        			#end
+        		#end
+        		<li>...</li>
+        		<li><a href="${searchUri}&pageNum=$result.totalPage">$result.totalPage</a></li>
+        	#elseif($result.pageNum>=$result.totalPage - 2)
+        		<li><a href="${searchUri}&pageNum=1">1</a></li>
+        		<li>...</li>
+        		#set($min=$result.pageNum - 1)
+        		#foreach($i in [$min..$result.totalPage])
+	        		#if($i==$result.pageNum)
+    	    			<li class="pageActive"><a href="${searchUri}&pageNum=$i">$i</a></li>
+        			#else
+        				<li><a href="${searchUri}&pageNum=$i">$i</a></li>
+        			#end
+        		#end
+        	#else
+        		<li><a href="${searchUri}&pageNum=1">1</a></li>
+        		<li>...</li>
+        		#set($min=$result.pageNum - 1)
+        		#set($max=$result.pageNum+1)
+        		<li><a href="${searchUri}&pageNum=$min">$min</a></li>        	
+        		<li class="pageActive"><a href="${searchUri}&pageNum=$result.pageNum">$result.pageNum</a></li>        	
+        		<li><a href="${searchUri}&pageNum=$max">$max</a></li>        	
+        		<li>...</li>
+        		<li><a href="${searchUri}&pageNum=$result.totalPage">$result.totalPage</a></li>        	
+        	#end
+        #end
+		#if($result.pageNum < $result.totalPage)
+			<li><a href="${searchUri}&pageNum=${result.nextPage}">下一页</a></li>	
+        #end
+    </ul>
+</div>
+#end
+<!-- page end -->
+</div>
+#**
+	<div class="blog">
+		<div class="title">搜索结果</div>
+		<div id="newBlog">
+		#foreach($blog in $result.list) 
+			<div class="item">
+				<div><a href="/blog/view/${blog.id}.html">${blog.title}</a></div>
+				<div>$!{bolg.summary}</div>
+			</div>
+		#end
+			<div class="more">
+			#if($result.pageNum > 1)
+				<a href="/index/blog.html?pageNum=1&keyword=${keyword}&type=${type}">第一页</a> <a href="/index/blog.html?pageNum=${result.previousPage}&keyword=${keyword}&type=${type}">上一页</a>
+			#end
+			共 $result.totalPage 页, 当前显示第 $result.pageNum 页
+			#if($result.pageNum < $result.totalPage)
+				<a href="/index/blog.html?pageNum=${result.nextPage}&keyword=${keyword}&type=${type}">下一页</a> <a href="/index/blog.html?pageNum=${result.totalPage}&keyword=${keyword}&type=${type}">最后一页</a>
+			#end			
+			</div>
+		</div>
+	</div>
+**#

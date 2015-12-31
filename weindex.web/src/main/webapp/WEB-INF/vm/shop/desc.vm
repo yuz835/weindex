@@ -1,0 +1,9 @@
+<form name="descFrm" action="/shop/desc/edit.html" method="POST">
+<input type="hidden" name="shopName" value="${shop.name}" />
+<div>Old Description: $!{shop.desc}</div>
+<div>New Description: </div>
+<div>
+	<textarea rows="4" cols="60" name="desc">$!{shop.desc}</textarea>
+</div>
+<div><input type="submit" name="Submit" value="Submit" /></div>
+</form>

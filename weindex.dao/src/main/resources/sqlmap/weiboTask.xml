@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WeiboTask">
+	<resultMap id="result" class="ca.weindex.common.model.WeiboTask">
+		<result property="id" column="ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="type" column="TYPE" />
+		<result property="taskId" column="TASK_ID" />
+		<result property="content" column="CONTENT" />
+		<result property="taskTime" column="TASK_TIME" />
+		<result property="status" column="STATUS" />
+		<result property="createTime" column="CREATE_TIME" />
+	</resultMap>
+
+	<select id="getWeiboTask" resultMap="result">
+		select *
+		from WEIBO_TASK
+		where ID = #value#
+	</select>
+	
+	<select id="getWeiboTaskByUserId" resultMap="result">
+		select *
+		from WEIBO_TASK
+		where USER_ID = #value#
+	</select>
+	
+	<select id="getWeiboTaskByOfferId" resultMap="result">
+		select *
+		from WEIBO_TASK
+		where TASK_ID = #value# and TYPE=0
+	</select>
+	
+	<select id="getWeiboTaskByBlogId" resultMap="result">
+		select *
+		from WEIBO_TASK
+		where TASK_ID = #value# and TYPE=1
+	</select>
+	
+	<select id="getOneUnstartedWeiboTask" resultMap="result">
+		<![CDATA[
+		select *
+		from WEIBO_TASK
+		where STATUS=0 AND TASK_TIME < NOW()
+		order by TASK_TIME asc
+		limit #value#
+		]]>
+	</select>
+	
+	<insert id="insertWeiboTask">
+		insert into WEIBO_TASK (USER_ID, TYPE, TASK_ID, CONTENT, TASK_TIME, STATUS, CREATE_TIME) values (#userId#, #type#, #taskId#, #content#, #taskTime#, #status#, NOW())
+	</insert>
+	
+	<update id="updateWeiboTaskStatus">
+		update WEIBO_TASK SET STATUS = #status# where ID = #id#
+	</update>
+
+	<delete id="deleteWeiboTask">
+		delete from WEIBO_TASK where ID=#value#
+	</delete>
+</sqlMap>

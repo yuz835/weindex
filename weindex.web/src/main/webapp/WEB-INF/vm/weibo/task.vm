@@ -1,0 +1,64 @@
+#set($layout = "/layout/shopLayout.vm")
+<!--店铺博文 begin-->
+<div class="blog fl w800"> 	
+    <div class="p5"></div>
+    <div class="f14 fb">微博任务列表</div>
+    <div class="p10 clear"></div>
+	<div style="border-bottom:solid 2px #555555;margin-bottom:5px;padding-bottom:5px;" class="f12">
+		<div style="display:inline-block; vertical-align:center;width:220px;">
+			任务创建时间
+		</div>
+		<div style="display:inline-block; vertical-align:center;width:220px;">
+			任务预订执行时间
+		</div>
+		<div style="display:inline-block; vertical-align:center;width:80px;">
+			任务状态
+		</div>
+	</div>
+	#foreach($t in $list)
+	<div style="border-bottom:dotted 1px #CCC;margin-bottom:5px;padding-bottom:5px;" class="f12">
+		<div style="display:inline-block; vertical-align:center;width:220px;">
+			$t.createTime
+		</div>
+		<div style="display:inline-block; vertical-align:center;width:220px;">
+			$t.taskTime
+		</div>
+		<div style="display:inline-block; vertical-align:center;width:80px;">
+			#if($t.status==0)
+				未启动
+			#elseif($t.status==1)
+				执行中
+			#elseif($t.status==2)
+				执行成功
+			#elseif($t.status==3)
+				执行失败
+			#else
+				未知状态
+			#end
+		</div>
+		<div style="display:inline-block; vertical-align:center;width:80px;">
+			#if($offer)
+				<a href="/weibo/offer/delTask.html?offerId=${offer.id}&taskId=${t.id}">删除</a>
+			#elseif($blog)
+				<a href="/weibo/blog/delTask.html?blogId=${blog.id}&taskId=${t.id}">删除</a>
+			#end
+		</div>
+	</div>
+	#end
+<div class="p10 clear"></div>
+	#if($offer)
+    <div class="dli">
+    	<input type="button" value="新增微博任务" class="gsub" onclick="document.getElementById('weiboDiv').setAttribute('style', 'display:block');" />
+    	&nbsp; &nbsp;
+    	<input type="button" value="返 回 商 品" class="gsub" onclick="window.open('/offer/view/${offer.id}.html', '_self')" />
+    </div>
+    #elseif($blog)
+    <div class="dli">
+    	<input type="button" value="新增微博任务" class="gsub" onclick="document.getElementById('weiboDiv').setAttribute('style', 'display:block');" />
+    	&nbsp; &nbsp;
+    	<input type="button" value="返 回 博 文" class="gsub" onclick="window.open('/blog/view/${blog.id}.html', '_self')" />
+    </div>
+    #end
+	<div id="weiboDiv" style="display:none">#parse('common/weibo.vm')</div>
+</div>
+<div class="p10 clear"></div>

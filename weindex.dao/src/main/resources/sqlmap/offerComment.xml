@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OfferComment">
+	<resultMap id="result" class="ca.weindex.common.model.OfferComment">
+		<result property="id" column="ID" />
+		<result property="offerId" column="OFFER_ID" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="visible" column="VISIBLE" />
+		<result property="creatorId" column="CREATOR_ID" />
+		<result property="creatorName" column="CREATOR_NAME" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+	</resultMap>
+
+	<select id="getOfferComment" resultMap="result">
+		select *
+		from OFFER_COMMENT
+		where ID = #value#
+	</select>
+	
+	<select id="getOfferCommentByOfferId" resultMap="result">
+		select *
+		from OFFER_COMMENT
+		where OFFER_ID = #value#
+		order by ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countOfferCommentByOfferId" resultClass="java.lang.Integer">
+		select count(*)
+		from OFFER_COMMENT
+		where OFFER_ID = #value#
+	</select>
+	
+	<insert id="insertOfferComment">
+		insert into OFFER_COMMENT (OFFER_ID, TITLE, CONTENT, VISIBLE, CREATOR_ID, CREATOR_NAME, CREATE_TIME, UPDATE_TIME) values (#offerId#, #title#, #content#, #visible#, #creatorId#, #creatorName#, NOW(), NOW())
+	</insert>
+
+	<delete id="deleteOfferComment">
+		delete from OFFER_COMMENT where ID = #value#
+	</delete>
+</sqlMap>

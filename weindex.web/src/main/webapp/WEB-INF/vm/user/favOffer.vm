@@ -1,0 +1,81 @@
+#set($layout = "/layout/favLayout.vm")
+
+<!-- list begin -->
+##<div id="Content" class="scBox" style="margin-top:0">
+
+
+        <div id="Con" class="latestOffer">
+            <table id="offerList">
+                <tr><td>商品图片</td><td>名字</td><td>新旧程度</td><td>价格</td></tr>
+                #foreach($offer in $result.list)
+                        <tr>    <td><a href="/offer/view/${offer.id}.html">#if($offer.imgUrl)<img src="$offer.imgUrl"/>#else<img src="/img/pic_shop_01.jpg"/>#end</a></td>
+                                <td><a href="/offer/view/${offer.id}.html" class="fl">${offer.name}</a></td>
+                                <td>${offer.quality}%</td>
+                                <td><font color=RED>$${offer.price}</font></td>
+                        </tr>
+                #end
+            </table>
+        </div>
+
+##	<ul id="tiles">
+##	#foreach($offer in $result.list) 
+##	<li>
+##		<p><a href="/offer/view/${offer.id}.html" target="_blank"><img #if($offer.imgUrl) src="$offer.imgUrl" #esle src="/img/pic1.jpg"#end width="192" /></a></p>
+##		<p class="ConName text_link2" style="text-align:center"><a href="/offer/view/${offer.id}.html" target="_blank">${offer.name}</a></p>
+##		<p class="ConOper" style="text-align:center"><span class="ConOperLeft" style="float:none;"><em>$</em>$!{offer.price}</span>#**<span class="ConMore"><a href="/offer/view/${offer.id}.html">MORE>></a></span>**#</p>
+##		<div class="clear"></div>
+##		#if($isOwner)
+##		<p class="ConName text_link2">#if($offer.publicFav==0)公开#else私密#end</p>
+##		#end
+##		<div style="height:34px;"></div>
+##		#if($isOwner)
+##			<div class="sCancel"><a href="/user/favorite/offer/del.html?offerId=${offer.id}&src=fav"><span class="blue">取消收藏</span></a>&nbsp;
+##			#if($offer.publicFav==0)
+##				<a href="/user/favorite/offer/close.html?offerId=${offer.id}&src=fav"><span class="blue">私密收藏</span></a>
+##			#else
+##				<a href="/user/favorite/offer/open.html?offerId=${offer.id}&src=fav"><span class="blue">公开收藏</span></a>
+##			#end
+##			</div>
+##		#end
+##	</li>
+##	#end
+##  </ul>
+###if($isOwner)
+##  <script type="text/javascript">
+##		  	$(function(){
+##				$(".scBox li").mouseover(function(e) {
+##                    $(".sCancel",this).show();
+##                }).mouseout(function(e) {
+##                    $(".sCancel",this).hide();
+##                });
+##			})
+##  </script>
+###end
+##</div>
+<!-- list end -->
+
+#**
+	<div class="offer">
+		<div class="title"><a href="/user/profile/${user.id}.html">${user.userName}</a> 收藏的商品</div>
+		<div id="newOffer">
+		#foreach($offer in $result.list) 
+			<div class="item">
+				<div style="padding-left:10px;height:160px;"><img src="$offer.imgUrl" width="160px" /></div>
+				<div class="name"><a href="/offer/view/${offer.id}.html">${offer.name}</a></div>
+				<div class="price">${offer.price}</div>
+			</div>
+		#end
+			<div class="more">
+			#if($result.pageNum > 1)
+				<a href="/user/favorite/${user.id}.html?type=0&pageNum=1">第一页</a> <a href="/user/favorite/${user.id}.html?type=0&pageNum=${result.previousPage}">上一页</a>
+			#end
+			共 $result.totalPage 页, 当前显示第 $result.pageNum 页
+			#if($result.pageNum < $result.totalPage)
+				<a href="/user/favorite/${user.id}.html?type=0&pageNum=${result.nextPage}">下一页</a> <a href="/user/favorite/${user.id}.html?type=0&pageNum=${result.totalPage}">最后一页</a>
+			#end			
+			</div>
+		</div>
+		<div><a href="/user/favorite/${user.id}.html?type=1">收藏的店铺</a></div>
+		<div><a href="/user/favorite/${user.id}.html?type=2">收藏的博文</a></div>
+	</div>
+**#

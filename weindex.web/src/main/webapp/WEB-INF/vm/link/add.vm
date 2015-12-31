@@ -1,0 +1,20 @@
+            <div class="f14 fb">发布博文</div>
+            <div class="p10 clear"></div>
+            <form name="linkform" id="linkform" action="/link/add.html" method="POST">
+		##<input type="hidden" name="type" value=0 />
+		<input type="hidden" name="label" value=""/>
+		<input type="hidden" name="content" value=""/>
+
+            题目:<input type="text" class="inp"  name="title" id="linkTitle"> </br>
+	    链接:<input type="text" class="inp" style="width:250px" name="linkUrl" id="linkUrl"></br>
+	    描述: <textarea  style="width:600px;height:500px" id="description" name="description"></textarea>
+            <div class="p5 clear"></div>
+            <div style="padding-left:70px"><input type="button" onclick="submitForm()" value="发 布" class="gsub"></div>
+            </form>
+        </div>
+
+<script>
+function submitForm() {
+	$("#linkform").submit();
+}
+</script>

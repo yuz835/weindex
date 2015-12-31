@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Reddit">
+	<resultMap id="result" class="ca.weindex.common.model.Reddit">
+		<result property="id" column="ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="author" column="AUTHOR" />
+		<result property="title" column="TITLE" />
+		<result property="type" column="TYPE" />
+		<result property="linkUrl" column="LINK_URL" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="content" column="CONTENT" typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler" />
+		<result property="label" column="LABEL" />
+		<result property="likedNum" column="LIKED_NUM" />
+		<result property="favNum" column="FAV_NUM" />
+		<result property="visitNum" column="VISIT_NUM" />
+		<result property="commentNum" column="COMMENT_NUM" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+	</resultMap>
+
+	<select id="getReddit" resultMap="result">
+		select *
+		from REDDIT
+		where ID = #value#
+	</select>
+	
+	<select id="getRedditByUserId" resultMap="result">
+		select ID, USER_ID, AUTHOR, TITLE, TYPE, LINK_URL, DESCRIPTION, CONTENT, LABEL, LIKED_NUM, VISIT_NUM, COMMENT_NUM, CREATE_TIME, UPDATE_TIME
+		from REDDIT
+		where USER_ID = #value# 
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<insert id="insertReddit">
+		insert into REDDIT (USER_ID, AUTHOR, TITLE, TYPE, LINK_URL, DESCRIPTION, CONTENT, LABEL, CREATE_TIME, UPDATE_TIME) values (#userId#, #author#, #title#, #type#, #linkUrl#, #description#, #content#, #label#, NOW(), NOW())
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY AS ID
+		</selectKey>
+	</insert>
+	
+	<update id="updateReddit">
+		update REDDIT SET TITLE = #title#, AUTHOR = #author#, LINK_URL = #linkUrl#, DESCRIPTION = #description#, LABEL = #label#, CONTENT = #content#, UPDATE_TIME = NOW() where ID = #id#
+	</update>
+	
+	<delete id="deleteReddit">
+		delete from REDDIT where ID=#value#
+	</delete>
+	
+	<select id="countReddit" resultClass="java.lang.Integer">
+		select count(*)
+		from REDDIT
+	</select>
+	
+	<select id="getRecentReddit" resultMap="result">
+		select *
+		from REDDIT
+		order by  UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="getLastestHotReddit" resultMap="result">
+		select *
+		from REDDIT
+		order by  desc, UPDATE_TIME desc,
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="getRedditByLabelId" resultMap="result">
+		select ID, USER_ID, AUTHOR, TITLE, TYPE, LINK_URL, DESCRIPTION, CONTENT, LABEL, LIKED_NUM, VISIT_NUM, COMMENT_NUM, CREATE_TIME, UPDATE_TIME
+		from REDDIT
+		where LABEL = #value# or LABEL like '$value$,%' or LABEL like '%,$value$,%' or LABEL like '%,$value$'
+		order by UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="countRedditByLabelId" resultClass="java.lang.Integer">
+		select count(*)
+		from REDDIT
+		where LABEL = #value# or LABEL like '$value$,%' or LABEL like '%,$value$,%' or LABEL like '%,$value$'
+	</select>
+
+	
+	<select id="countRedditByUserId" resultClass="java.lang.Integer">
+		select count(*)
+		from REDDIT
+		where USER_ID = #value# 
+	</select>
+	
+
+	<update id="addRedditVisitNum">
+		update REDDIT SET VISIT_NUM = VISIT_NUM+1 where ID = #id#
+	</update>
+	
+	<update id="addRedditCommentNum">
+		update REDDIT SET COMMENT_NUM = COMMENT_NUM +1 where ID = #id#
+	</update>
+	
+	<update id="likeReddit">
+		update REDDIT SET LIKED_NUM = LIKED_NUM + 1 where ID = #id#
+	</update>
+
+	<update id="dislikeReddit">
+		update REDDIT SET LIKED_NUM = LIKED_NUM - 1 where ID = #id#
+	</update>
+
+	<update id="favReddit">
+		update REDDIT SET FAV_NUM = FAV_NUM + 1 where ID = #id#
+	</update>
+
+	<update id="disfavReddit">
+		update REDDIT SET FAV_NUM = FAV_NUM - 1 where ID = #id#
+	</update>
+
+	
+</sqlMap>

@@ -1,0 +1,26 @@
+<div>
+form
+</div>
+<div><a href="/admin/offer/search.html">Add Offer</a></div>
+<div>
+<table>
+<tr>
+<td>ID</td>
+<td>Offer ID</td>
+<td>Creator ID</td>
+<td>Creator Name</td>
+<td>Create Time</td>
+<td>&nbsp;</td>
+</tr>
+#foreach($offer in $list)
+<tr>
+<td>$offer.id</td>
+<td>$offer.offerId</td>
+<td>$offer.creatorId</td>
+<td>$offer.creatorName</td>
+<td>$offer.createTime</td>
+<td><a href="/admin/offer/delete.html?id=${offer.id}" />Delete</a></td>
+</tr>
+#end
+</table>
+</div>

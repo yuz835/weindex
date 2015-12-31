@@ -1,0 +1,109 @@
+#set($layout = "/layout/searchLayout.vm")
+<!-- list begin -->
+##<div id="Content" class="blogBox" style="margin-top:0">
+##	<ul id="blogList">
+##	#foreach($blog in $result.list) 
+##		<li style="height:120px;">
+## 			##<div class="fl"><!--<img src="../../img/bpic1.jpg" width="190" height="160">--><div class="h10"></div>${blog.title}</div>
+## 			<div class="blogtitle" style="margin-left:10px;">${blog.title}</div>
+##			<div class="cont" style="width:430px;">
+##				<div class="p">
+##					<p>$!{bolg.summary}...</p>
+##					<div class="p5 clear"></div>
+##              		<a href="/blog/view/${blog.id}.html" class="btn" target="_blank"><span class="blue">详细点击&gt;&gt;</span></a>
+##				</div>
+##				##<div><span class="yellow">送货标签：</span>XX  XX  X  XX  XX  </div>
+##			</div>
+##		</li>
+##	#end
+##  </ul>
+##</div>
+
+<div id="Con" class="latestBlog" style="margin-top:10">
+        <ul id="blogList">
+        #foreach($blog in $result.list)
+                <li><a href="/blog/view/${blog.id}.html" class="fl">${blog.title}</a><div><span>$!{blog.author}</span><span>$!{blog.date}</span></div></li>
+        #end
+</div>
+
+<!-- list end -->
+<div class="clear" style="height:40px;"></div>
+
+<!-- page begin -->
+#if($result.totalPage>1)
+<div class="pageNav">
+		#if($result.pageNum > 1)
+        	<a href="/label/${labelId}/blog.html?pageNum=${result.previousPage}">上一页</a>
+        #end
+        #if($result.totalPage<=5)
+        	#foreach($i in [1..$result.totalPage])
+        		#if($i==$result.pageNum)
+        			<span class="cur">$i</span>
+        		#else
+        			<a href="/label/${labelId}/blog.html?pageNum=$i">$i</a>
+        		#end
+        	#end
+        #else
+        	#if($result.pageNum<=3)
+        		#set($max=$result.pageNum+1)
+        		#foreach($i in [1..$max])
+	        		#if($i==$result.pageNum)
+    	    			<span class="cur">$i</span>
+        			#else
+        				<a href="/label/${labelId}/blog.html?pageNum=$i">$i</a>
+        			#end
+        		#end
+        		<a>...</a>
+        		<a href="/label/${labelId}/blog.html?pageNum=$result.totalPage">$result.totalPage</a>
+        	#elseif($result.pageNum>=$result.totalPage - 2)
+        		<a href="/label/${labelId}/blog.html?pageNum=1">1</a>
+        		<a>...</a>
+        		#set($min=$result.pageNum - 1)
+        		#foreach($i in [$min..$result.totalPage])
+	        		#if($i==$result.pageNum)
+    	    			<span class="cur">$i</span>
+        			#else
+        				<a href="/label/${labelId}/blog.html?pageNum=$i">$i</a><
+        			#end
+        		#end
+        	#else
+        		<a href="/label/${labelId}/blog.html?pageNum=1">1</a>
+        		<a>...</a>
+        		#set($min=$result.pageNum - 1)
+        		#set($max=$result.pageNum+1)
+        		<a href="/label/${labelId}/blog.html?pageNum=$min">$min</a>        	
+    	    	<span class="cur">$result.pageNum</span>
+        		<a href="/label/${labelId}/blog.html?pageNum=$max">$max</a>        	
+        		<a>...</a>
+        		<a href="/label/${labelId}/blog.html?pageNum=$result.totalPage">$result.totalPage</a>        	
+        	#end
+        #end
+		#if($result.pageNum < $result.totalPage)
+			<a href="/label/${labelId}/blog.html?pageNum=${result.nextPage}">下一页</a>	
+        #end
+</div>
+#end
+<!-- page end -->
+
+#**
+	<div class="blog">
+		<div class="title">博文列表</div>
+		<div id="newBlog">
+		#foreach($blog in $result.list) 
+			<div class="item">
+				<div><a href="/blog/view/${blog.id}.html">${blog.title}</a></div>
+				<div>$!{bolg.summary}</div>
+			</div>
+		#end
+			<div class="more">
+			#if($result.pageNum > 1)
+				<a href="/label/blog.html?labelId=${labelId}&pageNum=1">第一页</a> <a href="/label/blog.html?labelId=${labelId}&pageNum=${result.previousPage}">上一页</a>
+			#end
+			共 $result.totalPage 页, 当前显示第 $result.pageNum 页
+			#if($result.pageNum < $result.totalPage)
+				<a href="/label/blog.html?labelId=${labelId}&pageNum=${result.nextPage}">下一页</a> <a href="/label/blog.html?labelId=${labelId}&pageNum=${result.totalPage}">最后一页</a>
+			#end			
+			</div>
+		</div>
+	</div>
+**#

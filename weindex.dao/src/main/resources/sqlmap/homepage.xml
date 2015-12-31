@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Homepage">
+	<resultMap id="offer" class="ca.weindex.common.model.HomepageOffer">
+		<result property="id" column="ID" />
+		<result property="offerId" column="OFFER_ID" />
+		<result property="creatorId" column="CREATOR_ID" />
+		<result property="creatorName" column="CREATOR_NAME" />
+		<result property="createTime" column="CREATE_TIME" />
+	</resultMap>
+
+	<resultMap id="offerDetail" class="ca.weindex.common.model.Offer">
+		<result property="id" column="ID" />
+		<result property="shopId" column="SHOP_ID" />
+		<result property="name" column="NAME" />
+		<result property="desc" column="DESCRIPTION" />
+		<result property="label" column="LABEL" />
+		<result property="imgUrl" column="IMG_URL" />
+		<result property="price" column="PRICE" />
+		<result property="type" column="TYPE" />
+		<result property="visible" column="VISIBLE" />
+	</resultMap>
+
+	<select id="countTopHomepageOffer" resultClass="java.lang.Integer">
+		select count(*)
+		from HOMEPAGE_OFFER
+	</select>
+
+	<select id="getTopHomepageOfferDetail" resultMap="offerDetail">
+		select o.*
+		from HOMEPAGE_OFFER h left join OFFER o ON h.OFFER_ID = o.id
+		order by h.CREATE_TIME desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="getTopHomepageOffer" resultMap="offer">
+		select *
+		from HOMEPAGE_OFFER
+		order by CREATE_TIME desc
+		limit 10		
+	</select>
+
+	<insert id="insertHomepageOffer">
+		insert into HOMEPAGE_OFFER (OFFER_ID, CREATOR_ID, CREATOR_NAME, CREATE_TIME) values (#offerId#, #creatorId#, #creatorName#, NOW())
+	</insert>
+
+	<delete id="deleteHomepageOffer">
+		delete from HOMEPAGE_OFFER where ID = #value#
+	</delete>
+</sqlMap>

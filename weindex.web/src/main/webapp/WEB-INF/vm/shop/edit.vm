@@ -1,0 +1,151 @@
+#set($layout = "/layout/shopLayout.vm")
+<form name="descFrm" id="shopform" action="/shop/edit.html" method="POST">
+<input type="hidden" name="shopName" value="${shop.name}" />
+<input type="hidden" name="label" id="labelIds" value="#foreach($l in $mylabels)#if($velocityCount>1),#end$l.id#end" />
+
+<!--店铺博文 begin-->
+<div class="blog fl w800"> 	
+    <div class="p5"></div>
+    <div class="f14 fb">修改店铺信息</div>
+    <div class="p10 clear"></div>
+    <div class="dli"><span class="f14 fl" style="padding-left:1em">店铺名称：</span> <input type="text" class="inp" style="width:300px" name="displayName" id="dispname" maxlength="20" value="$!{shop.displayName}"></div>
+    <div class="p5 clear"></div>
+## <script type="text/javascript" src="/js/Editor/nicEdit.js"></script> <script type="text/javascript">
+##//<![CDATA[
+##bkLib.onDomLoaded(function() {
+##new nicEditor().panelInstance('shopdesc');
+##});
+##//]]>
+##</script>
+    <div class="dli"><span class="f14 fl" style="padding-left:1em">店铺描述：</span> <textarea class="inp" style="width:400px;height:70px" name="desc" id="shopdesc">$!{shop.desc}</textarea></div>
+    <div class="clear"></div>
+    <div class="dli">
+    	<span class="f14 fl" style="padding-left:1em;width:70px;text-align:right;">标签：</span> 
+    	<div class="inp" style="display:inline-block;min-width:30px;" id="labelNames">#foreach($l in $mylabels)<div style="display:inline-block" id="label-${l.id}">#if($velocityCount>1),#end${l.cnName}(<a href="#" onclick="delLabel('$l.id')">x</a>)</div>#end</div>
+    	<select class="inp" style="height:33px;vertical-align:top;" id="labelsel">
+			#foreach($l in $labelList)
+				<option value="$l.id">$l.cnName</option>
+			#end
+		</select><input type="button" value="添加标签" class="gsub" style="vertical-align:top;" onclick="addLabel()"></div>
+    <div class="clear"></div>
+    <div class="dli"><span class="f14 fl" style="padding-left:1em">店铺公告：</span> <textarea class="inp" style="width:400px;height:70px" name="bulletin" id="shopbulletin">$!{shop.bulletin}</textarea></div>
+    <div class="clear"></div>
+    <div class="dli"><span class="f14 fl" style="padding-left:3em">电话：</span> <input type="telephone" class="inp" style="width:300px" name="telephone" id="shoptelephone" maxlength="20" value="$!{shop.telephone}"></div>
+    <div class="p5 clear"></div>
+           
+    <div style="padding-left:84px"><input type="button" onclick="submitForm()" value="提 交" class="gsub"></div>
+    <div class="p10 clear"></div>
+    <div class="f14 fb">或者: </div>
+    
+    <div style="padding-left:84px"><input type="button" value="修改店铺头像Logo" class="gsub" style="width:151px;" onclick="window.open('/shop/uploadImage.html?shopName=${shop.name}&imgType=logo', '_self')"></div>
+    <div class="p5 clear"></div>
+    <div style="padding-left:84px"><input type="button" value="修改店铺顶部横幅图" class="gsub" style="width:151px;" onclick="window.open('/shop/uploadImage.html?shopName=${shop.name}&imgType=banner', '_self')"></div>
+    <div class="p5 clear"></div>
+    <div style="padding-left:84px"><input type="button" value="修改店铺地址" class="gsub" style="width:151px;" onclick="window.open('/shop/address.html', '_self')"></div>
+    <div class="p5 clear"></div>
+    <div style="padding-left:84px"><input type="button" value="修改店铺自有标签" class="gsub" style="width:151px;" onclick="window.open('/shop/labels.html?shopId=${shop.id}', '_self')"></div>
+    <div class="p5 clear"></div>
+</div>
+<div class="p10 clear"></div>
+</form>
+<script>
+function submitForm() {
+	var dispname = $("#dispname").val();
+	if (dispname == null || dispname.length == 0) {
+		alert("店铺显示名称不能为空");
+		return;
+	}
+	if (dispname.indexOf(" ") != -1) {
+		alert("店铺显示名称不能包含空格");
+		return;
+	}
+	if (dispname.indexOf("<") != -1 || dispname.indexOf(">") != -1) {
+		alert("店铺显示名称不能包含 < 和 > 符号");
+		return;
+	}
+	if (dispname.length > 20) {
+		return;
+	}
+	var desc = $("#shopdesc").val();
+	##var desc = nicEditors.findEditor('shopdesc').getContent();
+	## $("#shopdesc").val(desc);
+	if (desc != null && desc.length > 150) {
+		alert("店铺描述不能超过 150 个字符");
+		return;
+	}
+	var bulletin = $("#shopbulletin").val();
+	if (bulletin != null && bulletin.length > 150) {
+		alert("店铺公告不能超过 150 个字符");
+		return;
+	}
+	var telephone = $("#shoptelephone").val();
+	if (telephone != null) {
+		for (var i = 0; i < telephone.length; i++) {
+			var c = telephone.charAt(i);
+			if ((c >= '0' && c <= '9') || c == "+" || c == "-" || c == "(" || c == ")" || c == " ") {
+				continue;
+			} else {
+		        alert("电话号码只能由数字和 + - ( ) 以及空格组成");
+	    	    return;
+			}
+		}
+	}
+	$("#shopform").submit();
+}
+
+var addedLabel = new Array();
+#foreach($l in $mylabels)
+addedLabel[addedLabel.length]='$l.id';
+#end
+function addLabel() {
+	if(addedLabel.length >=3) {
+		return;
+	}
+	var labelName = $("#labelsel").find("option:selected").text();
+	var labelId = $("#labelsel").find("option:selected").val();
+	
+	var added = false;
+	for (var i = 0; i < addedLabel.length; i++) {
+		if (addedLabel[i] == labelId) {
+			added = true;
+		}
+	}
+	if (added) {
+		return;
+	}
+	addedLabel[addedLabel.length] = labelId;
+	if ($("#labelIds").val().length==0) {
+		$("#labelIds").val(labelId);
+		var html = "<div style=\"display:inline-block\" id=\"label-" + labelId + "\">" + labelName + "(<a href=\"javascript:void(0);\" onclick=\"delLabel('"+ labelId + "')\">x</a>)</div>";
+		$("#labelNames").html(html)
+	} else {
+		$("#labelIds").val($("#labelIds").val() + "," + labelId);
+		var html = "<div style=\"display:inline-block\" id=\"label-" + labelId + "\">, " + labelName + "(<a href=\"javascript:void(0);\" onclick=\"delLabel('"+ labelId + "')\">x</a>)</div>";
+		$("#labelNames").html($("#labelNames").html() + html);
+	}
+}
+
+function delLabel(id) {
+	var temp = new Array();
+	for (var i = 0; i < addedLabel.length; i++) {
+		if (addedLabel[i] != id) {
+			temp[temp.length] = addedLabel[i];
+		}
+	}
+	addedLabel = temp;
+	var ts = $("#labelIds").val().split(",");
+	var tn = "";
+	for (var i = 0; i < ts.length; i++) {
+		if (ts[i] == id) {
+			continue;
+		}
+		if (tn.length > 0) {
+			tn += ",";
+		}
+		tn += ts[i];
+	}
+	$("#labelIds").val(tn);
+	
+	$("#label-" + id).remove();
+}
+</script>

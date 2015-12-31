@@ -1,0 +1,15 @@
+<div>Label: #foreach($l in $shop.labelList)
+###if($velocityCount > 0) , ###endif
+$l.cnName <a href="/shop/${shop.id}/label/delete.html?labelId=${l.id}">(del)</a>
+#end
+</div>
+<form name="lblFrm" action="/shop/${shop.id}/label/add.html" method="POST">
+<div>Lables: 
+<select name="labelId" id="labels">
+#foreach($l in $labels)
+<option value="$l.id">$l.cnName</option>
+#end
+</select>
+<input type="submit" value="Add" />
+</div>
+</form>

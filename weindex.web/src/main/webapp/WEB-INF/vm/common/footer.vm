@@ -1,0 +1,49 @@
+#**
+<div class="footer">
+	<div>
+		<div class="footer_content">关于我们 | 联系我们 | 常见问题解答 | 业务洽谈 | 提交建议</div>
+		<div class="footer_copyright">Copyright 2013&reg; weindex.ca. All rights reserved.</div>
+	</div>
+</div>
+**#
+<!-- footer begin -->
+<div id="footer">
+    <div class="btnBacktop"><a href="#"><img src="/img/btn_Backtop.gif" width="68" height="50" /></a></div>
+    <div id="footerMain">
+        <ul>
+	    ##zhangeth
+            <p>经商知道</p>
+            <li><a href="http://weindex.ca/blog/view/19.html">关于我们</a></li>
+            <li><a href="http://weindex.ca/blog/view/20.html">常见问题</a></li>
+            <li><a href="http://weindex.ca/blog/view/21.html">业务洽谈</a></li>
+            <li><a href="http://weindex.ca/blog/view/44.html">提交建议</a></li>
+            <li><a href="http://weindex.ca/blog/view/23.html">免责声明</a></li>
+            <li><a href="http://weindex.ca/blog/view/29.html">用户协议</a></li>
+	    <li><a href="http://weindex.ca/blog/view/24.html">加入我们</a></li>
+        </ul>
+        <ul>
+            <p>网站功能</p>
+            <li><a href="http://weindex.ca/blog/view/42.html">开店流程</a></li>
+            ##<li><a href="#">普通用户</a></li>
+            ##<li><a href="#">社交营销</a></li>
+            <li><a href="http://weindex.ca/blog/view/30.html">微博/脸书注册</a></li>
+            <li><a href="http://weindex.ca/blog/view/31.html">定时发微博</a></li>
+        </ul>
+        <ul>
+            <p>Ongoing</p>
+            <li><a href="#">手机APP</a></li>
+            <li><a href="http://weindex.ca/search/map.html">网站地图版</a></li>
+        </ul>
+        <ul>
+	   ##zhangeth 2013/04/17
+            <p>联系我们</p>##zhangeth 2013/04/17<div class="fb-like" data-href="http://www.weindex.ca" data-send="false" data-width="30" data-show-faces="false"></div>
+            <li><a href="mailto:weindex.ca@gmail.com">Email：weindex.ca@gmail.com</a></li>
+            <li>电话：778-223-3191</li>
+    	    <wb:follow-button uid="3034128985" type="red_2" width="136" height="24" ></wb:follow-button> 
+            <li>官方微信: weindex</li>
+	    <li><img src="/img/qrcode.jpg" width="138" height="139"  align="top" /></li>
+        </ul>
+    </div>
+<script src="http://s11.cnzz.com/stat.php?id=5318526&web_id=5318526" language="JavaScript"></script>
+</div>
+<!-- footer end -->

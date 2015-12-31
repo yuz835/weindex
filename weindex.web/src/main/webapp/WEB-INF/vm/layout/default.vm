@@ -1,0 +1,104 @@
+<!doctype html>
+##<html>
+<html xmlns:wb=“http://open.weibo.com/wb”> ##zhangeth
+<head>
+<meta name="keywords" content="加拿大,温哥华,多伦多,经商,创业,分类信息,网店,c2c,微博营销,定时微博,代购,移民,留学,签证">
+<meta charset="utf-8" />
+  <title>经商知道-加拿大华人经商，创业，网店，分类信息免费平台</title>
+  <meta http-equiv="pragma" content="no-cache" />
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/weindex-index.css">
+<link rel="stylesheet" href="/css/reddit.css">
+<link rel="stylesheet" href="/css/jquery-ui.css">
+##<script src="/js/jquery-1.8.3.min.js"></script>  
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/jquery.wookmark.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/weindex.js" ></script>
+##zhangeth
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+<style>
+a{text-decoration:none;}
+a:link,a:visited,a:active,a:hover{text-decoration:none;color:#0667AC;}
+</style>
+</head>
+<body>
+##zhangeth 2013/04/17
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+#parse('common/minHeader.vm')
+##parse('common/searchBar.vm')
+$screen_content
+#parse('common/footer.vm')
+<script type="text/javascript">
+var koffset = 14;
+var kitemwidth = 218;
+var kskitemwidth = kitemwidth + koffset;
+var minpad = 32;
+
+function resetpad() {
+	var kswidth = $(window).width();
+	var ksval = kswidth - 575;
+	var kspad = 0;
+
+	for (var i=0; i<100; i++)
+	{
+		if (ksval - kskitemwidth*i >= 2*minpad && ksval - kskitemwidth*i < kskitemwidth+2*minpad)
+		{
+			kspad = (ksval - kskitemwidth*i)/2;
+			break;
+		}
+	}
+	kspad = 0;
+	$(".warpLeft").css("margin-right",(575+2*kspad)+"px");
+	$(".warpLeft").css("width", (kswidth - 575) + "px");
+	$(".warpRight").css("margin-right",(337+kspad)+"px");
+	$(".Nav").css("margin-right",(350+2*kspad)+"px");
+	$(".right").css("right",kspad+"px");
+	$(".left").css("padding-left",(336+kspad)+"px");
+
+}
+window.onload = function(){
+	//resetpad();
+      // Prepare layout options.
+      var options = {
+		align: 'left',
+        autoResize: true, // This will auto-update the layout when the browser window is resized.
+        container: $('#Content'), // Optional, used for some extra CSS styling
+        offset: koffset, // Optional, the distance between grid items
+        itemWidth: kitemwidth // Optional, the width of a grid item
+      };
+      // Get a reference to your grid items.
+      var handler = $('#tiles li');
+
+      // Call the layout function.
+      handler.wookmark(options);
+
+      // Capture clicks on grid items.
+      
+      
+      // search
+      $(".searchClassBtn").click(function(){
+    	  $(".searchCon").toggle();
+      });
+      
+      $("body").click(function(e){
+    	  if(!$(e.target).is('.searchClassBtn')){
+    		  $(".searchCon").hide();
+          }
+      });
+      
+      $(".searchCon li").click(function(){
+    	  $("#stype").val($(this).html());
+      });
+}
+</script>
+</body>
+</html>

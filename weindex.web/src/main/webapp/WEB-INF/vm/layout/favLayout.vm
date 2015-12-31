@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+  <title>经商知道</title>
+  <meta http-equiv="pragma" content="no-cache" />
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/weindex-index.css">
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<script src="/js/jquery-1.8.3.min.js"></script>  
+<script src="/js/jquery.wookmark.min.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/weindex.js" ></script>
+<style>
+a{text-decoration:none;}
+##a:link,a:visited,a:active,a:hover{text-decoration:none;color:#0667AC;}
+</style>
+</head>
+<body>
+#parse('common/header.vm')
+<script language="JavaScript">
+function showHideDiv(showDivId, hideDivId, showTabId, hideTabId) {
+	document.getElementById(showDivId).setAttribute("style", "display:block");
+	document.getElementById(hideDivId).setAttribute("style", "display:none");
+	document.getElementById(showTabId).setAttribute("class", "tab selected");
+	document.getElementById(hideTabId).setAttribute("class", "tab unselected");
+}
+</script>
+<!-- main begin -->
+<div class="main">
+        <div class="Nav">
+            <ul>
+            <li id="nav_3"><a href="/index/blog.html?type=hot">博文</a></li>
+            <li id="nav_1"><a href="/index/shop.html?type=hot">店铺</a></li>
+            <li id="nav_2"><a href="/index/offer.html?type=hot">商品</a></li>
+                <li><a href="http:/search/map.html">地图版</a></li>
+            </ul>
+        </div>
+    <!-- left begin -->
+    <div class="left">
+    <div class="p10 "></div>
+    <div class="menuBox">
+    	<span class="red fl" style="padding-right:20px; line-height:30px;">${user.userName}</span>
+      	<a href="/user/favorite/${user.id}.html?type=0" #if($type==0)class="cur"#end>收藏的商品</a>
+        <a href="/user/favorite/${user.id}.html?type=1" #if($type==1)class="cur"#end>收藏的店铺</a>
+        <a href="/user/favorite/${user.id}.html?type=2" #if($type==2)class="cur"#end>收藏的博文</a>
+        ##<span style="vertical-align:middle;line-height:30px;" class="gray"><input type="checkbox" checked> 隐私自己可见</span>
+    </div>
+    <div class="clear"></div>
+      
+        <div class="warp">
+            <div class="warpLeft" >
+				$screen_content
+
+<!-- page begin -->
+#if($result.totalPage>1)
+<div class="pageNav">
+		#if($result.pageNum > 1)
+        	<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=${result.previousPage}">上一页</a>
+        #end
+        #if($result.totalPage<=5)
+        	#foreach($i in [1..$result.totalPage])
+        		#if($i==$result.pageNum)
+        			<span class="cur">$i</span>
+        		#else
+        			<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=$i">$i</a>
+        		#end
+        	#end
+        #else
+        	#if($result.pageNum<=3)
+        		#set($max=$result.pageNum+1)
+        		#foreach($i in [1..$max])
+	        		#if($i==$result.pageNum)
+    	    			<span class="cur">$i</span>
+        			#else
+        				<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=$i">$i</a>
+        			#end
+        		#end
+        		<a>...</a>
+        		<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=$result.totalPage">$result.totalPage</a>
+        	#elseif($result.pageNum>=$result.totalPage - 2)
+        		<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=1">1</a>
+        		<a>...</a>
+        		#set($min=$result.pageNum - 1)
+        		#foreach($i in [$min..$result.totalPage])
+	        		#if($i==$result.pageNum)
+    	    			<span class="cur">$i</span>
+        			#else
+        				<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=$i">$i</a><
+        			#end
+        		#end
+        	#else
+        		<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=1">1</a>
+        		<a>...</a>
+        		#set($min=$result.pageNum - 1)
+        		#set($max=$result.pageNum+1)
+        		<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=$min">$min</a>        	
+    	    	<span class="cur">$result.pageNum</span>
+        		<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=$max">$max</a>        	
+        		<a>...</a>
+        		<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=$result.totalPage">$result.totalPage</a>        	
+        	#end
+        #end
+		#if($result.pageNum < $result.totalPage)
+			<a href="/user/favorite/${session_attr_user.id}.html?type=${type}&pageNum=${result.nextPage}">下一页</a>	
+        #end
+</div>
+#end
+<!-- page end -->
+
+            </div>
+##      	<div class="warpRight" style="margin-top:0">
+##                <div class="MenuGuanzhu"><a href="#"><img src="/img/btn_Guanzhu.gif" width="62" height="22" /></a><span>32.6万</span></div>
+                ##<div class="banner"><img src="/img/banner_01.jpg" width="222"/></div>
+##            </div>
+        </div>
+    </div>
+    <!-- left end -->
+    <!-- right begin -->
+    <div class="right">
+            <!-- login begin -->
+			#parse('common/userInfo.vm')
+            <!-- login end -->  
+            <!-- 人气店铺 begin --> 
+			#parse('common/hotShop.vm')
+            <!-- 人气店铺 end --> 
+            <!-- 本周热门文章 begin --> 
+			#parse('common/hotBlog.vm')
+            <!-- 本周热门文章 end --> 
+            ##<div class="map"><a href="/search/map.html"><img src="/img/pic_Map.jpg" width="292" height="147" /></a></div>
+    </div>
+    <!-- right end -->
+</div>
+<!-- main end -->
+#parse('common/footer.vm')
+<script type="text/javascript">
+var koffset = 14;
+var kitemwidth = 218;
+var kskitemwidth = kitemwidth + koffset;
+var minpad = 32;
+
+function resetpad() {
+	var kswidth = $(window).width();
+	var ksval = kswidth - 575;
+	var kspad = 0;
+
+	for (var i=0; i<100; i++)
+	{
+		if (ksval - kskitemwidth*i >= 2*minpad && ksval - kskitemwidth*i < kskitemwidth+2*minpad)
+		{
+			kspad = (ksval - kskitemwidth*i)/2;
+			break;
+		}
+	}
+	kspad = 0;
+	$(".warpLeft").css("margin-right",(575+2*kspad)+"px");
+	$(".warpLeft").css("width", (kswidth - 575) + "px");
+	$(".warpRight").css("margin-right",(337+kspad)+"px");
+	$(".Nav").css("margin-right",(350+2*kspad)+"px");
+	$(".menuBox").css("margin-right",(350+2*kspad)+"px");
+	$(".right").css("right",kspad+"px");
+	$(".left").css("padding-left",(336+kspad)+"px");
+
+}
+window.onload = function(){
+	//resetpad();
+      // Prepare layout options.
+      var options = {
+		align: 'left',
+        autoResize: true, // This will auto-update the layout when the browser window is resized.
+        container: $('#Content'), // Optional, used for some extra CSS styling
+        offset: koffset, // Optional, the distance between grid items
+        itemWidth: kitemwidth // Optional, the width of a grid item
+      };
+      // Get a reference to your grid items.
+      var handler = $('#tiles li');
+
+      // Call the layout function.
+      handler.wookmark(options);
+
+      // Capture clicks on grid items.
+      
+      
+      // search
+      $(".searchClassBtn").click(function(){
+    	  $(".searchCon").toggle();
+      });
+      
+      $("body").click(function(e){
+    	  if(!$(e.target).is('.searchClassBtn')){
+    		  $(".searchCon").hide();
+          }
+      });
+      
+      $(".searchCon li").click(function(){
+    	  $("#stype").val($(this).html());
+      });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+#set($layout = "/layout/shopLayout.vm")
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+<script>
+var geocoder; 
+var map; 
+$(document).ready(function() {
+    geocoder = new google.maps.Geocoder(); 
+    //var latlng = new google.maps.LatLng(31.23, 121.47); 
+    var myOptions = { 
+      zoom: 12, 
+      //center: latlng, 
+      mapTypeId: google.maps.MapTypeId.ROADMAP 
+    } 
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
+    if (navigator.geolocation) {
+    	navigator.geolocation.getCurrentPosition(showUserPosition);
+    }
+    
+    if("$!{shop.longi}".length > 0 && "$!{shop.lati}".length > 0) {
+    	showOnMap();
+    }
+});
+
+function showUserPosition(position) {
+	var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude); 
+	map.panTo(latlng);
+}
+
+var marker = null;
+function showOnMap() {
+	if (marker != null) {
+		marker.setMap(null);
+	}
+	var country = $("#country").val();
+	var city = $("#city").val();
+	var street = $("#address").val();
+	var address = street + ", " + city + ", " + country;
+	geocoder.geocode( { 'address': address}, function(results, status) { 
+		if (status == google.maps.GeocoderStatus.OK) { 
+			// console.log(results[0].geometry.location) 
+			map.setCenter(results[0].geometry.location); 
+			marker = new google.maps.Marker({ 
+				title:address, 
+				map: map,  
+				position: results[0].geometry.location 
+			}); 
+			var infowindow = new google.maps.InfoWindow({ 
+				content: address,
+				position: results[0].geometry.location 
+			}); 
+			infowindow.open(map,marker); 
+			var longitude = parseInt(results[0].geometry.location.lng() * 10000000);
+			var latitude = parseInt(results[0].geometry.location.lat() * 10000000);
+			$("#longi").val(longitude);
+			$("#lati").val(latitude);
+		} else { 
+			alert("Geocode was not successful for the following reason: " + status); 
+		} 
+	}); 
+	
+}
+
+function submitForm() {
+	var country = $("#country").val();
+	if (country == null || country.length == 0) {
+		alert("国家不能为空");
+		return;
+	}
+	var city = $("#city").val();
+	if (city == null || city.length == 0) {
+		alert("城市不能为空");
+		return;
+	}
+	var street = $("#address").val();
+	if (street == null || street.length == 0) {
+		alert("街道地址不能为空");
+		return;
+	}
+	var zip = $("#zip").val();
+	if (zip == null || zip.length == 0) {
+		alert("邮政编码不能为空");
+		return;
+	}
+	var reg = new RegExp("^[0-9a-zA-Z/s]*$");
+	if (!reg.test(zip)){
+        alert("邮政编码只能包含字母, 数字和空格");
+        return;
+    }
+	var langi = $("#longi").val();
+	var lati = $("#lati").val();
+	if (langi == null || langi.length == 0 || lati == null || lati.length == 0) {
+		alert("请点击 \"在地图上显示\" 以确认您的地址输入正确");
+		return;
+	}
+	$("#addressform").submit();
+}
+</script>
+
+<!-- main begin -->
+<div class="w860 userLogin">
+	<div class="p5"></div>
+	<div class="f14 fb" style="margin-left:40px">店铺地址</div>
+    <div class="p10"></div>
+    <div style="margin-left:40px">
+<form name="addressFrm" id="addressform" action="/shop/modifyAddress.html" method="POST">
+<input type="hidden" name="shopName" id="shopName" value="$!{shop.name}" />
+<input type="hidden" name="longi" id="longi" value="$!{shop.longi}" />
+<input type="hidden" name="lati" id="lati" value="$!{shop.lati}" />
+    	<div class="li"><span class="f14" style="padding-left:2em">国家：</span><input type="text" class="ipt" id="country" name="country" maxlength="40" value="$!{shop.country}"></div>
+        <div class="li"><span class="f14" style="padding-left:2em">城市：</span><input type="text" class="ipt" id="city" name="city" maxlength="40" value="$!{shop.city}" ></div>
+        <div class="li"><span class="f14">街道地址：</span><input type="text" class="ipt" id="address" name="address" maxlength="80" value="$!{shop.address}"></div>
+        <div class="li"><span class="f14" style="padding-left:38px">Zip：</span><input type="text" class="ipt" id="zip" name="zip" maxlength="16" value="$!{shop.zip}"></div>
+        <div class="li"><span class="f14" style="padding-left:68px">&nbsp;</span><a href="javascript:void(0);" onclick="showOnMap()"><span class="blue f14">在地图上显示</span></a></div>
+        <div id="mapWrapper">
+			<div id="map_canvas" style="height:400px;width:600px;"></div>
+		    <div class="p20"></div>
+		</div> 
+    	<div class="li"><input type="button" onclick="submitForm()" value="提 交" class="sub" style="margin-left:74px"></div>
+    </form>
+    </div>
+    <div></div>
+    <div class="p20"></div>
+</div>
+
+<!-- main end --> 
+
+#**
+<form name="addressFrm" action="/user/modifyAddress.html" method="POST">
+<input type="hidden" name="longi" id="longi" value="$!{shop.longi}" />
+<input type="hidden" name="lati" id="lati" value="$!{shop.lati}" />
+<div>国家: <input type="text" id="country" name="country" maxlength="100" value="$!{shop.country}"/></div>
+<div>城市: <input type="text" id="city" name="city" maxlength="100" value="$!{shop.city}" /></div>
+<div>街道地址: <input type="text" id="address" name="address" maxlength="100" value="$!{shop.address}" /></div>
+<div>Zip: <input type="text" id="zip" name="zip" maxlength="10" value="$!{shop.zip}" /></div>
+<div><a href="#" onclick="showOnMap()">在地图上显示</a></div>
+<div id="map_canvas" style="height:400px;width:600px;"></div> 
+<div><input type="submit" name="Submit" value="Submit" /></div>
+</form>
+**#

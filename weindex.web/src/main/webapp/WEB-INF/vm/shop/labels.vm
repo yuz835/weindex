@@ -1,0 +1,23 @@
+#set($layout = "/layout/shopLayout.vm")
+<div class="box blog"> 	
+	<div class="f14 fb">店铺自有标签</div>
+    <div class="p5"></div>
+    <ul>
+	#foreach($l in $shop.shopLabelList) 
+		<li><a #if($l.type==1) href="/shop/shoplabel/blog.html?shopId=${shop.id}&labelId=${l.id}" #else href="/shop/shoplabel/offer.html?shopId=${shop.id}&labelId=${l.id}"#end>${l.cnName}</a><div class="s"><span><a href="javascript:void(0);" onclick="deleteLabel(${l.id})">删除</a></span></div><div class="s" style="width:100px;">#if($l.type==0)商品标签#else博文标签#end</div></li>
+	#end
+    </ul>
+    <div class="p10"></div>
+    <div><input type="button" value="增加自有标签" class="gsub" style="width:151px;" onclick="window.open('/shop/labels/add.html?shopId=${shop.id}', '_self')"></div>
+    <div class="p5 clear"></div>
+    
+</div>
+        
+<div class="p10 clear"></div>
+<script>
+function deleteLabel(id) {
+	if (confirm("确认要删除该标签?")) {
+		window.open("/shop/labels/del.html?shopId=${shop.id}&labelId=" + id, "_self");
+	}
+}
+</script>

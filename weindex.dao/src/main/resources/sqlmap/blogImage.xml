@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BlogImage">
+	<resultMap id="result" class="ca.weindex.common.model.BlogImage">
+		<result property="id" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="desc" column="DESCRIPTION" />
+		<result property="type" column="TYPE" />
+		<result property="img" column="IMG" typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler" />
+	</resultMap>
+
+	<select id="getBlogImage" resultMap="result">
+		select *
+		from BLOG_IMAGE
+		where ID = #value#
+	</select>
+
+	<select id="getBlogImageByNameType" resultMap="result">
+		select *
+		from BLOG_IMAGE
+		where NAME = #name# and TYPE = #type#
+	</select>
+	
+	<insert id="insertBlogImage">
+		insert into BLOG_IMAGE (NAME, DESCRIPTION, TYPE, IMG) values (#name#, #desc#, #type#, #img#)
+	</insert>
+	
+
+	<update id="updateBlogImage">
+		update BLOG_IMAGE SET NAME = #name#,  DESCRIPTION = #desc#, TYPE = #type#,  IMG = #img# where ID = #id#
+	</update>
+
+	<delete id="deleteBlogImage">
+		delete from BLOG_IMAGE where ID = #value#
+	</delete>
+</sqlMap>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Offer">
+	<resultMap id="result" class="ca.weindex.common.model.Offer">
+		<result property="id" column="ID" />
+		<result property="shopId" column="SHOP_ID" />
+		<result property="name" column="NAME" />
+		<result property="desc" column="DESCRIPTION" />
+		<result property="label" column="LABEL" />
+		<result property="shopLabel" column="SHOP_LABEL" />
+		<result property="imgUrl" column="IMG_URL" />
+		<result property="price" column="PRICE" />
+		<result property="quality" column="QUALITY" />
+		<result property="type" column="TYPE" />
+		<result property="visible" column="VISIBLE" />
+		<result property="visitNum" column="VISIT_NUM" />
+		<result property="commentNum" column="COMMENT_NUM" />
+		<result property="pos" column="POS" />
+		<result property="updateTime" column="update_time" />
+		<result property="thumbListImgUrl" column="THUMBLISTIMGURL" />
+		<result property="thumbShowImgUrl" column="THUMBSHOWIMGURL" />
+
+	</resultMap>
+
+	<select id="getOffer" resultMap="result">
+		select *
+		from OFFER
+		where ID = #value#
+	</select>
+
+	<select id="getOfferByShopId" resultMap="result">
+		select *
+		from OFFER
+		where SHOP_ID = #value#
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="countOfferByShopId" resultClass="java.lang.Integer">
+		select count(*)
+		from OFFER
+		where
+		SHOP_ID = #value#
+	</select>
+
+	<select id="getOpenOfferByShopId" resultMap="result">
+		select *
+		from OFFER
+		where SHOP_ID = #value# and VISIBLE = 0
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="getRecentOfferByShopId" resultMap="result">
+		select *
+		from OFFER
+		where SHOP_ID = #value# 
+		order by  UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+
+	<select id="countOpenOfferByShopId" resultClass="java.lang.Integer">
+		select count(*)
+		from OFFER
+		where SHOP_ID = #value# and VISIBLE = 0
+	</select>
+
+	<insert id="insertOffer">
+		insert into OFFER (SHOP_ID, NAME, DESCRIPTION, LABEL, SHOP_LABEL, IMG_URL, PRICE, QUALITY,
+		TYPE, VISIBLE, UPDATE_TIME, THUMBLISTIMGURL, THUMBSHOWIMGURL) values (#shopId#, #name#, #desc#, #label#, #shopLabel#, #imgUrl#,
+		#price#, #quality#, #type#, #visible#, NOW(), #thumbListImgUrl#, #thumbShowImgUrl#)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY AS ID
+		</selectKey>
+	</insert>
+
+	<delete id="deleteOffer">
+		delete from OFFER where id=#value#
+	</delete>
+
+	<update id="updateOffer">
+		update OFFER SET NAME = #name#, DESCRIPTION = #desc#,
+		LABEL = #label#, SHOP_LABEL = #shopLabel#, IMG_URL = #imgUrl#, PRICE = #price#, QUALITY = #quality#, TYPE = #type#,
+		VISIBLE = #visible#, UPDATE_TIME = NOW(), THUMBLISTIMGURL = #thumbListImgUrl#, THUMBSHOWIMGURL = #thumbShowImgUrl# where ID = #id#
+	</update>
+
+	<select id="searchOffer" resultMap="result">
+		select *
+		from OFFER
+		where lower(NAME) like '%$value$%' or lower(DESCRIPTION) like
+		'%$value$%' or lower(LABEL) like '%$value$%'
+	</select>
+
+	<select id="countOffer" resultClass="java.lang.Integer">
+		select count(*)
+		from OFFER
+		where VISIBLE = 0
+	</select>
+
+	<select id="getRecentOffer" resultMap="result">
+		select *
+		from OFFER
+		where VISIBLE = 0
+		order by UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+	
+	<select id="getOfferByLabelId" resultMap="result">
+		select *
+		from OFFER
+		where
+		( LABEL = #value# or LABEL like '$value$,%' or LABEL like '%,$value$,%' or LABEL like '%,$value$' )
+		and VISIBLE = 0
+		order by UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="countOfferByLabelId" resultClass="java.lang.Integer">
+		select count(*)
+		from OFFER
+		where
+		( LABEL = #value# or LABEL like '$value$,%' or LABEL like '%,$value$,%' or LABEL like '%,$value$' )
+		and VISIBLE = 0
+	</select>
+	
+	<select id="getOfferByShopLabelId" resultMap="result">
+		select *
+		from OFFER
+		where
+		SHOP_ID = #shopId# and ( LABEL = #labelId# or LABEL like '$labelId$,%' or LABEL like '%,$labelId$,%' or LABEL like '%,$labelId$' )
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="countOfferByShopLabelId" resultClass="java.lang.Integer">
+		select count(*)
+		from OFFER
+		where
+		SHOP_ID = #shopId# and ( LABEL = #labelId# or LABEL like '$labelId$,%' or LABEL like '%,$labelId$,%' or LABEL like '%,$labelId$' )
+	</select>
+
+	<select id="getOfferByShopShopLabelId" resultMap="result">
+		select *
+		from OFFER
+		where
+		SHOP_ID = #shopId# and ( SHOP_LABEL = #labelId# or SHOP_LABEL like '$labelId$,%' or SHOP_LABEL like '%,$labelId$,%' or SHOP_LABEL like '%,$labelId$' )
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="countOfferByShopShopLabelId" resultClass="java.lang.Integer">
+		select count(*)
+		from OFFER
+		where
+		SHOP_ID = #shopId# and ( SHOP_LABEL = #labelId# or SHOP_LABEL like '$labelId$,%' or SHOP_LABEL like '%,$labelId$,%' or SHOP_LABEL like '%,$labelId$' )
+	</select>
+
+	<select id="getOpenOfferByShopLabelId" resultMap="result">
+		select *
+		from OFFER
+		where
+		SHOP_ID = #shopId# and VISIBLE = 0 and ( LABEL = #labelId# or LABEL like '$labelId$,%' or LABEL like '%,$labelId$,%' or LABEL like '%,$labelId$' )
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="countOpenOfferByShopLabelId" resultClass="java.lang.Integer">
+		select count(*)
+		from OFFER
+		where
+		SHOP_ID = #shopId# and VISIBLE = 0 and ( LABEL = #labelId# or LABEL like '$labelId$,%' or LABEL like '%,$labelId$,%' or LABEL like '%,$labelId$' )
+	</select>
+
+	<select id="getOpenOfferByShopShopLabelId" resultMap="result">
+		select *
+		from OFFER
+		where
+		SHOP_ID = #shopId# and VISIBLE = 0 and ( SHOP_LABEL = #labelId# or SHOP_LABEL like '$labelId$,%' or SHOP_LABEL like '%,$labelId$,%' or SHOP_LABEL like '%,$labelId$' )
+		order by POS desc, UPDATE_TIME desc, ID desc
+		limit #page.beginIndex#, #page.pageSize#
+	</select>
+
+	<select id="countOpenOfferByShopShopLabelId" resultClass="java.lang.Integer">
+		select count(*)
+		from OFFER
+		where
+		SHOP_ID = #shopId# and VISIBLE = 0 and ( SHOP_LABEL = #labelId# or SHOP_LABEL like '$labelId$,%' or SHOP_LABEL like '%,$labelId$,%' or SHOP_LABEL like '%,$labelId$' )
+	</select>
+
+	<select id="getOfferLabelsByShopId" resultClass="java.lang.String">
+		select distinct(LABEL)
+		from OFFER
+		where SHOP_ID = #value#
+		order by ID desc
+	</select>
+
+	<update id="addOfferVisitNum">
+		update OFFER SET VISIT_NUM = VISIT_NUM+1 where ID = #id#
+	</update>
+	
+	<update id="updateOfferCommentNum">
+		update OFFER SET COMMENT_NUM = #commentNum# where ID = #id#
+	</update>
+	
+	<update id="updateOfferPosByShopId">
+		update OFFER SET POS = 0 where SHOP_ID = #value#
+	</update>
+	
+	<update id="updateOfferPos">
+		update OFFER SET POS = #pos# where ID = #id#
+	</update>
+	
+</sqlMap>

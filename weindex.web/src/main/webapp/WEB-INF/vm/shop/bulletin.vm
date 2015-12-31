@@ -1,0 +1,16 @@
+#if($shop.hasBulletin)
+<!--店铺公告 begin-->
+<div class="box news">
+	<div class="f14 fb">店铺公告</div>
+	<div class="p5"></div>
+	<ul>
+		#foreach($i in $shop.bulletinContent)
+			##<li>$i</li>
+			$i </br>
+		#end
+	</ul>
+<div class="p5"></div>
+</div>
+        
+<div class="p5"></div>
+#end

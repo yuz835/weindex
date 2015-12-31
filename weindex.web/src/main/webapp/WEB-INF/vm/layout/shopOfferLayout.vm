@@ -1,0 +1,207 @@
+<!doctype html>
+<html xmlns:wb=“http://open.weibo.com/wb”>
+<head>
+<meta charset="utf-8" />
+  <title>经商知道</title>
+  <meta http-equiv="pragma" content="no-cache" />
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/weindex-index.css">
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<link href="/css/shopMenuStyles.css" rel="stylesheet" type="text/css">
+##<script src="/js/jquery-1.8.3.min.js"></script>  
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.wookmark.min.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+<script>
+
+$(document).ready(function(){
+  
+  $("#MenuBlog").mouseover(function(){
+    $("#subMenuBlog").show();
+  });
+  
+  $("#MenuBlog").mouseleave(function(){
+    $("#subMenuBlog").hide();
+  });
+
+  $("#MenuOffer").mouseover(function(){
+    $("#subMenuOffer").show();
+  });
+  
+  $("#MenuOffer").mouseleave(function(){
+    $("#subMenuOffer").hide();
+  });
+
+  
+});
+
+function shareWeibo() {
+	#if ($offerImageUrl)
+		window.open('http://service.weibo.com/share/share.php?url=http://weindex.ca/offer/view/${offer.id}.html&title=${offerShareContent}&pic=${offerImageUrl}&appkey=198216231');
+	#else
+		window.open('http://service.weibo.com/share/share.php?url=http://weindex.ca/offer/view/${offer.id}.html&title=${offerShareContent}&appkey=198216231');
+	#end
+}
+function shareFB() {
+	window.open("http://www.facebook.com/share.php?u=http://weindex.ca/offer/view/${offer.id}.html&title=${session_attr_user.userName}刚刚分享了一件商品: $!{offer.name}");
+
+}
+
+function deleteOffer(id) {
+	if (confirm("确认要删除这个商品?")) {
+		window.open('/offer/delete.html?offerId=' + id, '_self');
+	}
+}
+
+function topOffer(id) {
+	if (confirm("确认要将该商品置顶?")) {
+		window.open("/offer/top/" + id + ".html", "_self");
+	}
+}
+
+</script>
+
+</head>
+<body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+##parse('common/header.vm')
+#parse('common/minHeader.vm')
+<div class="clear"></div>
+#set($isOwner=(${shop.userId}==${session_attr_user.id}))
+<!-- main begin -->
+<div class="shopMain">
+    <!--店铺牌匾 begin-->
+    <div class="shopBanner"> #if($shop.bannerUrl)
+					<img src ="$shop.bannerUrl"> 
+				#else 
+					<img src ="/img/shopbanner1.jpg">
+				#end
+    </div>
+    <!--店铺牌匾 end-->
+
+    <!--店铺导航 begin-->
+	<div id="shopMenu">
+    		<div class= "hover"><a href="/${shop.name}">${shop.displayName}</a></div>
+    		<div class= "hover MenuActive" id="MenuOffer"><a href="/${shop.name}?type=offer">商&#12288;品</a>
+		      <ul class="subMenu" id="subMenuOffer">
+        	    	#foreach($l in $shop.shopLabelList)
+		    	    		#if($l.type==0)
+		    	    			<li><a href="/shop/shoplabel/offer.html?shopId=${shop.id}&labelId=${l.id}"><span>$l.cnName</span></a></li>
+		    	    		#end            
+        	    	#end
+			#foreach($l in $shop.offerLabelList)
+				#if($l.type==0 || $l.type==2)
+					<li><a href="/shop/label/offer.html?shopId=${shop.id}&labelId=${l.id}"><span>$l.cnName</span></a></li>
+				#end
+			#end
+		      </ul>
+		 </div>
+        	<div class="hover" id="MenuBlog"><a href="/${shop.name}?type=blog">博&#12288;文</a>
+        	    <ul class="subMenu" id="subMenuBlog">
+      			  	#foreach($l in $shop.shopLabelList)
+      			  		#if($l.type==1)
+      			  			<li><a href="/shop/shoplabel/blog.html?shopId=${shop.id}&labelId=${l.id}"><span>$l.cnName</span></a></li>
+      			  		#end
+      			  	#end
+      			  	#foreach($l in $shop.blogLabelList)
+      			  		#if($l.type==0 || $l.type==3)
+      			  			<li><a href="/shop/label/blog.html?shopId=${shop.id}&labelId=${l.id}"><span>$l.cnName</span></a></li>
+      			  		#end
+      			  	#end
+
+      			</ul>
+		</div>
+    		<div class="hover"><a href="#"><span>联系方式</span></a></div>
+		#if($isOwner)
+    			<div class="hover"><a href="/blog/add.html?shopId=${shop.id}"><span>发布博文</span></a></div>
+    			<div class="hover"><a href="/shop/${shop.id}/offer/add.html"><span>添加商品</span></a></div>
+    			<div class="hover endNone"><a href="/shop/edit.html"><span>管理店铺</span></a></div>
+		#end
+	</div>
+    <!--店铺导航 end-->
+
+    <!--店铺内容 begin-->
+	<div class="mainBox">
+    		<!--店铺左边 begin-->
+    		<div class="leftSide" style="z-index:10">
+			$screen_content
+    		</div>
+    		<!--店铺左边 end-->
+
+		<div class="rightSide">
+    		<!--店铺右边 begin-->
+    			<div class="box">
+            			<div class="slogo">
+                			<span class="shopPic"><a href="http://www.weindex.ca/weindex"><a href="/${shop.name}"><img #if($shop.logoUrl) src="$shop.logoUrl" #else src="/img/pic_shop_01.jpg"#end></a></span>
+                			<span class="shopIntro">${shop.desc} <br/><a href="#">查看更多>></a></span>
+           			 </div>
+            		
+				<div class="info">
+                			<div class="li"><em>卖家：</em><a href="/user/profile/$!{shop.userId}.html">$!{shop.owner.userName}</a> #if($shop.isVerified())<img src="/css/images/v.gif"> <span>已认证</span>#end</div>
+                			<div class="li"><em>标签：</em>#foreach($l in $shop.labelList)#if($velocityCount>1), #end${l.cnName}#end&nbsp;</div>
+                			<div class="li"><em>个性网址：</em><span><a href="/$!{shop.name}">http://weindex.ca/$!{shop.name}</a></span></div>
+                			<div class="fb-like" data-href="http://www.weindex.ca/$!{shop.name}" data-send="true" data-layout="button_count" data-width="50" data-show-faces="false" data-font="arial"></div>
+                		
+					<div class="clear p5"></div>
+           				 <!--店铺公告 begin-->
+           				 <div class="box news" style="width:270px;">
+           				     <div class="f14 fb">店铺公告</div>
+           				     <div class="p5"></div>
+           				     <ul>
+           				         <li> $shop.bulletinContent</li>
+           				     </ul>
+           				 </div>
+				</div>
+            			
+				<div class="clear p5"></div>
+                		#if($shop.owner.weiboId)
+					<iframe width="100%" height="350" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=350&fansRow=1&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=${shop.owner.weiboId}&verifier=${shop.owner.weiboShowVerifyId}&dpc=1"></iframe>
+                		#end
+			</div> 
+       		 	
+
+        	</div>
+    		<!--店铺右边 end-->
+    	</div>
+    	<!--店铺内容 end-->
+</div>
+
+<!-- main end --> 
+
+<!-- footer begin -->
+<div class="clear"></div>
+#parse('common/footer.vm')
+
+<script type="text/javascript">
+window.onload = function(){
+      // search
+      $(".searchClassBtn").click(function(){
+    	  $(".searchCon").toggle();
+      });
+      
+      $("body").click(function(e){
+    	  if(!$(e.target).is('.searchClassBtn')){
+    		  $(".searchCon").hide();
+          }
+      });
+      
+      $(".searchCon li").click(function(){
+    	  $("#stype").val($(this).html());
+      });
+}
+
+</script>
+</body>
+</html>
+

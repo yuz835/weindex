@@ -1,0 +1,131 @@
+#set($layout = "/layout/shopOfferLayout.vm")
+#set($isOwner=(${shop.userId}==${session_attr_user.id}))
+<!--店铺商品 begin-->
+<div class="box">
+	<style type="text/css">
+		#featured{overflow:hidden;width:300px;position:relative;height:300px;border:solid 1px #ddd;}
+		#thumbs{width:300px;height:40px;}
+		*html #thumbs{height:100%;}
+		#thumbs li{display:inline;float:left;width:45px;margin-right:4px;height:45px;}
+		#thumbs ul{margin-top:3px;}
+		#thumbs li.last_img{margin-right:4px;}
+		#thumbs li.first{width:20px;cursor:pointer;height:13px;margin:15px 10px 0 15px;}
+		#thumbs li.last{width:20px;cursor:pointer;height:13px;margin:15px 12px 0 8px;}
+		#thumbs li a{border:#9c9c9c 2px solid;display:block;}
+		#thumbs li a:hover{border:#9C3 2px solid;}
+		#thumbs li a.current{border:#ff6600 2px solid;}
+	</style>
+	
+	<div class="blog">
+		<div class="gray" style="text-align:right;padding-right:20px;padding-bottom:10px;">
+				#if($isOwner)
+					<div style="display:inline-block;margin-right:20px;"><a href="javascript:void(0);" onclick="deleteOffer('${offer.id}')" >删除商品</a></div>
+					<div style="display:inline-block;margin-right:20px;"><a href="/offer/edit.html?shopId=${shop.id}&offerId=${offer.id}" >修改商品</a></div>
+					<div style="display:inline-block;"><a href="javascript:void(0);" onclick="topOffer('${offer.id}')">推荐商品</a></div>
+				#else
+                        		<div style="display:inline-block;margin-right:20px;"><a href="http://weindex.ca/Thinka">返回店铺首页</a></div>
+                        		<div style="display:inline-block;"><a href="http://weindex.ca/">返回首页</a></div>
+				#end
+                    	
+		</div>
+		<table border="0">
+			<tr>
+				<td>
+					#set($count=0)
+					#if($imageRealList)
+						<div id="featured">
+							#foreach($i in $imageRealList)
+								<div  id="image_offer_show_$count">
+									<a title="Click to view large image" href="/offer/image/${i.name}/${i.type}/show.html" target= "_blank"><img width="300" height="300" alt="" src="/offer/image/thumb_show_${i.name}/${i.type}/show.html" /></a>
+								</div>
+								#set($count= $count+1)
+							#end
+						</div>
+	
+						<div id="thumbs">
+							<ul>
+								#set($count=0)
+								#foreach($i in $imageRealList)
+									<li>
+										<a id="image_offer_thumb_$count" href="#image_offer_show_$count"><img width="40" height="40" alt="" src="/offer/image/thumb_show_${i.name}/${i.type}/show.html" /></a>
+									</li>
+									#set($count= $count+1)
+								#end
+							</ul>
+						</div>
+			
+						<script language="JavaScript">
+							## 幻灯片切换功能
+							##var timer = null;
+							var offset = 5000;
+							var index = 6; ##/* 控制图片播放位置 */
+							
+							##大图交替轮换
+							function slideImage(i){
+								var id = 'image_'+ target[i];
+									$('#'+ id).animate({opacity: 1}, 800, function(){
+										$(this).find('.word').animate({height: 'show'}, 'slow');
+									}).show().siblings(':visible').find('.word').animate({height: 'hide'},'fast',function(){
+										$(this).parent().animate({opacity: 0}, 800).hide();
+								});
+							}
+							##bind thumb a
+							function hookThumb(){    
+								$('#thumbs li a').bind('click', function(){
+									var id = this.id;            
+									index = getIndex(id.substr(17));
+									rechange(index);
+									slideImage(index); 
+									this.blur();            
+									return false;
+								});
+							}
+							##得到指标
+							function getIndex(v){
+								return parseInt(v);
+							}
+							function rechange(loop){
+							    var id = 'thumb_'+ target[loop];
+							    $('#thumbs li a.current').removeClass('current');
+							    $('#'+ id).addClass('current');
+							}
+							$(function(){    
+							    ##change opacity
+							    hookThumb(); 
+							});
+						</script>
+					#else
+						<div style="display:inline-block;vertical-align:top;">
+							#if($offer.imgUrl)
+								<img src="$offer.imgUrl" width="300" height="300"/>
+							#else
+								<img src="/img/shoppic1.jpg" width="300" height="300"/>
+							#end
+						</div>
+					#end
+				</td>
+				<td>
+	    				<div style="display:inline-block;vertical-align:top;" class="p20"></div>
+	    				<div style="display:inline-block;vertical-align:top;">
+	    					<div class="f14 fb h25">#if($offer.type==0)商品#else服务#end名称: $offer.name</div>
+	    					<div class="p5"></div>
+	    					<div class="h25">价格：<span class="red"><span>$</span>$offer.price</span></div>
+	    					<div class="h25">标签：<span class="gray">#set($num=0)#foreach($l in $shopLabels)#if($num>0) | #end$l.cnName#set($num=$num+1)#end#foreach($l in $mylabels)#if($num>0) | #end$l.cnName#set($num=$num+1)#end</span></div>
+	    					<div class="h25">发布时间：<span class="gray">${offer.time}</span></div>
+	    					<div class="h25">浏览：<span class="gray">${offer.visitNum} 人</span></div>
+	    					<div class="p10 clear"></div>
+	    					<div class="fb-like" data-href="http://weindex.ca/offer/view/$!{offer.id}.html" data-send="false" data-layout="button_count" data-width="50" data-show-faces="false"></div>
+	    					<div class="tl"><a href="javascript:void(0);" onclick="shareWeibo()"><img src="/css/images/sweibo.gif"></a></div>
+					</div>
+				</td>
+			</tr>
+	    </table>
+	    <div class=" p10"></div>
+	    <div class="fb f14">详细介绍</div>
+	    <div class="p5"></div>
+	    <div>$offer.desc</div>       
+	    <div class="p5"></div>
+	</div>
+</div>
+
+

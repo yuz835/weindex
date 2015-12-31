@@ -1,0 +1,64 @@
+#set($layout = "/layout/loginLayout.vm")
+<!-- main begin -->
+<div class=" userLogin">
+	<div class="p5"></div>
+	<div class="f14 fb" style="margin-left:240px">赶快去给你的店铺娶个响亮的名字吧！</div>
+    <div class="p10"></div>
+<form name="openFrm" action="/shop/open.html" id="shopform" method="POST">
+    <div style="margin-left:240px">
+       #if($msg)
+        <p style="color:red;">$msg</p>
+        <div class="p10"></div>
+        #end
+    	<div class="li"><div class="f14" style="display:inline-block;width:155px;">输入店铺的个性化域名：</div><input type="text" name="shopName" id="shopname" maxlength="10" class="ipt" value="$!{shopName}"> (英文和数字, 长度 4 - 10)</div>
+    	<div class="li"><div class="f14" style="display:inline-block;width:155px;">输入店铺的显示名称：</div><input type="text" name="dispName" id="dispname" maxlength="20" class="ipt" value="$!{dispName}"> (可以使用英文/数字/汉字, 数字,长度不超过 20 个字符)</div>
+    	<div class="li"><input type="button" onclick="submitForm()" value="提 交" class="sub" style="margin-left:155px"></div>
+    </div>
+</form>
+    <div></div>
+    <div class="p20"></div>
+</div>
+
+<!-- main end --> 
+<script>
+function submitForm() {
+	var name = $("#shopname").val();
+	if (name == null || name.length == 0) {
+		alert("个性化域名不能为空");
+		return;
+	}
+	if (name.length < 4 || name.length > 20) {
+		alert("个性化域名长度应在 4 到 20 个字符之间");
+		return;
+	}
+	var reg = new RegExp("^[a-zA-Z][0-9a-zA-Z]*$");
+	if (!reg.test(name)){
+        alert("个性化域名只能包括大小写英文字母和数字, 且需要以字母开头");
+        return;
+    }
+	var dispname = $("#dispname").val();
+	if (dispname == null || dispname.length == 0) {
+		alert("店铺显示名称不能为空");
+		return;
+	}
+	if (dispname.indexOf(" ") != -1) {
+		alert("店铺显示名称不能包含空格");
+		return;
+	}
+	if (dispname.indexOf("<") != -1 || dispname.indexOf(">") != -1) {
+		alert("店铺显示名称不能包含 < 和 > 符号");
+		return;
+	}
+	if (dispname.length > 20) {
+		return;
+	}
+	$("#shopform").submit();
+}
+</script>
+
+#**
+<form name="openFrm" action="/shop/open.html" method="POST">
+<div>Your shop name: <input type="text" name="shopName" value="${session_attr_user.id}" /></div>
+<div><input type="submit" name="Submit" value="Submit" /></div>
+</form>
+**#

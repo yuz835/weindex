@@ -1,0 +1,28 @@
+#set($layout = "/layout/shopLayout.vm")
+<script>
+
+</script>
+<!--店铺博文 begin-->
+<div class="blog fl w800"> 	
+    <div class="p5"></div>
+    <div class="f14 fb">商品图片列表</div>
+    <div class="p10 clear"></div>
+	#foreach($i in $list)
+	<div style="border-bottom:dotted 1px #CCC;margin-bottom:5px;padding-bottom:5px;">
+		<div style="display:inline-block;width:145px;margin-right:50px;">
+			<image src="/offer/image/${i.name}/${i.type}/show.html" width="145" alt="" />
+		</div>
+		<div style="display:inline-block; vertical-align:center;">
+			#if($i.offerLogo==0)
+				<a href="/offer/${offer.id}/defaultLogo.html?offerImageId=${i.id}">设为默认图片</a> #if($list.size() > 1)<a href="/offer/${offer.id}/deleteImage.html?offerImageId=${i.id}">删除</a>#end
+			#else
+				产品默认图片
+			#end
+		</div>
+	</div>
+	#end
+	#if($list.size()<5)
+    <div class="dli"><input type="button" value="上 传 图 片" class="gsub" onclick="window.open('/offer/upload.html?offerId=${offer.id}', '_self')"/> &nbsp; &nbsp; <input type="button" value="返 回" class="gsub" onclick="window.open('/offer/view/${offer.id}.html', '_self')" /></div>
+    #end
+</div>
+<div class="p10 clear"></div>

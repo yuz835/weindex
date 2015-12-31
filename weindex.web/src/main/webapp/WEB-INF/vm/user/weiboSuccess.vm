@@ -1,0 +1,19 @@
+#set($layout = "/layout/loginLayout.vm")
+<div class="w860 userLogin">
+	<div class="li"><span class="t">您的微博帐号没有关联用户, 您可以：</span><input type="button" value="创建新用户" class="sub" onclick="window.open('/user/weibo/create.html', '_self')" /> &nbsp; 或 &nbsp; <input type="button" value="绑定已有用户" class="sub" onclick="window.open('/user/weibo/bind.html', '_self')"/></div>
+</div>
+#**
+$content
+<br/>
+$token
+<br/>
+$uid
+<br/>
+$content2
+<br/>
+$name
+<br />
+$desc
+<br />
+There are no users bond with this weibo id. Please <a href="/user/weibo/create.html">Create A New User</a> or <a href="/user/weibo/bind.html">Bind An User</a>.
+**#

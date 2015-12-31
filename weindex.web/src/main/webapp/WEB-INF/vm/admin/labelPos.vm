@@ -1,0 +1,4 @@
+<form name="labelFrm" action="/admin/label/${label.id}/pos.html" method="POST">
+<div>Pos: <input type="number" name="pos" maxlength="5" value="$!{label.pos}"/></div>
+<div><input type="submit" value="Submit" /></div>
+</form>

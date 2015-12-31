@@ -1,0 +1,132 @@
+#set($layout = "/layout/searchLayout.vm")
+<!--menu begin -->
+<div class="searchMenu">
+##	<div class="li">类型：<a href="${searchUri}">全部</a>
+##	    #foreach($l in $labels)
+##	    	<a href="${searchUri}&label=${l.id}">${l.cnName}</a>
+##		#end
+##	</div>
+    ##<div class="li">排序：<a href="#">最匹配的</a> <a href="#">最新上传</a> <a href="#">推荐最多</a> <a href="#">人气最高</a> <a href="#">评论最多</a> <a href="#">收藏最多</a></div>
+    ##<div class="li">时间：<a href="#">不限</a> <a href="#">三天内</a> <a href="#">一周内</a> <a href="#">一个月内</a> <a href="#">一年内</a></div>
+    <form name="searchFrm" action="/search.html" method="GET" id="searchfrms">
+    	<input type="hidden" name="type" id="stypeFld" value="2"/>
+	    <div class="li"><font color=red>关键词搜索：</font> <input type="text" name="keyword" id="skeyword" class="ipt" value="$!keyword" /> <input type="submit" id="confirmBtn" value="确定" class="sub" /></div>
+    </form>
+</div>
+<!--menu end -->
+<div id="searchBlog">
+	<div>共 <span class="red">${result.totalPage}</span> 页，当前显示第 <span class="red">${result.pageNum}</span> 页</div>
+	<div class="p5"></div>
+ 
+        <div id="Con" class="latestShop">
+            <table id="shopList">
+                <tr><td>店铺logo</td><td>名字</td><td>类别</td><td>电话</td><td>城市</td></tr>
+
+                #foreach($shop in $result.list)
+                        <tr><td>#if($shop.logoUrl)<img src="$shop.logoUrl"/>#else<img src="/img/pic_shop_01.jpg"/>#end</td><td><a href="/${shop.name}" class="fl">${shop.name}</a></td><td>#foreach($l in $shop.labelList)#if($velocityCount>1), #end${l.cnName}#end</td><td>$!{shop.telephone}</td><td>#if($shop.city)${shop.city}#end</td></tr>
+                #end
+            </table>
+        </div>
+
+     
+##	<div class="Shop">
+##	#foreach($shop in $result.list) 
+##		<div class="ShopCon">
+##			<div class="ShopConLeft">
+##				<p class="ShopPic"><a href="/${shop.name}" target="_blank"><img #if($shop.logoUrl)src="$shop.logoUrl" #else src="/img/pic_shop_01.jpg"#end style="width:204px"/></a></p>
+##				<p class="ShopName"><a href="/${shop.name}" target="_blank">${shop.displayName}</a></p>
+##				##<p class="ShopGzhu"><a href="/${shop.name}"><img src="/img/btn_Guanzhu.gif" width="62" height="22"></a></p>
+##				##<p class="ShopIntro" style="width:280px;">${shop.desc}……</p>
+##			</div>
+##			<div class="ShopConRight">
+##				<p>商品数量： <span class="fc_ff0">${shop.offerNum}</span>　　文章数量： <span class="fc_ff0">${shop.blogNum}</span></p>
+##				##<p>同城送货： <span class="fc_1e7">是</span></p>
+##				##<p>所属类别： <span class="fc_1e7">餐饮</span></p>
+##				<p>电　　话： <span class="fc_1e7">$!{shop.telephone}</span></p>
+##				<p style="max-width:206px">地　　址： <span class="fc_1e7">$!{shop.address}</span></p>
+##				<p>个性网址： <a href="/${shop.name}" target="_blank">www.weindex.ca/${shop.name}</a></p>
+##				<p class="ShopMore"><a href="/${shop.name}" target="_blank">点击详细&gt;&gt;</a></p>
+##			</div>
+##		</div>
+##	#end
+## 	</div>
+</div>
+<!-- page begin -->
+#if($result.totalPage>1)
+<div id="page">
+    <ul>
+		#if($result.pageNum > 1)
+        	<li><a href="${searchUri}&pageNum=${result.previousPage}">上一页</a></li>
+        #end
+        #if($result.totalPage<=5)
+        	#foreach($i in [1..$result.totalPage])
+        		#if($i==$result.pageNum)
+        			<li class="pageActive"><a href="${searchUri}&pageNum=$i">$i</a></li>
+        		#else
+        			<li><a href="${searchUri}&pageNum=$i">$i</a></li>
+        		#end
+        	#end
+        #else
+        	#if($result.pageNum<=3)
+        		#set($max=$result.pageNum+1)
+        		#foreach($i in [1..$max])
+	        		#if($i==$result.pageNum)
+    	    			<li class="pageActive"><a href="${searchUri}&pageNum=$i">$i</a></li>
+        			#else
+        				<li><a href="${searchUri}&pageNum=$i">$i</a></li>
+        			#end
+        		#end
+        		<li>...</li>
+        		<li><a href="${searchUri}&pageNum=$result.totalPage">$result.totalPage</a></li>
+        	#elseif($result.pageNum>=$result.totalPage - 2)
+        		<li><a href="${searchUri}&pageNum=1">1</a></li>
+        		<li>...</li>
+        		#set($min=$result.pageNum - 1)
+        		#foreach($i in [$min..$result.totalPage])
+	        		#if($i==$result.pageNum)
+    	    			<li class="pageActive"><a href="${searchUri}&pageNum=$i">$i</a></li>
+        			#else
+        				<li><a href="${searchUri}&pageNum=$i">$i</a></li>
+        			#end
+        		#end
+        	#else
+        		<li><a href="${searchUri}&pageNum=1">1</a></li>
+        		<li>...</li>
+        		#set($min=$result.pageNum - 1)
+        		#set($max=$result.pageNum+1)
+        		<li><a href="${searchUri}&pageNum=$min">$min</a></li>        	
+        		<li class="pageActive"><a href="${searchUri}&pageNum=$result.pageNum">$result.pageNum</a></li>        	
+        		<li><a href="${searchUri}&pageNum=$max">$max</a></li>        	
+        		<li>...</li>
+        		<li><a href="${searchUri}&pageNum=$result.totalPage">$result.totalPage</a></li>        	
+        	#end
+        #end
+		#if($result.pageNum < $result.totalPage)
+			<li><a href="${searchUri}&pageNum=${result.nextPage}">下一页</a></li>	
+        #end
+    </ul>
+</div>
+#end
+<!-- page end -->
+#**
+	<div class="shop">
+		<div class="title">搜索结果</div>
+		<div id="newShop">
+		#foreach($shop in $result.list) 
+			<div class="item">
+				<div class="logo">Logo</div>
+				<div class="shopname"><a href="/${shop.name}">${shop.displayName}</a></div>
+			</div>
+		#end
+			<div class="more">
+			#if($result.pageNum > 1)
+				<a href="/index/shop.html?pageNum=1&keyword=${keyword}&type=${type}">第一页</a> <a href="/index/shop.html?pageNum=${result.previousPage}&keyword=${keyword}&type=${type}">上一页</a>
+			#end
+			共 $result.totalPage 页, 当前显示第 $result.pageNum 页
+			#if($result.pageNum < $result.totalPage)
+				<a href="/index/shop.html?pageNum=${result.nextPage}&keyword=${keyword}&type=${type}">下一页</a> <a href="/index/shop.html?pageNum=${result.totalPage}&keyword=${keyword}&type=${type}">最后一页</a>
+			#end			
+			</div>
+		</div>
+	</div>
+**#

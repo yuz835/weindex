@@ -1,0 +1,112 @@
+<script>  
+//url：要收藏的链接；title：收藏项的名称  
+function addFavorite(url,title) {
+	//如果url或者title为空，默认为当前页面url和title。  
+	if(!(url&&title)) {
+		url=document.URL;  
+		title=document.title;  
+	}  
+  
+	if (document.all) { //IE  
+		window.external.addFavorite(url,title);  
+	} else if (window.sidebar) {
+		//firefox  
+		window.sidebar.addPanel(title, url, "");  
+	} else {
+		alert("抱歉，您所使用的浏览器无法完成此操作。\n\n加入收藏失败，您需要手动将【"+url+"】加入收藏。");
+	}
+}  
+
+//url：要设置为首页的链接  
+function setHomepage(url) {  
+	//如果url为空，默认为当前页面url。  
+	if(!url) {  
+		url=document.URL;  
+	}  
+  
+	if (document.all) {
+		// IE  
+		document.body.style.behavior = 'url(#default#homepage)';  
+		document.body.setHomePage(url);  
+	} else if (window.sidebar) {
+		// firefox  
+		if (window.netscape) {  
+			try {  
+				window.netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");  
+			} catch (e) {  
+				alert("此操作被浏览器拒绝！请在浏览器地址栏输入“about:config”并回车然后将[signed.applets.codebase_principal_support]的值设置为'true',双击即可。");  
+			}  
+		}  
+		var prefs = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);  
+		prefs.setCharPref('browser.startup.homepage', url);  
+	} else {
+		alert("抱歉，您所使用的浏览器无法完成此操作。\n\n您需要手动将【"+url+"】设置为首页。");
+	}
+} 
+</script>
+<div id="headerTop">
+    <div id="logo"><a href="/"><img src="/img/logo.jpg" width="166" height="45" /></a></div>
+    ##<div style="margin-left:300px"> <wb:follow-button uid="3034128985" type="red_3" width="100%" height="24" ></wb:follow-button>i</div>##zhangeth
+	<div id="headerMenu" class="text_link1">
+	##<span class="pr_20">您好，欢迎来到经商知道！</span>
+    <!-- search begin -->
+    <div id="search">
+        <input type="image" src="/img/btn_Go.gif" width="50" height="37"  onclick="submitSearch()" />
+        <div class="searchClass">
+            <div class="searchClassBox">
+                <input type="text" name="textfield" id="stype" value="搜商品" class="searchClassInp" readonly="true" />
+                <ul class="searchCon" style="display:none;">
+                    <li>搜博文</li>
+                    <li>搜店铺</li>
+                    <li>搜商品</li>
+                </ul>
+            </div>
+            <div class="searchClassBox">
+                <input type="image" src="/img/btn_searchList.gif" width="32" height="36" class="searchClassBtn" />
+            </div>
+        </div>	
+        <input type="text" name="textfield" id="skeyword" value="请输入您要搜索的关键字" class="searchBox" onfocus="initKeyword(this)" onblur="resetKeyword(this)"/>
+    </div>
+    <form name="searchFrm" action="/search.html" method="GET" id="searchfrm">
+    	<input type="hidden" name="type" id="typeFld" value="1"/>
+    	<input type="hidden" name="keyword" id="keywordFld"/>
+    </form>
+    <!-- search end -->
+
+        <span class="pr_30">
+        	#if($session_attr_user)
+        		您好, <a href="/user/profile/${session_attr_user.id}.html">${session_attr_user.userName}</a><span class="plr_10">|</span><a href="/user/logout.html">注销</a>
+        	#else
+        		<a href="/user/login.html">登录</a><span class="plr_10">|</span><a href="/user/signup.html">免费注册</a>
+        	#end
+        </span>
+        #**<span class="pr_50 fc_fff">用户中心</span>**#<a href="#" onclick="setHomepage('http://weindex.ca/')" >设为首页</a><span class="plr_10">|</span><a href="#" onclick="addFavorite('http://weindex.ca/')">收藏</a>#**<span class="plr_10">|</span><a href="#">帮助</a>**#
+    </div>
+</div>
+
+
+<script language="JavaScript">
+function initKeyword(tag) {
+	if ($("#skeyword").val() == "请输入您要搜索的关键字") {
+		$("#skeyword").val("");
+	}
+}
+function resetKeyword(tag) {
+	if ($("#skeyword").val() == "") {
+		$("#skeyword").val("请输入您要搜索的关键字");
+	}
+}
+function submitSearch() {
+	if($("#stype").val()=="搜博文") {
+		$("#typeFld").val("3");
+	} else if ($("#stype").val()=="搜店铺") {
+		$("#typeFld").val("2");
+	} else {
+		$("#typeFld").val("1");
+	}
+	$("#keywordFld").val($("#skeyword").val());
+	//alert($("#keywordFld").val());
+	document.getElementById('searchfrm').submit();
+}
+</script>
+<div class="clear p10"></div>

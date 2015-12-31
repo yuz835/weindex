@@ -1,0 +1,5 @@
+<!-- header begin -->
+<div id="header">
+#parse('common/banner.vm')
+</div>
+<!-- header end -->
